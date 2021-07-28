@@ -1,0 +1,58 @@
+{
+    "menu": [
+        {
+            "url": "traffic-manager",
+            "name": "TrafficManager",
+            "slug": "traffic-manager",
+            "icon": ""
+        },
+        {
+            "url": "redirects",
+            "name": "RedirectLinks",
+            "slug": "redirects",
+            "icon": ""
+        },
+        {
+            "url": "redirects/create",
+            "name": "CreateNewRedirect",
+            "slug": "redirect-create",
+            "icon": ""
+        },
+        {
+            "url": "campaigns",
+            "name": "Campaigns",
+            "slug": "campaigns",
+            "icon": ""
+        },
+        {
+            "url": "campaigns/create",
+            "name": "CreateNewCampaign",
+            "slug": "campaign-create",
+            "icon": ""
+        },
+        {
+            "url": "schemas",
+            "name": "Schemas",
+            "slug": "schemas",
+            "icon": ""
+        },
+        {
+            "url": "schemas/create",
+            "name": "CreateNewSchema",
+            "slug": "schema-create",
+            "icon": ""
+        },
+        {
+            "url": "pixels",
+            "name": "Pixels",
+            "slug": "pixels",
+            "icon": ""
+        },
+        {
+            "url": "pixels/create",
+            "name": "CreateNewPixel",
+            "slug": "pixel-create",
+            "icon": ""
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Dashboard",
+      "slug": "dashboard",
+      "icon": "feather icon-home"
+    }
+  ]
+}
