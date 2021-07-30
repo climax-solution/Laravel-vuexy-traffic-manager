@@ -20,6 +20,7 @@ Route::group(['middleware' => ['auth','locked']], function () {
   Route::get('/traffic-manager', 'TrafficController@index')->name('traffic-manager');
   Route::get('/redirects', 'RedirectController@index')->name('redirects.index');
   Route::get('/redirects/create', 'RedirectController@create')->name('redirects.create');
+  Route::get('/redirects/edit', 'RedirectController@edit')->name('redirects.edit');
   Route::get('/campaigns', 'CampaignController@index')->name('campaigns.index');
   Route::get('/campaigns/create', 'CampaignController@create')->name('campaigns.create');
   Route::get('/schemas', 'SchemaController@index')->name('schemas.index');
