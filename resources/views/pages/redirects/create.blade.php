@@ -7,6 +7,15 @@
 @endsection
 
 @section('page-style')
+  <link rel="stylesheet" href="{{ asset(mix('css/pages/data-list-view.css')) }}">
+  <style>
+    .xx-small {
+      font-size: 8px;
+    }
+    .f-10 {
+      font-size: 10px;
+    }
+  </style>
 @endsection
 
 @section('content')
@@ -14,53 +23,23 @@
 		<p>Select the Type of Redirect Link that you would like to create.<p>
       <div class="table-responsive">
         <table class="table data-list-view">
-          <thead>
-            <tr>
-              <th></th>
-              <th>NAME</th>
-              <th>CATEGORY</th>
-              <th>POPULARITY</th>
-              <th>ORDER STATUS</th>
-              <th>PRICE</th>
-              <th>ACTION</th>
-            </tr>
-          </thead>
           <tbody>
             @foreach ($products as $product)
-              @if($product["order_status"] === 'delivered')
-                <?php $color = "success" ?>
-              @elseif($product["order_status"] === 'pending')
-                <?php $color = "primary" ?>
-              @elseif($product["order_status"] === 'on hold')
-                <?php $color = "warning" ?>
-              @elseif($product["order_status"] === 'canceled')
-                <?php $color = "danger" ?>
-              @endif
               <?php
                 $arr = array('success', 'primary', 'info', 'warning', 'danger');
               ?>
 
               <tr>
-                <td></td>
-                <td class="product-name">{{ $product["name"] }}</td>
-                <td class="product-category">{{ $product["category"] }}</td>
                 <td>
-                  <div class="progress progress-bar-{{ $arr[array_rand($arr)] }}">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="40" aria-valuemax="100"
-                      style="width:{{ $product["popularity"] }}%"></div>
-                  </div>
+                  <i class="fa fa-link fa-2x"></i>
+                </td>
+                <td class="product-name">
+                  <h5 class="text-weight">{{ $product["name"] }}</h5>
+                  <p class="f-10">{{ $product['description'] }}</p>
                 </td>
                 <td>
-                  <div class="chip chip-{{$color}}">
-                    <div class="chip-body">
-                      <div class="chip-text">{{ $product["order_status"]}}</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="product-price">{{ $product["price"] }}</td>
-                <td class="product-action">
-                  <span class="action-edit"><i class="feather icon-edit"></i></span>
-                  <span class="action-delete"><i class="feather icon-trash"></i></span>
+                  <a href="{{route('redirects.edit')}}" class="btn btn-danger btn-sm pt-1 pb-1 btn-block">SELECT</a>
+                  <span class="xx-small">How does it work?</span>
                 </td>
               </tr>
             @endforeach
