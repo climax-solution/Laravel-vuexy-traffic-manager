@@ -18,9 +18,17 @@ Route::group(['middleware' => ['auth','locked']], function () {
   // User dashboard
   Route::get('/', 'TrafficController@index')->name('traffic-manager');
   Route::get('/traffic-manager', 'TrafficController@index')->name('traffic-manager');
+//Redirects
   Route::get('/redirects', 'RedirectController@index')->name('redirects.index');
   Route::get('/redirects/create', 'RedirectController@create')->name('redirects.create');
-  Route::get('/redirects/edit', 'RedirectController@edit')->name('redirects.edit');
+  Route::get('/redirects/custom-url', 'RedirectController@customUrl')->name('redirects.custom-url');
+  Route::get('/redirects/url-router', 'RedirectController@urlRouter')->name('redirects.url-router');
+  Route::get('/redirects/step-url', 'RedirectController@stepUrl')->name('redirects.step-url');
+  Route::get('/redirects/dynamic-qr-code', 'RedirectController@dynamicQrCode')->name('redirects.dynamic-qr-code');
+  Route::get('/redirects/keyword-rotator', 'RedirectController@keywordRotator')->name('redirects.keyword-rotator');
+  Route::get('/redirects/cart-url', 'RedirectController@cartUrl')->name('redirects.cart-url');
+  Route::get('/redirects/product-url', 'RedirectController@productUrl')->name('redirects.product-url');
+//
   Route::get('/campaigns', 'CampaignController@index')->name('campaigns.index');
   Route::get('/campaigns/create', 'CampaignController@create')->name('campaigns.create');
   Route::get('/schemas', 'SchemaController@index')->name('schemas.index');

@@ -31,7 +31,32 @@ class RedirectController extends Controller
         ]);
     }
 
-    public function edit() {
-      return view('/pages/redirects/edit');
+    public function customUrl() {
+      return view('/pages/redirects/custom-url');
     }
+
+    public function urlRouter() {
+      return view('/pages/redirects/url-router');
+    }
+
+    public function stepUrl() {
+      return view('/pages/redirects/step-url');
+    }
+
+    public function dynamicQrCode() {
+
+    }
+
+    public function keywordRotator() {
+
+    }
+
+    public function cartUrl() {
+
+    }
+
+    public function productUrl() {
+
+    }
+
 }
