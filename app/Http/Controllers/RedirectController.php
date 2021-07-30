@@ -23,11 +23,15 @@ class RedirectController extends Controller
     }
     public function create()
     {
-      $json = file_get_contents(storage_path('products-export.json'));
+      $json = file_get_contents(storage_path('create-new-redirect-list.json'));
       $objs = json_decode($json,true);
         return view('/pages/redirects/create', [
             'pageConfigs' => $this->pageConfigs,
             'products' => $objs['products']
         ]);
+    }
+
+    public function edit() {
+      return view('/pages/redirects/edit');
     }
 }
