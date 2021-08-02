@@ -1,1 +1,50 @@
-$(document).ready(function(){$(".data-list-view").DataTable({responsive:!1,columnDefs:[{orderable:!0,targets:0,checkboxes:{selectRow:!0}}],dom:'<"top"<"actions action-btns"B><"action-filters"lf>><"clear">rt<"bottom"<"actions">p>',oLanguage:{sLengthMenu:"_MENU_",sSearch:""},aLengthMenu:[[4,10,15,20],[4,10,15,20]],select:{style:"multi"},order:[[1,"asc"]],bInfo:!1,pageLength:4,buttons:[{text:"<i class='feather icon-plus'></i> Add New",action:function(){$(this).removeClass("btn-secondary"),$(".add-new-data").addClass("show"),$(".overlay-bg").addClass("show"),$("#data-name, #data-price").val(""),$("#data-category, #data-status").prop("selectedIndex",0)},className:"btn-outline-primary"}],initComplete:function(e,t){$(".dt-buttons .btn").removeClass("btn-secondary")}}).on("draw.dt",function(){setTimeout(function(){-1!=navigator.userAgent.indexOf("Mac OS X")&&$(".dt-checkboxes-cell input, .dt-checkboxes").addClass("mac-checkbox")},50)})});
+$(document).ready(function(){
+  var dataListView = $(".data-list-view").DataTable({
+    responsive: false,
+    columnDefs: [
+      {
+        orderable: true,
+        targets: 0,
+        checkboxes: { selectRow: true }
+      }
+    ],
+    dom:
+      '<"top"<"actions action-btns"B><"action-filters"lf>><"clear">rt<"bottom"<"actions">p>',
+    oLanguage: {
+      sLengthMenu: "_MENU_",
+      sSearch: ""
+    },
+    aLengthMenu: [[4, 10, 15, 20], [4, 10, 15, 20]],
+    select: {
+      style: "multi"
+    },
+    order: [[1, "asc"]],
+    bInfo: false,
+    pageLength: 4,
+    buttons: [
+      {
+        text: "<i class='feather icon-plus'></i> Add New",
+        action: function() {
+          $(this).removeClass("btn-secondary")
+          $(".add-new-data").addClass("show")
+          $(".overlay-bg").addClass("show")
+          $("#data-name, #data-price").val("")
+          $("#data-category, #data-status").prop("selectedIndex", 0)
+        },
+        className: "btn-outline-primary"
+      }
+    ],
+    initComplete: function(settings, json) {
+      $(".dt-buttons .btn").removeClass("btn-secondary")
+    }
+  });
+
+  dataListView.on('draw.dt', function(){
+    setTimeout(function(){
+      if (navigator.userAgent.indexOf("Mac OS X") != -1) {
+        $(".dt-checkboxes-cell input, .dt-checkboxes").addClass("mac-checkbox")
+      }
+    }, 50);
+  });
+
+})

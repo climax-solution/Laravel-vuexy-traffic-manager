@@ -2,31 +2,48 @@
     "products": [
         {
             "name": "Custom URL",
-            "description": "Use this redirect link for any non-Amazon related URLs. This works well for sharing articles to your audience, sending traffic to your Shioify store, retargeting click-through traffic, and much more."
+            "description": "Use this redirect link for any non-Amazon related URLs. This works well for sharing articles to your audience, sending traffic to your Shioify store, retargeting click-through traffic, and much more.",
+            "path": "custom-url"
         },
         {
             "name": "URL Rotator",
-            "description": "Rotate up to 50 different URLS. This is particulary useful when you run an Ad Campaign targeting multiple keywords."
+            "description": "Rotate up to 50 different URLS. This is particulary useful when you run an Ad Campaign targeting multiple keywords.",
+            "path": "url-rotator"
         },
         {
-            "name": "2-Step URL",
-            "description": "2-Step URL that provides incredible ranking results. This URL restricts products through an ASIN and a keyword. #1 ranking choice. After much testing, we have seen fantastic results with this URL."
+            "name": "2-Step URL - ASIN",
+            "description": "2-Step URL that provides incredible ranking results. This URL restricts products through an ASIN and a keyword. #1 ranking choice. After much testing, we have seen fantastic results with this URL.",
+            "path": "step-asin"
+        },
+        {
+            "name": "2-Step URL - STORE FRONT",
+            "description": "2-Step URL that provides incredible ranking results. This URL restricts products through an ASIN and a keyword. #1 ranking choice. After much testing, we have seen fantastic results with this URL.",
+            "path": "step-store-front"
+        },
+        {
+          "name": "2-Step URL - HIDDEN KEYWORD",
+          "description": "2-Step URL that provides incredible ranking results. This URL restricts products through an ASIN and a keyword. #1 ranking choice. After much testing, we have seen fantastic results with this URL.",
+          "path": "step-hidden-keyword"
+        },
+        {
+          "name": "2-Step URL - PRODUCT PAGE FROM SEARCH RESULTS",
+          "description": "2-Step URL that provides incredible ranking results. This URL restricts products through an ASIN and a keyword. #1 ranking choice. After much testing, we have seen fantastic results with this URL.",
+          "path": "step-product-result"
+        },
+        {
+          "name": "2-Step URL - BRAND 2 STEP URL",
+          "description": "2-Step URL that provides incredible ranking results. This URL restricts products through an ASIN and a keyword. #1 ranking choice. After much testing, we have seen fantastic results with this URL.",
+          "path": "step-brand"
         },
         {
             "name": "Dynamic QR Code",
-            "description": "This tool allows you to generate a dynamic QR code and track your visitors. You can always update your destination URL."
+            "description": "This tool allows you to generate a dynamic QR code and track your visitors. You can always update your destination URL.",
+            "path": "step-dynamic-qr-code"
         },
         {
             "name": "Keyword Rotator",
-            "description": "This tool allows you to generate several URLs with a dynamic keywords and rotate them based on weight or desired number of hits. You can then use this Redirect Link in vour Convomat Giveawav Campaign."
-        },
-        {
-            "name": "Add to cart URL",
-            "description": "Lets your customers add your Amazon product to their cart."
-        },
-        {
-            "name": "Buy two or more products together URL",
-            "description": "Lets your customers add your Amazon product to their cart."
+            "description": "This tool allows you to generate several URLs with a dynamic keywords and rotate them based on weight or desired number of hits. You can then use this Redirect Link in vour Convomat Giveawav Campaign.",
+            "path": "step-keyword-rotator"
         }
 
     ]
