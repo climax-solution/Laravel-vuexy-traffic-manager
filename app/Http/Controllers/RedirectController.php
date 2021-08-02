@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Redirect;
+use Monarobase\CountryList\CountryListFacade;
 
 class RedirectController extends Controller
 {
+    public function __construct()
+    {
+      $this->countries = CountryListFacade::getList('en');
+    }
     public function index()
     {
         $pageConfigs = $this->pageConfigs;
@@ -32,15 +37,42 @@ class RedirectController extends Controller
     }
 
     public function customUrl() {
-      return view('/pages/redirects/custom-url');
+      $track = ['Convomat Default', 'convomat List'];
+      $pixel = ['Select Pixel', 'Pixel item'];
+      $campaign = ['Campaign 1', 'Campaign 2'];
+      $country_group = ['group 1', 'group 2'];
+      $data = [
+        'track' => $track,
+        'pixel' => $pixel,
+        'campaign' => $campaign,
+        'countries'  =>  $this->countries,
+        'country_group' => $country_group
+      ];
+      return view('/pages/redirects/step-url/custom-url', $data);
     }
 
-    public function urlRouter() {
-      return view('/pages/redirects/url-router');
+    public function urlRotator() {
+      return view('/pages/redirects/step-url/url-rotator', ['countries' => $this->countries]);
     }
 
-    public function stepUrl() {
-      return view('/pages/redirects/step-url');
+    public function stepUrlAsin() {
+      return view('/pages/redirects/step-url/asin', ['countries' => $this->countries]);
+    }
+
+    public function stepUrlStoreFront() {
+      return view('/pages/redirects/step-url/store-front', ['countries' => $this->countries]);
+    }
+
+    public function stepUrlHiddenKeyword() {
+      return view('/pages/redirects/step-url/hidden-keyword', ['countries' => $this->countries]);
+    }
+
+    public function stepUrlProductResult() {
+      return view('/pages/redirects/step-url/product-result', ['countries' => $this->countries]);
+    }
+
+    public function stepUrlBrand() {
+      return view('/pages/redirects/step-url/brand', ['countries' => $this->countries]);
     }
 
     public function dynamicQrCode() {
@@ -48,15 +80,15 @@ class RedirectController extends Controller
     }
 
     public function keywordRotator() {
-
+      return view('/pages/redirects/step-url/keyword-rotator', ['countries' => $this->countries]);
     }
 
     public function cartUrl() {
-
+      return view('/pages/redirects/step-url/cart-url', ['countries' => $this->countries]);
     }
 
     public function productUrl() {
-
+      return view('/pages/redirects/step-url/product-url', ['countries' => $this->countries]);
     }
 
 }
