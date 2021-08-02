@@ -176,5 +176,6 @@
     "/css/plugins/forms/extended/typeahed.css": "/css/plugins/forms/extended/typeahed.css?id=8f1500e4cc82905f1204",
     "/css/plugins/forms/form-inputs-groups.css": "/css/plugins/forms/form-inputs-groups.css?id=828e312c44ad5d05d0de",
     "/css/plugins/forms/validation/form-validation.css": "/css/plugins/forms/validation/form-validation.css?id=3b80a9026be07bfa9795",
-    "/css/plugins/forms/wizard.css": "/css/plugins/forms/wizard.css?id=274741fe73e3ced19412"
+    "/css/plugins/forms/wizard.css": "/css/plugins/forms/wizard.css?id=274741fe73e3ced19412",
+    "/css/plugins/toastr.css": "/css/plugins/toastr.css?id=5fe39c3271e847f00e3a"
 }
