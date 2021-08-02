@@ -176,6 +176,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\MenuServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Monarobase\CountryList\CountryListServiceProvider::class,
+
+
     ],
 
     /*
@@ -227,6 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Helper' => App\Helpers\Helper::class,
+        'Countries' => Monarobase\CountryList\CountryListFacade::class,
     ],
 
 ];
