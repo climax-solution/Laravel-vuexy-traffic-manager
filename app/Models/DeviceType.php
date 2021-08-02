@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GeoIp extends Model
+class DeviceType extends Model
 {
     protected $fillable = [
       'id',
+      'action',
+      'device',
       'table_name',
-      'item_id',
-      'country_list',
-      'country_group',
-      'status'
+      'item_id'
     ];
 }
