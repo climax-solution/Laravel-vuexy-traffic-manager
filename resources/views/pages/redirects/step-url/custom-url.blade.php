@@ -4,10 +4,12 @@
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
-
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.css')) }}">
 @endsection
 
 @section('page-style')
+<link rel="stylesheet" href="{{ asset(mix('css/plugins/toastr.css')) }}">
+
   <style>
     .xx-small {
       font-size: xx-small;
@@ -55,7 +57,7 @@
                                               <span>Link Name: </span>
                                             </div>
                                             <div class="col-md-10">
-                                                <input type="text" id="link-name" class="form-control" name="linkname">
+                                                <input type="text" id="link_name" class="form-control" name="linkname">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -63,7 +65,7 @@
                                             <span>Destination URL: </span>
                                           </div>
                                           <div class="col-md-10">
-                                              <input type="text" id="dest-url" class="form-control" name="desturl">
+                                              <input type="text" id="dest_url" class="form-control" name="desturl">
                                           </div>
                                       </div>
                                       <div class="form-group row">
@@ -72,7 +74,7 @@
                                         </div>
                                         <div class="col-md-10">
                                           <fieldset class="form-group">
-                                            <select class="form-control" id="trackingurl">
+                                            <select class="form-control" id="tracking_url">
                                               @foreach ($track as $key => $item)
                                                 <option value="{{$key}}">{{ $item }}</option>
                                               @endforeach
@@ -173,7 +175,7 @@
                                               <span>Max Hits Day:</span>
                                             </div>
                                             <div class="col-md-5">
-                                              <input type='number' class="form-control" id="max-hits-day"/>
+                                              <input type='number' class="form-control" id="max_hit_day"/>
                                             </div>
                                           </div>
                                           <div class="form-group row">
@@ -181,7 +183,7 @@
                                               <span>Fallback URL:</span>
                                             </div>
                                             <div class="col-md-8">
-                                              <input type="text" id="fallback-url" class="form-control" name="fallback">
+                                              <input type="text" id="fallback_url" class="form-control" name="fallback">
                                             </div>
                                           </div>
                                         </div>
@@ -201,13 +203,13 @@
                                                 </button>
                                               </div>
                                               <div class="col-md-10 col-sm-10 col-10">
-                                                <select class="form-control" id="rule-select">
+                                                <select class="form-control" id="rule_select">
                                                   <option>ADD NEW RULE</option>
                                                   <option value="geo-ip-group">GeoIP</option>
                                                   <option value="proxy-group">Proxy</option>
                                                   <option value="referrer-group">Referrer</option>
-                                                <!--  <option value="3">Empty refer</option>
-                                                  <option value="4">Device Type</option> -->
+                                                  <option value="empty-referrer-group">Empty referrer</option>
+                                                  <option value="device-type-group">Device Type</option>
                                               </select>
                                               </div>
                                             </div>
@@ -248,7 +250,7 @@
                                               <span class="mt-1-2 d-inline-block">Country Group: </span>
                                             </div>
                                             <div class="col-md-9">
-                                              <select class="form-control">
+                                              <select class="form-control" id="country_group">
                                                 @foreach ($country_group as $key => $item)
                                                   <option value="{{$key}}">{{ $item }}</option>
                                                 @endforeach
@@ -262,7 +264,7 @@
                                           <span class="mt-1-2 d-inline-block">Proxy: </span>
                                         </div>
                                         <div class="col-md-10">
-                                          <select class="form-control" id="proxy-list">
+                                          <select class="form-control" id="proxy-action">
                                             <option value="0">Accept visitor only if proxy is detected</option>
                                             <option value="1">Reject visitor is proxy is detected</option>
                                           </select>
@@ -276,7 +278,7 @@
                                                 <span class="d-inline-block mt-1-2">Referrer:</span>
                                               </div>
                                               <div class="col-md-8">
-                                                <select class="form-control" id="referrer-list">
+                                                <select class="form-control" id="referrer-action">
                                                   <option value="0">Accept only</option>
                                                   <option value="1">Reject</option>
                                                 </select>
@@ -290,13 +292,13 @@
                                               <span class="d-inline-block mt-1-2">Referrer: </span>
                                             </div>
                                             <div class="col-md-3 col-sm-6">
-                                              <select class="form-control" id="referrer-1">
+                                              <select class="form-control" id="domain_type">
                                                 <option value="0">Full referrer</option>
                                                 <option value="1">Domain only</option>
                                               </select>
                                             </div>
                                             <div class="col-md-3 col-sm-6">
-                                              <select class="form-control" id="referrer-2">
+                                              <select class="form-control" id="domain-reg">
                                                 <option value="0">Matcheds regex</option>
                                                 <option value="1">Does not match</option>
                                                 <option value="2">Equals</option>
@@ -304,11 +306,45 @@
                                               </select>
                                             </div>
                                             <div class="col-md-4 col-sm-12 mt-sm-1 mt-md-0 mt-xs-1">
-                                              <input type="text" class="form-control" id="referrer-input">
+                                              <input type="text" class="form-control" id="domain-name">
                                             </div>
                                           </div>
                                         </div>
                                       </div>
+                                      <div class="form-group row border-light p-1 rounded-lg mt-2 empty-referrer-group position-relative hidden rule-group">
+                                        <div class="col-md-2">
+                                          <span class="mt-1-2 d-inline-block">Empty referrer: </span>
+                                        </div>
+                                        <div class="col-md-8">
+                                          <select class="form-control" id="empty-referrer-action">
+                                            <option value="0">Accept visitor only with empty referrer</option>
+                                            <option value="1">Reject visitor with empty referrer</option>
+                                          </select>
+                                        </div>
+                                          <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="empty-referrer-remove">REMOVE</button>
+                                      </div>
+                                      <div class="form-group row device-type-group border-light p-1 rounded-lg position-relative hidden rule-group">
+                                        <div class="col-md-8">
+                                          <div class="row">
+                                            <div class="col-md-3">
+                                              <span class="d-inline-block mt-1-2">Device Type:</span>
+                                            </div>
+                                            <div class="col-md-5">
+                                              <select class="form-control" id="device-action-list">
+                                                <option value="0">Accept only from</option>
+                                                <option value="1">Reject from</option>
+                                              </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                              <select class="form-control" id="device-type-list">
+                                                <option value="0">Desktop</option>
+                                                <option value="1">Mobile</option>
+                                              </select>
+                                            </div>
+                                          </div>
+                                      </div>
+                                      <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="referrer-remove">REMOVE</button>
+                                    </div>
                                     </div>
                                     <div class="col-md-8 offset-md-4">
                                         <button type="button" class="btn btn-primary mr-1 mt-1 mb-1 pull-right" id="done-btn">DONE</button>
@@ -327,11 +363,9 @@
 @endsection
 
 @section('vendor-script')
-<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.date.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.time.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/pickers/pickadate/legacy.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
+
 @endsection
 
 @section('page-script')
@@ -344,20 +378,87 @@
         else SpoofSelect.addClass('hidden');
       })
       $('#rule-box-toggle').click(()=> {
-        const rule = $('#rule-select').val();
+        const rule = $('#rule_select').val();
         if (rule) {
           $('.rule-group').addClass('hidden');
           $('.' + rule).removeClass('hidden');
         }
       })
-      $('#rule-select').change((e)=> {
+      $('#rule_select').change((e)=> {
         if ($(this).val() == '') e.preventDefault();
       })
       $('#done-btn').click(() => {
-        const validate_list = ['link-name','dest-url','track-url','pixel','max-hit-day','fallback-url','rule-select'];
-        validate_list.map((item, key) => {
-          if (!$('#'+item).val()) {
 
+        const validate_list = ['link_name','dest_url','tracking_url','pixel','max_hit_day','fallback_url','rule_select'];
+        let flag = 0;
+
+        validate_list.map((item, key) => {
+          if (!$('#'+item).val()) flag = 1;
+        })
+
+        switch($('#rule_select').val()) {
+          case 'geo-ip-group':
+            if (!$('#country-list').val()) flag = 1;
+          case 'referrer-group':
+            if (!$('#domain-name').val()) flag = 1;
+        }
+
+        if (flag) {
+          toastr.warning('Warning', 'Input is invalid!');
+          return;
+        }
+
+        let addFile = {};
+        switch($('#rule_select').val()) {
+          case 'geo-ip-group':
+            addFile = {
+              country: $('#country-list').val(),
+              country_group: $('#country-group').val(),
+              action: $('#geo-ip').val()
+            }
+          case 'proxy-group':
+            addFile = {
+              status: $('#proxy-action').val()
+            }
+          case 'referrer-group':
+            addFile = {
+              action: $('#referrer-action').val(),
+              domain_type: $('#domain-type').val(),
+              domain_reg: $('#domain-reg').val(),
+              domain_name: $('#domain-name').val()
+            }
+          case 'empty-referrer-group':
+            addFile = {
+              action: $('#empty-referrer-action').val(),
+            }
+          case 'device-type-group':
+            addFile = {
+              action: $('#device-type-action').val(),
+              device: $('#device-type').val(),
+            }
+        };
+
+        const advance_options = {
+          blank: $('#blank-refer-switch')[0].checked ? 1 : 0,
+          spoof: $('#spoof-referrer-switch')[0].checked ? 1 : 0,
+          deep: $('#deep-link-switch')[0].checked ? 1 : 0
+        };
+
+        const spoof_sevice = '';
+        if (advance_options.spoof) spoof_service = $('#spoof-select').val();
+        let saveData = {};
+
+        validate_list.map(item => {
+          saveData[item] = $('#' + item).val();
+        })
+        saveData.addFile = addFile;
+        saveData.advance_options = advance_options;
+        $.ajax({
+          type: 'post',
+          url: '/create-new-custom-url',
+          data: saveData,
+          success:function(res) {
+            console.log(res);
           }
         })
       })
