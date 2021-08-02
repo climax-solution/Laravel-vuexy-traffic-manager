@@ -24,10 +24,10 @@
       <div class="table-responsive">
         <table class="table data-list-view">
           <tbody>
-            @foreach ($products as $product)
-              <?php
+            @foreach ($products as $key => $product)
+              @php
                 $arr = array('success', 'primary', 'info', 'warning', 'danger');
-              ?>
+              @endphp
 
               <tr>
                 <td>
@@ -38,7 +38,7 @@
                   <p class="f-10">{{ $product['description'] }}</p>
                 </td>
                 <td>
-                  <a href="{{route('redirects.edit')}}" class="btn btn-danger btn-sm pt-1 pb-1 btn-block">SELECT</a>
+                  <a href="{{route('redirects.'.$product['path'])}}" class="btn btn-danger btn-sm pt-1 pb-1 btn-block">SELECT</a>
                   <span class="xx-small">How does it work?</span>
                 </td>
               </tr>
