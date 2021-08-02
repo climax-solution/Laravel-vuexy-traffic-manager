@@ -15,7 +15,7 @@ class CreateGeoIpsTable extends Migration
     {
         Schema::create('geo_ips', function (Blueprint $table) {
             $table->id();
-            $table->string('table_id')->nullable();
+            $table->string('table_name')->nullable();
             $table->string('item_id')->nullable();
             $table->text('country_list')->nullable();
             $table->text('country_group')->nullable();

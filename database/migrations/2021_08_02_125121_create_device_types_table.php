@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReferrersTable extends Migration
+class CreateDeviceTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateReferrersTable extends Migration
      */
     public function up()
     {
-        Schema::create('referrers', function (Blueprint $table) {
+        Schema::create('device_types', function (Blueprint $table) {
             $table->id();
-            $table->boolean('action')->nullable();
-            $table->boolean('domain_type')->nullable();
-            $table->enum('domain_reg',[0,1,2,3])->default(0);
-            $table->string('domain_name')->nullable();
+            $table->boolean('action')->default(0);
+            $table->boolean('device')->default(0);
             $table->string('table_name')->nullable();
             $table->string('item_id')->nullable();
             $table->timestamps();
@@ -32,6 +30,6 @@ class CreateReferrersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('referrers');
+        Schema::dropIfExists('device_types');
     }
 }

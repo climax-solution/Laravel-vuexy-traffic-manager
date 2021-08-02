@@ -18,15 +18,12 @@ class CreateCustomUrlsTable extends Migration
             $table->string('link_name')->nullable();
             $table->string('dest_url')->nullable();
             $table->string('tracking_url')->nullable();
+            $table->json('advance_options')->nullable();
             $table->string('pixel')->nullable();
             $table->string('campaign')->nullable();
-            $table->boolean('blank_ref')->default(0);
-            $table->boolean('spoof_ref')->default(0);
-            $table->string('spoof_ref_service')->nullable();
-            $table->boolean('deep_link')->default(0);
             $table->string('max_hit_day')->nullable();
             $table->string('fallback_url')->nullable();
-            $table->enum('active_rule',[0,1,2])->nullable();
+            $table->enum('active_rule',[0,1,2,3,4])->nullable();
             $table->timestamps();
         });
     }
