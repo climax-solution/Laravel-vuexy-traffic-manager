@@ -16,14 +16,16 @@ class CreateCustomUrlsTable extends Migration
         Schema::create('custom_urls', function (Blueprint $table) {
             $table->id();
             $table->string('link_name')->nullable();
+            $table->string('uuid')->unique();
             $table->string('dest_url')->nullable();
-            $table->string('tracking_url')->nullable();
             $table->json('advance_options')->nullable();
+            $table->string('tracking_url')->nullable();
+            $table->boolean('spoof_service')->nullable();
             $table->string('pixel')->nullable();
             $table->string('campaign')->nullable();
             $table->string('max_hit_day')->nullable();
             $table->string('fallback_url')->nullable();
-            $table->enum('active_rule',[0,1,2,3,4])->nullable();
+            $table->string('active_rule')->nullable();
             $table->timestamps();
         });
     }
