@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth','locked']], function () {
   Route::get('/pixels/create', 'PixelController@create')->name('pixels.create');
 
   //CRUD
-  Route::post('/create-new-custom-url','RedirectController@createNewCustomUrl');
+  Route::post('/create-new-custom-url','RedirectController@createNewCustomUrl')->name('redirects.create-new-custom-url');
 });
 
 // Locked page
