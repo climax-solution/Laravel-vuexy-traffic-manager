@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomUrl;
+use App\Models\DeviceType;
+use App\Models\EmptyReferrer;
+use App\Models\GeoIp;
+use App\Models\Proxy;
 use Illuminate\Http\Request;
 use App\Models\Redirect;
+use App\Models\Referrer;
 use Monarobase\CountryList\CountryListFacade;
+use Illuminate\Support\Str;
 
 class RedirectController extends Controller
 {
@@ -83,12 +90,56 @@ class RedirectController extends Controller
       return view('/pages/redirects/step-url/keyword-rotator', ['countries' => $this->countries]);
     }
 
-    public function cartUrl() {
-      return view('/pages/redirects/step-url/cart-url', ['countries' => $this->countries]);
+    public function createNewCustomUrl(Request $request) {
+      $input = $request->except('_token');
+      unset($input['addFile']);
+      $data = $input;
+      $data['uuid'] = Str::random(7);
+      $res = CustomUrl::create($data);
+      $addFile = json_decode($request->input('addFile'),true);
+      $active_rule = json_decode($data['active_rule']);
+      foreach($active_rule as $item) {
+        $addFile[$item]['item_id'] = $res->id;
+        $addFile[$item]['table_name'] = 'custom_urls';
+        $flag = 0;
+        switch($item) {
+          case '0':
+            $count = GeoIp::where('item_id',$res->id)->count();
+            if ($count) GeoIp::where('item_id',$res->id)->update($addFile[$item]);
+            else GeoIp::create($addFile[$item]);
+            $flag = 1;
+            break;
+          case '1':
+            $count = Proxy::where('item_id',$res->id)->count();
+            if ($count) Proxy::where('item_id',$res->id)->update($addFile[$item]);
+            else Proxy::create($addFile[$item]);
+            $flag = 1;
+
+            break;
+          case '2':
+            $count = Referrer::where('item_id',$res->id)->count();
+            if ($count) Referrer::where('item_id',$res->id)->update($addFile[$item]);
+            else Referrer::create($addFile[$item]);
+            $flag = 1;
+
+            break;
+          case '3':
+            $count = EmptyReferrer::where('item_id',$res->id)->count();
+            if ($count) EmptyReferrer::where('item_id',$res->id)->update($addFile[$item]);
+            else EmptyReferrer::create($addFile[$item]);
+            $flag = 1;
+            break;
+          case '4':
+            $count = DeviceType::where('item_id',$res->id)->count();
+            if ($count) DeviceType::where('item_id',$res->id)->update($addFile[$item]);
+            else DeviceType::create($addFile[$item]);
+            $flag = 1;
+            break;
+        };
+      }
+      $url = env('APP_URL').'/r/'.$data['uuid'];
+      return response()->json(['url' => $url]);
     }
 
-    public function productUrl() {
-      return view('/pages/redirects/step-url/product-url', ['countries' => $this->countries]);
-    }
 
 }

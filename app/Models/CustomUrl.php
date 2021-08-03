@@ -9,6 +9,7 @@ class CustomUrl extends Model
     //
     protected $fillable = [
       'id',
+      'uuid',
       'link_name',
       'dest_url',
       'tracking_url',
