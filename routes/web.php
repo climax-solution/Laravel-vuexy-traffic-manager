@@ -21,7 +21,7 @@ Route::group(['middleware' => ['auth','locked']], function () {
   //Redirects
   Route::get('/redirects', 'RedirectController@index')->name('redirects.index');
   Route::get('/redirects/create', 'RedirectController@create')->name('redirects.create');
-  Route::get('/redirects/custom-url', 'RedirectController@customUrl')->name('redirects.custom-url');
+  Route::get('/redirects/custom-url', 'CustomUrlController@index')->name('redirects.custom-url');
   Route::get('/redirects/url-rotator', 'RedirectController@urlRotator')->name('redirects.url-rotator');
   //Step Url
   Route::get('/redirects/step-url/asin', 'RedirectController@stepUrlAsin')->name('redirects.step-asin');
@@ -43,8 +43,9 @@ Route::group(['middleware' => ['auth','locked']], function () {
   Route::get('/pixels/create', 'PixelController@create')->name('pixels.create');
 
   //CRUD
-  Route::post('/create-new-custom-url','RedirectController@createNewCustomUrl')->name('redirects.create-new-custom-url');
+  Route::post('/create-new-custom-url','CustomUrlController@createNewCustomUrl')->name('redirects.create-new-custom-url');
 });
+Route::get('/r/{id}','RedirectController@redirectTracking')->name('redirects.redirect-to');
 
 // Locked page
 Route::get('locked', 'HomeController@lockedPage');

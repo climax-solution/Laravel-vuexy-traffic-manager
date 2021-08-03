@@ -13,11 +13,14 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
+        "ip2location/ip2proxy-laravel": "^1.1",
+        "jenssegers/agent": "^2.6",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
         "monarobase/country-list": "^3.2",
-        "spatie/laravel-permission": "^3.8"
+        "spatie/laravel-permission": "^3.8",
+        "stevebauman/location": "^6.1"
     },
     "require-dev": {
       "facade/ignition": "^2.0",
