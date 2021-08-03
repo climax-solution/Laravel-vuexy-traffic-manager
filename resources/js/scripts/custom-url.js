@@ -2,7 +2,7 @@ $(function(){
   const ruleList = ['geo-ip-group','proxy-group','referrer-group','empty-referrer-group','device-type-group'];
     let active_rule = [];
     let addFile = {};
-    const validate_list = ['link_name','dest_url','tracking_url','pixel','max_hit_day','fallback_url','active_rule'];
+    const validate_list = ['link_name','dest_url','tracking_url','pixel','max_hit_day','fallback_url'];
   $(".select2").select2({
     // the following code is used to disable x-scrollbar when click in select input and
     // take 100% width in responsive also
@@ -15,7 +15,6 @@ $(function(){
     else SpoofSelect.addClass('hidden');
   })
   $('#rule-box-toggle').click(()=> {
-    console.log($(this));
     const rule = $('#active_rule').val();
     if (rule) {
       $('.' + rule).removeClass('hidden');
@@ -35,7 +34,7 @@ $(function(){
     validate_list.map((item, key) => {
       if (!$('#'+item).val()) flag = 1;
     })
-
+    if (!active_rule) flag = 1;
     switch($('#active_rule').val()) {
       case 'geo-ip-group':
         if (!$('#country-list').val()) flag = 1;
@@ -100,13 +99,13 @@ $(function(){
     })
 
 
-    const advance_options = {
+    let advance_options = {
       blank: $('#blank-refer-switch')[0].checked ? 1 : 0,
       spoof: $('#spoof-refer-switch')[0].checked ? 1 : 0,
       deep: $('#deep-link-switch')[0].checked ? 1 : 0
     };
 
-    const spoof_sevice = '';
+    let spoof_sevice = '';
     if (advance_options.spoof) spoof_service = $('#spoof-select').val();
 
     validate_list.map(item => {

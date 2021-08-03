@@ -84,10 +84,10 @@
                         </div>
                         <div class="col-md-10">
                           <fieldset class="form-group">
-                            <select class="form-control" id="trackingurl">
-                                <option>IT</option>
-                                <option>Blade Runner</option>
-                                <option>Thor Ragnarok</option>
+                            <select class="form-control" id="tracking_url">
+                              @foreach ($track as $key => $item)
+                                <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
+                              @endforeach
                             </select>
                         </fieldset>
                         </div>
@@ -99,9 +99,9 @@
                         <div class="col-md-7">
                           <fieldset class="form-group">
                             <select class="form-control" id="pixel">
-                                <option>IT</option>
-                                <option>Blade Runner</option>
-                                <option>Thor Ragnarok</option>
+                              @foreach ($pixel as $key => $item)
+                              <option value="{{$key}}">{{ $item }}</option>
+                            @endforeach
                             </select>
                             <span class="xx-small">The pixel will be fired before the user is redirected to the Destination URL.</span>
                           </fieldset>
@@ -120,9 +120,9 @@
                         <div class="col-md-10">
                           <fieldset class="form-group">
                             <select class="form-control" id="campaign">
-                                <option>Campaign 1</option>
-                                <option>Blade Runner</option>
-                                <option>Thor Ragnarok</option>
+                              @foreach ($campaign as $key => $item)
+                                <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
+                              @endforeach
                             </select>
                           </fieldset>
                         </div>
@@ -153,8 +153,7 @@
                               <span>Max Hits Day:</span>
                             </div>
                             <div class="col-md-5">
-                              <input type='text' class="form-control pickadate" />
-
+                              <input type='number' class="form-control" id="max_hit_day"/>
                             </div>
                           </div>
                           <div class="form-group row">
@@ -177,44 +176,44 @@
                         <div class="col-md-3">
                             <div class="row">
                               <div class="col-md-2 col-sm-2 col-2">
-                                <button type="button" class="btn btn-icon btn-outline-light waves-effect waves-light">
+                                <button type="button" class="btn btn-icon btn-outline-light waves-effect waves-light" id="rule-box-toggle">
                                   <i class="feather icon-plus"></i>
                                 </button>
                               </div>
                               <div class="col-md-10 col-sm-10 col-10">
-                                <select class="form-control" id="campaign">
-                                  <option>ADD NEW RULE</option>
-                                  <option>GeoIP</option>
-                                  <option>Proxy</option>
-                                  <option>Referrer</option>
-                                  <option>Empty refer</option>
-                                  <option>Device Type</option>
+                                <select class="form-control" id="active_rule">
+                                  <option value="">ADD NEW RULE</option>
+                                  <option value="geo-ip-group" data-index="0">GeoIP</option>
+                                  <option value="proxy-group" data-index="1">Proxy</option>
+                                  <option value="referrer-group" data-index="2">Referrer</option>
+                                  <option value="empty-referrer-group" data-index="3">Empty referrer</option>
+                                  <option value="device-type-group" data-index="4">Device Type</option>
                               </select>
                               </div>
                             </div>
                         </div>
                       </div>
-                      <div class="row geo-ip-group border-light p-1 rounded-lg position-relative">
-                        <div class="col-md-3">
+                      <div class="row geo-ip-group border-light p-1 rounded-lg position-relative hidden rule-group">
+                        <div class="col-md-4">
                             <div class="row">
                               <div class="col-md-4">
                                 <span class="mt-1-2 d-inline-block">Geo IP:</span>
                               </div>
                               <div class="col-md-8">
                                 <select class="form-control" id="geo-ip">
-                                    <option>Accept only from</option>
-                                    <option>Reject from</option>
+                                    <option value="0" selected>Accept only from</option>
+                                    <option value="1">Reject from</option>
                                 </select>
                               </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="geo-ip-remove">REMOVE</button>
-                        <div class="offset-md-2 col-md-9 mt-2">
+                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="geo-ip-group">REMOVE</button>
+                        <div class="offset-md-2 col-md-8 mt-2">
                           <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                               <span class="mt-1-2 d-inline-block">Country: </span>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-9">
                               <div class="form-group">
                                 <select class="select2 form-control" multiple="multiple" id="country-list">
                                   @foreach ($countries as $key => $country)
@@ -225,28 +224,32 @@
                             </div>
                           </div>
                           <div class="form-group row">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                               <span class="mt-1-2 d-inline-block">Country Group: </span>
                             </div>
-                            <div class="col-md-10">
-                              <input type="text" class="form-control" id="country-group">
+                            <div class="col-md-9">
+                              <select class="form-control" id="country-group">
+                                @foreach ($country_group as $key => $item)
+                                  <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
+                                @endforeach
+                              </select>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div class="form-group row border-light p-1 rounded-lg mt-2 proxy-group position-relative">
+                      <div class="form-group row border-light p-1 rounded-lg mt-2 proxy-group position-relative hidden rule-group">
                         <div class="col-md-1">
                           <span class="mt-1-2 d-inline-block">Proxy: </span>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                           <select class="form-control" id="proxy-action">
-                            <option value="accept">Accept visitor only if proxy is detected</option>
-                            <option value="reject">Reject visitor is proxy is detected</option>
+                            <option value="0" selected>Accept visitor only if proxy is detected</option>
+                            <option value="1">Reject visitor is proxy is detected</option>
                           </select>
                         </div>
-                          <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="proxy-remove">REMOVE</button>
+                          <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
                       </div>
-                      <div class="form-group row referrer-group border-light p-1 rounded-lg position-relative">
+                      <div class="form-group row referrer-group border-light p-1 rounded-lg position-relative hidden rule-group">
                           <div class="col-md-5">
                             <div class="row">
                               <div class="col-md-3">
@@ -254,38 +257,72 @@
                               </div>
                               <div class="col-md-8">
                                 <select class="form-control" id="referrer-action">
-                                  <option>Accept only</option>
-                                  <option>Reject</option>
-                              </select>
+                                  <option value="0" selected>Accept only</option>
+                                  <option value="1">Reject</option>
+                                </select>
                               </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="referrer-remove">REMOVE</button>
-                      <div class="offset-md-1 col-md-10 mt-2">
-                        <div class="form-group row">
-                          <div class="col-md-2">
-                            <span class="d-inline-block mt-1-2">Referrer: </span>
-                          </div>
-                          <div class="col-md-3 col-sm-6">
-                            <select class="form-control" id="domain_type">
-                              <option>Full referrer</option>
-                              <option>Domain only</option>
-                            </select>
-                          </div>
-                          <div class="col-md-3 col-sm-6">
-                            <select class="form-control" id="domain-reg">
-                              <option>Matcheds regex</option>
-                              <option>Does not match</option>
-                              <option>Equals</option>
-                              <option>Does not equal</option>
-                            </select>
-                          </div>
-                          <div class="col-md-4 col-sm-12 mt-sm-1 mt-md-0 mt-xs-1">
-                            <input type="text" class="form-control" id="domain-name">
+                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="referrer-group">REMOVE</button>
+                        <div class="offset-md-1 col-md-10 mt-2">
+                          <div class="form-group row">
+                            <div class="col-md-2">
+                              <span class="d-inline-block mt-1-2">Referrer: </span>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                              <select class="form-control" id="domain-type">
+                                <option value="0" selected>Full referrer</option>
+                                <option value="1">Domain only</option>
+                              </select>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                              <select class="form-control" id="domain-reg">
+                                <option value="0" selected>Matcheds regex</option>
+                                <option value="1">Does not match</option>
+                                <option value="2">Equals</option>
+                                <option value="3">Does not equal</option>
+                              </select>
+                            </div>
+                            <div class="col-md-4 col-sm-12 mt-sm-1 mt-md-0 mt-xs-1">
+                              <input type="text" class="form-control" id="domain-name">
+                            </div>
                           </div>
                         </div>
                       </div>
+                      <div class="form-group row border-light p-1 rounded-lg mt-2 empty-referrer-group position-relative hidden rule-group">
+                        <div class="col-md-2">
+                          <span class="mt-1-2 d-inline-block">Empty referrer: </span>
+                        </div>
+                        <div class="col-md-8">
+                          <select class="form-control" id="empty-referrer-action">
+                            <option value="0" selected>Accept visitor only with empty referrer</option>
+                            <option value="1">Reject visitor with empty referrer</option>
+                          </select>
+                        </div>
+                          <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="empty-referrer-group">REMOVE</button>
                       </div>
+                      <div class="form-group row device-type-group border-light p-1 rounded-lg position-relative hidden rule-group">
+                        <div class="col-md-8">
+                          <div class="row">
+                            <div class="col-md-3">
+                              <span class="d-inline-block mt-1-2">Device Type:</span>
+                            </div>
+                            <div class="col-md-5">
+                              <select class="form-control" id="device-action-list">
+                                <option value="0" selected>Accept only from</option>
+                                <option value="1">Reject from</option>
+                              </select>
+                            </div>
+                            <div class="col-md-4">
+                              <select class="form-control" id="device-type-list">
+                                <option value="0" selected>Desktop</option>
+                                <option value="1">Mobile</option>
+                              </select>
+                            </div>
+                          </div>
+                      </div>
+                      <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="device-type-group">REMOVE</button>
+                    </div>
                     </div>
                 </div>
                 </fieldset>
@@ -491,31 +528,17 @@
 <script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.date.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/jquery.steps.min.js')) }}"></script>
+
 @endsection
 
 @section('page-script')
+<script>
+  const createURL = "{{route('redirects.create-new-custom-url')}}";
+</script>
+<script src="{{ asset(mix('js/scripts/url-rotator.js')) }}"></script>
   <script>
     $(function(){
-      $('.pickadate').pickadate();
 
-      $(".number-tab-steps").steps({
-          headerTag: "h6",
-          bodyTag: "fieldset",
-          transitionEffect: "fade",
-          titleTemplate: '<span class="step">#index#</span> #title#',
-          labels: {
-              finish: 'Submit'
-          },
-          onFinished: function (event, currentIndex) {
-              alert("Form submitted.");
-          }
-      });
-      $(".select2").select2({
-        // the following code is used to disable x-scrollbar when click in select input and
-        // take 100% width in responsive also
-        dropdownAutoWidth: true,
-        width: '100%'
-      });
     })
   </script>
 @endsection

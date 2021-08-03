@@ -40,7 +40,6 @@
     <div class="col-md-12">
       <span>Edit Redirect Link.</span>
       <button type="button" class="btn btn-outline-dark round mr-1 mb-1 pull-right f-10">You are creating a Custom URL redirect</button>
-
     </div>
     <div class="col-md-12">
       <div class="row match-height">
@@ -223,8 +222,8 @@
                                               </div>
                                               <div class="col-md-8">
                                                 <select class="form-control" id="geo-ip">
-                                                    <option value="0" selected>Accept only from</option>
-                                                    <option value="1">Reject from</option>
+                                                    <option value="1" selected>Accept only from</option>
+                                                    <option value="0">Reject from</option>
                                                 </select>
                                               </div>
                                             </div>
@@ -265,8 +264,8 @@
                                         </div>
                                         <div class="col-md-8">
                                           <select class="form-control" id="proxy-action">
-                                            <option value="0" selected>Accept visitor only if proxy is detected</option>
-                                            <option value="1">Reject visitor is proxy is detected</option>
+                                            <option value="1" selected>Accept visitor only if proxy is detected</option>
+                                            <option value="0">Reject visitor is proxy is detected</option>
                                           </select>
                                         </div>
                                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
@@ -279,8 +278,8 @@
                                               </div>
                                               <div class="col-md-8">
                                                 <select class="form-control" id="referrer-action">
-                                                  <option value="0" selected>Accept only</option>
-                                                  <option value="1">Reject</option>
+                                                  <option value="1" selected>Accept only</option>
+                                                  <option value="0">Reject</option>
                                                 </select>
                                               </div>
                                             </div>
@@ -299,10 +298,8 @@
                                             </div>
                                             <div class="col-md-3 col-sm-6">
                                               <select class="form-control" id="domain-reg">
-                                                <option value="0" selected>Matcheds regex</option>
-                                                <option value="1">Does not match</option>
-                                                <option value="2">Equals</option>
-                                                <option value="3">Does not equal</option>
+                                                <option value="1">Equals</option>
+                                                <option value="0" selected>Does not equal</option>
                                               </select>
                                             </div>
                                             <div class="col-md-4 col-sm-12 mt-sm-1 mt-md-0 mt-xs-1">
@@ -317,13 +314,13 @@
                                         </div>
                                         <div class="col-md-8">
                                           <select class="form-control" id="empty-referrer-action">
-                                            <option value="0" selected>Accept visitor only with empty referrer</option>
-                                            <option value="1">Reject visitor with empty referrer</option>
+                                            <option value="1" selected>Accept visitor only with empty referrer</option>
+                                            <option value="0">Reject visitor with empty referrer</option>
                                           </select>
                                         </div>
                                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="empty-referrer-group">REMOVE</button>
                                       </div>
-                                      <div class="form-group row device-type-group border-light p-1 rounded-lg position-relative hidden rule-group">
+                                      <div class="form-group row device-type-group border-light p-1 rounded-lg position-relative hidden rule-group mt-2">
                                         <div class="col-md-8">
                                           <div class="row">
                                             <div class="col-md-3">
@@ -331,8 +328,8 @@
                                             </div>
                                             <div class="col-md-5">
                                               <select class="form-control" id="device-action-list">
-                                                <option value="0" selected>Accept only from</option>
-                                                <option value="1">Reject from</option>
+                                                <option value="1" selected>Accept only from</option>
+                                                <option value="0">Reject from</option>
                                               </select>
                                             </div>
                                             <div class="col-md-4">
