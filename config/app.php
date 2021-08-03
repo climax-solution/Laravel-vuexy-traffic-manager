@@ -177,7 +177,9 @@ return [
         App\Providers\MenuServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Monarobase\CountryList\CountryListServiceProvider::class,
-
+        Stevebauman\Location\LocationServiceProvider::class,
+        Ip2location\IP2ProxyLaravel\IP2ProxyLaravelServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
 
     ],
 
@@ -231,6 +233,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Helper' => App\Helpers\Helper::class,
         'Countries' => Monarobase\CountryList\CountryListFacade::class,
+        'Location' => 'Stevebauman\Location\Facades\Location',
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
+
     ],
 
 ];
