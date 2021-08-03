@@ -17,7 +17,7 @@ class CreateReferrersTable extends Migration
             $table->id();
             $table->boolean('action')->nullable();
             $table->boolean('domain_type')->nullable();
-            $table->enum('domain_reg',[0,1,2,3])->default(0);
+            $table->enum('domain_reg',[0,1])->default(0);
             $table->string('domain_name')->nullable();
             $table->string('table_name')->nullable();
             $table->string('item_id')->nullable();

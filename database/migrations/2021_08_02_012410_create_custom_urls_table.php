@@ -23,7 +23,8 @@ class CreateCustomUrlsTable extends Migration
             $table->boolean('spoof_service')->nullable();
             $table->string('pixel')->nullable();
             $table->string('campaign')->nullable();
-            $table->string('max_hit_day')->nullable();
+            $table->integer('max_hit_day')->default(0);
+            $table->integer('take_count')->default(0);
             $table->string('fallback_url')->nullable();
             $table->string('active_rule')->nullable();
             $table->timestamps();
