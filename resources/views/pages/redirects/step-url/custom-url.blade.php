@@ -76,7 +76,7 @@
                                           <fieldset class="form-group">
                                             <select class="form-control" id="tracking_url">
                                               @foreach ($track as $key => $item)
-                                                <option value="{{$key}}">{{ $item }}</option>
+                                                <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                                               @endforeach
                                             </select>
                                         </fieldset>
@@ -111,7 +111,7 @@
                                           <fieldset class="form-group">
                                             <select class="form-control" id="campaign">
                                               @foreach ($campaign as $key => $item)
-                                                <option value="{{$key}}">{{ $item }}</option>
+                                                <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                                               @endforeach
                                             </select>
                                           </fieldset>
@@ -150,7 +150,7 @@
                                                 </div>
                                                 <div class="col-md-8 col-sm-6 col-6">
                                                   <select class="form-control hidden" id="spoof-select">
-                                                    <option value="0">Google</option>
+                                                    <option value="0" selected>Google</option>
                                                     <option value="1">Twitter</option>
                                                   </select>
                                                 </div>
@@ -203,13 +203,13 @@
                                                 </button>
                                               </div>
                                               <div class="col-md-10 col-sm-10 col-10">
-                                                <select class="form-control" id="rule_select">
-                                                  <option>ADD NEW RULE</option>
-                                                  <option value="geo-ip-group">GeoIP</option>
-                                                  <option value="proxy-group">Proxy</option>
-                                                  <option value="referrer-group">Referrer</option>
-                                                  <option value="empty-referrer-group">Empty referrer</option>
-                                                  <option value="device-type-group">Device Type</option>
+                                                <select class="form-control" id="active_rule">
+                                                  <option value="">ADD NEW RULE</option>
+                                                  <option value="geo-ip-group" data-index="0">GeoIP</option>
+                                                  <option value="proxy-group" data-index="1">Proxy</option>
+                                                  <option value="referrer-group" data-index="2">Referrer</option>
+                                                  <option value="empty-referrer-group" data-index="3">Empty referrer</option>
+                                                  <option value="device-type-group" data-index="4">Device Type</option>
                                               </select>
                                               </div>
                                             </div>
@@ -223,13 +223,13 @@
                                               </div>
                                               <div class="col-md-8">
                                                 <select class="form-control" id="geo-ip">
-                                                    <option value="0">Accept only from</option>
+                                                    <option value="0" selected>Accept only from</option>
                                                     <option value="1">Reject from</option>
                                                 </select>
                                               </div>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="geo-ip-remove">REMOVE</button>
+                                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="geo-ip-group">REMOVE</button>
                                         <div class="offset-md-2 col-md-8 mt-2">
                                           <div class="row">
                                             <div class="col-md-3">
@@ -250,9 +250,9 @@
                                               <span class="mt-1-2 d-inline-block">Country Group: </span>
                                             </div>
                                             <div class="col-md-9">
-                                              <select class="form-control" id="country_group">
+                                              <select class="form-control" id="country-group">
                                                 @foreach ($country_group as $key => $item)
-                                                  <option value="{{$key}}">{{ $item }}</option>
+                                                  <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                                                 @endforeach
                                               </select>
                                             </div>
@@ -263,13 +263,13 @@
                                         <div class="col-md-1">
                                           <span class="mt-1-2 d-inline-block">Proxy: </span>
                                         </div>
-                                        <div class="col-md-10">
+                                        <div class="col-md-8">
                                           <select class="form-control" id="proxy-action">
-                                            <option value="0">Accept visitor only if proxy is detected</option>
+                                            <option value="0" selected>Accept visitor only if proxy is detected</option>
                                             <option value="1">Reject visitor is proxy is detected</option>
                                           </select>
                                         </div>
-                                          <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="proxy-remove">REMOVE</button>
+                                          <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
                                       </div>
                                       <div class="form-group row referrer-group border-light p-1 rounded-lg position-relative hidden rule-group">
                                           <div class="col-md-5">
@@ -279,27 +279,27 @@
                                               </div>
                                               <div class="col-md-8">
                                                 <select class="form-control" id="referrer-action">
-                                                  <option value="0">Accept only</option>
+                                                  <option value="0" selected>Accept only</option>
                                                   <option value="1">Reject</option>
                                                 </select>
                                               </div>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="referrer-remove">REMOVE</button>
+                                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="referrer-group">REMOVE</button>
                                         <div class="offset-md-1 col-md-10 mt-2">
                                           <div class="form-group row">
                                             <div class="col-md-2">
                                               <span class="d-inline-block mt-1-2">Referrer: </span>
                                             </div>
                                             <div class="col-md-3 col-sm-6">
-                                              <select class="form-control" id="domain_type">
-                                                <option value="0">Full referrer</option>
+                                              <select class="form-control" id="domain-type">
+                                                <option value="0" selected>Full referrer</option>
                                                 <option value="1">Domain only</option>
                                               </select>
                                             </div>
                                             <div class="col-md-3 col-sm-6">
                                               <select class="form-control" id="domain-reg">
-                                                <option value="0">Matcheds regex</option>
+                                                <option value="0" selected>Matcheds regex</option>
                                                 <option value="1">Does not match</option>
                                                 <option value="2">Equals</option>
                                                 <option value="3">Does not equal</option>
@@ -317,11 +317,11 @@
                                         </div>
                                         <div class="col-md-8">
                                           <select class="form-control" id="empty-referrer-action">
-                                            <option value="0">Accept visitor only with empty referrer</option>
+                                            <option value="0" selected>Accept visitor only with empty referrer</option>
                                             <option value="1">Reject visitor with empty referrer</option>
                                           </select>
                                         </div>
-                                          <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="empty-referrer-remove">REMOVE</button>
+                                          <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="empty-referrer-group">REMOVE</button>
                                       </div>
                                       <div class="form-group row device-type-group border-light p-1 rounded-lg position-relative hidden rule-group">
                                         <div class="col-md-8">
@@ -331,19 +331,19 @@
                                             </div>
                                             <div class="col-md-5">
                                               <select class="form-control" id="device-action-list">
-                                                <option value="0">Accept only from</option>
+                                                <option value="0" selected>Accept only from</option>
                                                 <option value="1">Reject from</option>
                                               </select>
                                             </div>
                                             <div class="col-md-4">
                                               <select class="form-control" id="device-type-list">
-                                                <option value="0">Desktop</option>
+                                                <option value="0" selected>Desktop</option>
                                                 <option value="1">Mobile</option>
                                               </select>
                                             </div>
                                           </div>
                                       </div>
-                                      <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="referrer-remove">REMOVE</button>
+                                      <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="device-type-group">REMOVE</button>
                                     </div>
                                     </div>
                                     <div class="col-md-8 offset-md-4">
@@ -369,99 +369,9 @@
 @endsection
 
 @section('page-script')
-  <script src="{{ asset(mix('js/scripts/custom-url.js')) }}"></script>
   <script>
-    $(function(){
-      $('#spoof-refer-switch').change(()=> {
-        const SpoofSelect = $('#spoof-select');
-        if (SpoofSelect.hasClass('hidden')) SpoofSelect.removeClass('hidden');
-        else SpoofSelect.addClass('hidden');
-      })
-      $('#rule-box-toggle').click(()=> {
-        const rule = $('#rule_select').val();
-        if (rule) {
-          $('.rule-group').addClass('hidden');
-          $('.' + rule).removeClass('hidden');
-        }
-      })
-      $('#rule_select').change((e)=> {
-        if ($(this).val() == '') e.preventDefault();
-      })
-      $('#done-btn').click(() => {
-
-        const validate_list = ['link_name','dest_url','tracking_url','pixel','max_hit_day','fallback_url','rule_select'];
-        let flag = 0;
-
-        validate_list.map((item, key) => {
-          if (!$('#'+item).val()) flag = 1;
-        })
-
-        switch($('#rule_select').val()) {
-          case 'geo-ip-group':
-            if (!$('#country-list').val()) flag = 1;
-          case 'referrer-group':
-            if (!$('#domain-name').val()) flag = 1;
-        }
-
-        if (flag) {
-          toastr.warning('Warning', 'Input is invalid!');
-          return;
-        }
-
-        let addFile = {};
-        switch($('#rule_select').val()) {
-          case 'geo-ip-group':
-            addFile = {
-              country: $('#country-list').val(),
-              country_group: $('#country-group').val(),
-              action: $('#geo-ip').val()
-            }
-          case 'proxy-group':
-            addFile = {
-              status: $('#proxy-action').val()
-            }
-          case 'referrer-group':
-            addFile = {
-              action: $('#referrer-action').val(),
-              domain_type: $('#domain-type').val(),
-              domain_reg: $('#domain-reg').val(),
-              domain_name: $('#domain-name').val()
-            }
-          case 'empty-referrer-group':
-            addFile = {
-              action: $('#empty-referrer-action').val(),
-            }
-          case 'device-type-group':
-            addFile = {
-              action: $('#device-type-action').val(),
-              device: $('#device-type').val(),
-            }
-        };
-
-        const advance_options = {
-          blank: $('#blank-refer-switch')[0].checked ? 1 : 0,
-          spoof: $('#spoof-referrer-switch')[0].checked ? 1 : 0,
-          deep: $('#deep-link-switch')[0].checked ? 1 : 0
-        };
-
-        const spoof_sevice = '';
-        if (advance_options.spoof) spoof_service = $('#spoof-select').val();
-        let saveData = {};
-
-        validate_list.map(item => {
-          saveData[item] = $('#' + item).val();
-        })
-        saveData.addFile = addFile;
-        saveData.advance_options = advance_options;
-        $.ajax({
-          type: 'post',
-          url: '/create-new-custom-url',
-          data: saveData,
-          success:function(res) {
-            console.log(res);
-          }
-        })
-      })
-    })
+    const createURL = "{{route('redirects.create-new-custom-url')}}";
   </script>
+  <script src="{{ asset(mix('js/scripts/custom-url.js')) }}"></script>
+
 @endsection

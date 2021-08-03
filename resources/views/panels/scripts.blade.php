@@ -11,3 +11,5 @@
 @endif
         {{-- page script --}}
         @yield('page-script')
+        <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
+
