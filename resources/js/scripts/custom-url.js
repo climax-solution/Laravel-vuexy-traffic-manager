@@ -34,7 +34,7 @@ $(function(){
     validate_list.map((item, key) => {
       if (!$('#'+item).val()) flag = 1;
     })
-    if (!active_rule) flag = 1;
+    if (!active_rule.length) flag = 1;
     switch($('#active_rule').val()) {
       case 'geo-ip-group':
         if (!$('#country-list').val()) flag = 1;

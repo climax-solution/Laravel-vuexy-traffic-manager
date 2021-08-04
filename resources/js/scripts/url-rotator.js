@@ -1,8 +1,12 @@
+
 $(function(){
   const ruleList = ['geo-ip-group','proxy-group','referrer-group','empty-referrer-group','device-type-group'];
   let active_rule = [];
   let addFile = {};
   const validate_list = ['link_name','tracking_url','pixel','max_hit_day','fallback_url'];
+  let sendData = {
+    '_token': $('meta[name="csrf-token"]').attr('content')
+  };
     $(".number-tab-steps").steps({
       headerTag: "h6",
       bodyTag: "fieldset",
@@ -13,13 +17,11 @@ $(function(){
       },
       onStepChanging: () => {
         let flag = 0;
-        let saveData = {
-          '_token': $('meta[name="csrf-token"]').attr('content')
-        };
+
         validate_list.map((item, key) => {
           if (!$('#'+item).val()) flag = 1;
         })
-        if (!active_rule) flag = 1;
+        if (!active_rule.length) flag = 1;
         switch($('#active_rule').val()) {
           case 'geo-ip-group':
             if (!$('#country-list').val()) flag = 1;
@@ -28,7 +30,7 @@ $(function(){
             if (!$('#domain-name').val()) flag = 1;
             break;
         }
-
+        console.log(active_rule.length);
         if (flag) {
           toastr.warning('Warning', 'Input is invalid!');
           return;
@@ -90,7 +92,7 @@ $(function(){
 
         let spoof_sevice = '';
         if (advance_options.spoof) spoof_service = $('#spoof-select').val();
-
+        let saveData = {};
         validate_list.map(item => {
           saveData[item] = $('#' + item).val();
         })
@@ -103,9 +105,44 @@ $(function(){
         saveData.advance_options = JSON.stringify(advance_options);
         saveData.spoof_service = spoof_sevice;
         saveData.campaign = $('#campaign').val();
+        sendData.rotate = saveData;
         return true;
       },
       onFinishing: () => {
+        const weightHit = $('.weight-or-max_hit');
+        let sumHit = 0;
+        weightHit.each(function(){
+          sumHit += $(this).val();
+        })
+        if (sumHit != 100) return false;
+        else {
+          sendData.rotate.rotation_option = $("input[type='radio'][name='rotation_option']:checked").val();
+          const url_list = [];
+          const DestUrls = $('.dest-url-link');
+          DestUrls.each((index) => {
+            let row = {};
+            row.dest_url = $(this).text();
+            row.uuid = index;
+            switch(sendData.rotate.rotation_option) {
+              case '1':
+                row.weight = weightHit.eq(index).val();
+                break;
+              case '2':
+                row.max_hit = weightHit.eq(index).val();
+                break;
+            }
+            url_list.push(row);
+          })
+          sendData.url_list = url_list;
+          $.ajax({
+            type: 'post',
+            url: createURL,
+            data: sendData,
+            success:function(res) {
+
+            }
+          })
+        }
 
       },
       onFinished: function (event, currentIndex) {

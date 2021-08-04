@@ -332,32 +332,32 @@
                             <li class="d-inline-block mr-2">
                               <fieldset>
                                 <div class="custom-control custom-radio">
-                                  <input type="radio" class="custom-control-input" name="customRadio" id="customRadio1" checked>
-                                  <label class="custom-control-label" for="customRadio1">Radnom</label>
+                                  <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option1" value="0" checked>
+                                  <label class="custom-control-label" for="rotate_option1">Random</label>
                                 </div>
                               </fieldset>
                             </li>
                             <li class="d-inline-block mr-2">
                               <fieldset>
                                 <div class="custom-control custom-radio">
-                                  <input type="radio" class="custom-control-input" name="customRadio" id="customRadio2">
-                                  <label class="custom-control-label" for="customRadio2">Weighted Rotation</label>
+                                  <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option2" value="1">
+                                  <label class="custom-control-label" for="rotate_option2">Weighted Rotation</label>
                                 </div>
                               </fieldset>
                             </li>
                             <li class="d-inline-block mr-2">
                               <fieldset>
                                 <div class="custom-control custom-radio">
-                                  <input type="radio" class="custom-control-input" name="customRadio" id="customRadio3">
-                                  <label class="custom-control-label" for="customRadio3">Position</label>
+                                  <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option3" value="2">
+                                  <label class="custom-control-label" for="rotate_option3">Position</label>
                                 </div>
                               </fieldset>
                             </li>
                             <li class="d-inline-block mr-2">
                               <fieldset>
                                 <div class="custom-control custom-radio">
-                                  <input type="radio" class="custom-control-input" name="customRadio" id="customRadio4">
-                                  <label class="custom-control-label" for="customRadio4">Fixed Hits</label>
+                                  <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option4" value="3">
+                                  <label class="custom-control-label" for="rotate_option4">Fixed Hits</label>
                                 </div>
                               </fieldset>
                             </li>
@@ -394,64 +394,67 @@
                         </div>
                       </div>
                       <div class="target-urls-group">
-                        <div class="row">
+                        <div class="row mb-2">
                           <div class="col-md-4"></div>
                           <div class="col-md-2"><span>Weight/Max Hits</span></div>
                           <div class="col-md-2"><span>Spoof Referrer</span></div>
                           <div class="col-md-2"><span>Deep Link</span></div>
                           <div class="col-md-2"></div>
                         </div>
-                        <div class="form-group row">
-                          <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" id="target-url">
-                          </div>
-                          <div class="col-md-2">
-                            <div class="form-group">
-                              <input type="text" class="form-control form-control-sm" id="target-url">
+                        @foreach ($links as $key => $item)
+                          <div class="form-group row">
+                            <div class="col-md-4">
+                              <span class="dest-url-link">{{$item->dest_url}}</span>
                             </div>
-                          </div>
-                          <div class="col-md-2">
-                              <div class="form-group row">
-                                <div class="col-md-12">
-                                  <div class="row">
-                                    <div class="col-md-4 col-sm-6 col-6">
-                                      <div class="custom-control custom-switch custom-switch-success mr-2">
-                                        <input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="add-spoof-switch">
-                                        <label class="custom-control-label" for="add-spoof-switch"></label>
+                            <div class="col-md-2">
+                              <div class="form-group">
+                                <input type="text" class="form-control form-control-sm weight-or-max_hit">
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group row">
+                                  <div class="col-md-12">
+                                    <div class="row">
+                                      <div class="col-md-4 col-sm-6 col-6">
+                                        <div class="custom-control custom-switch custom-switch-success mr-2">
+                                          <input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch{{$key}}">
+                                          <label class="custom-control-label" for="spoof-switch{{$key}}"></label>
+                                        </div>
                                       </div>
-                                    </div>
-                                    <div class="col-md-8 col-sm-6 col-6">
-                                      <select class="form-control form-control-sm " id="add-spoof-select">
-                                        <option value="0">Google</option>
-                                        <option value="1">Twitter</option>
-                                      </select>
+                                      <div class="col-md-8 col-sm-6 col-6">
+                                        <select class="form-control form-control-sm add-spoof-select hidden">
+                                          <option value="0">Google</option>
+                                          <option value="1">Twitter</option>
+                                        </select>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                          </div>
-                          <div class="col-md-2">
-                            <div class="form-group row">
-                              <div class="col-md-12">
-                                <div class="custom-control custom-switch custom-switch-success mr-2">
-                                  <input type="checkbox" class="custom-control-input custom-control-input-sm" id="add-deep-switch">
-                                  <label class="custom-control-label" for="add-deep-switch"></label>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="form-group row">
+                                <div class="col-md-12">
+                                  <div class="custom-control custom-switch custom-switch-success mr-2">
+                                    <input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch{{$key}}">
+                                    <label class="custom-control-label" for="deep-switch{{$key}}"></label>
+                                  </div>
                                 </div>
                               </div>
                             </div>
+                            <div class="col-md-2">
+                              <a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>
+                              <a href="#"><i class="fa fa-trash fa-2x"></i></a>
+                            </div>
                           </div>
-                          <div class="col-md-2">
-                            <a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>
-                            <a href="#"><i class="fa fa-trash fa-2x"></i></a>
-                          </div>
-                        </div>
+                        @endforeach
+
                         <div class="hidden form-group row new-url-group">
                           <div class="col-md-4">
                             <input type="text" class="form-control form-control-sm" id="target-url">
                           </div>
                           <div class="col-md-2">
                             <div class="form-group">
-                              <input type="text" class="form-control form-control-sm" id="target-url">
+                              <input type="text" class="form-control form-control-sm" id="weight-or-max_hit">
                             </div>
                           </div>
                           <div class="col-md-2">
@@ -460,7 +463,7 @@
                                   <div class="row">
                                     <div class="col-md-4 col-sm-6 col-6">
                                       <div class="custom-control custom-switch custom-switch-success mr-2">
-                                        <input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="add-spoof-switch">
+                                        <input type="checkbox" class="custom-control-input custom-control-input-sm" id="add-spoof-switch">
                                         <label class="custom-control-label" for="add-spoof-switch"></label>
                                       </div>
                                     </div>
@@ -485,8 +488,7 @@
                             </div>
                           </div>
                           <div class="col-md-2">
-                            <a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>
-                            <a href="#"><i class="fa fa-trash fa-2x"></i></a>
+                            <a href="#" id="addgroup-hide-btn"><i class="fa fa-trash fa-2x"></i></a>
                           </div>
                         </div>
                       </div>
@@ -524,6 +526,16 @@
       })
       $('#url-add-btn').click(function() {
         $('.new-url-group').removeClass('hidden');
+      })
+      $('#addgroup-hide-btn').click(function(){
+        $('.new-url-group').addClass('hidden');
+      })
+      $('.spoof-switch').change(function() {
+        const index = $('.spoof-switch').index($(this));
+        $('.add-spoof-select').eq(index).toggleClass('hidden');
+      })
+      $('input[name="rotate_option"]').change(function(){
+        console.log($(this).val());
       })
     })
   </script>
