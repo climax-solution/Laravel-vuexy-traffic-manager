@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateUrlRotatorListsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('url_rotator_lists', function (Blueprint $table) {
+          $table->id();
+          $table->string('parent_id')->nullable();
+          $table->string('domain')->nullable();
+          $table->integer('weight')->default(0);
+          $table->integer('max_hit_day')->default(0);
+          $table->boolean('spoof')->default(0);
+          $table->boolean('spoof_type')->default(0);
+          $table->boolean('deep')->default(0);
+          $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('url_rotator_lists');
+    }
+}
