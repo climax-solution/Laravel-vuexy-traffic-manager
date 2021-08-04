@@ -1,8 +1,8 @@
 $(function(){
   const ruleList = ['geo-ip-group','proxy-group','referrer-group','empty-referrer-group','device-type-group'];
-    let active_rule = [];
-    let addFile = {};
-    const validate_list = ['link_name','dest_url','tracking_url','pixel','max_hit_day','fallback_url'];
+  let active_rule = [];
+  let addFile = {};
+  const validate_list = ['link_name','dest_url','tracking_url','pixel','max_hit_day','fallback_url'];
   $(".select2").select2({
     // the following code is used to disable x-scrollbar when click in select input and
     // take 100% width in responsive also
@@ -34,7 +34,7 @@ $(function(){
     validate_list.map((item, key) => {
       if (!$('#'+item).val()) flag = 1;
     })
-    if (!active_rule) flag = 1;
+    if (!active_rule.length) flag = 1;
     switch($('#active_rule').val()) {
       case 'geo-ip-group':
         if (!$('#country-list').val()) flag = 1;
