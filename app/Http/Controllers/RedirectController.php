@@ -56,15 +56,6 @@ class RedirectController extends Controller
         ]);
     }
 
-    public function customUrl() {
-
-      return view('/pages/redirects/step-url/custom-url', $this->compactData);
-    }
-
-    public function urlRotator() {
-      return view('/pages/redirects/step-url/url-rotator', $this->compactData);
-    }
-
     public function stepUrlAsin() {
       return view('/pages/redirects/step-url/asin', $this->compactData);
     }
@@ -146,17 +137,17 @@ class RedirectController extends Controller
 
     public function redirectTracking(Request $request) {
       $id = $request->id;
-      $src = CustomUrl::where('uuid',$id)->first();
+      $data = Redirect::where('uuid', $id)->first();
+      $src = CustomUrl::where('id',$data->item_id)->first();
       if (!$src) {
         $message = "No Exist Data.";
         return;
       }
-      if ($src->max_hit_day == $src->take_count) {
-        echo "<script> window.location.href = '".$src->fallback_url."';</script>";
+      if ($data->max_hit_day == $data->take_count) {
+        echo "<script> window.location.href = '".$data->fallback_url."';</script>";
       }
       $ip = $request->ip();
       $ip = "188.43.136.32";
-      // $db = new \IP2Proxy\Database(base_path().'/vendor/ip2location/ip2proxy-php/data/PX10.SAMPLE.BIN', \IP2PROXY\Database::FILE_IO);
       $data = \Location::get($ip);
       $status = [];
       $active_rule = json_decode($src->active_rule, true);
@@ -300,12 +291,12 @@ class RedirectController extends Controller
           if ($item) $flag = 1;
         }
         if ($flag) {
-          CustomUrl::where('id',$src->id)->update(['take_count' => $src->take_count]);
-          echo "<script> window.location.href = '".$src->fallback_url."';</script>";
+          Redirect::where('id',$data->id)->update(['take_count' => $src->take_count]);
+          echo "<script> window.location.href = '".$data->fallback_url."';</script>";
         }
         else {
-          CustomUrl::where('id',$src->id)->update(['take_count' => $src->take_count]);
-          echo "<script> window.location.href = '".$src->dest_url."';</script>";
+          Redirect::where('id',$data->id)->update(['take_count' => $src->take_count]);
+          echo "<script> window.location.href = '".$data->dest_url."';</script>";
         }
       }
       else {

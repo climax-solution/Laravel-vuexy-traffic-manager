@@ -17,31 +17,39 @@ class CustomUrlController extends Controller
 {
   public function __construct()
   {
-    $track = ['Convomat Default', 'convomat List'];
-    $pixel = ['Select Pixel', 'Pixel item'];
-    $campaign = ['Campaign 1', 'Campaign 2'];
-    $country_group = ['group 1', 'group 2'];
     $this->compactData = [
-      'track' => $track,
-      'pixel' => $pixel,
-      'campaign' => $campaign,
+      'track' => ['Convomat Default', 'convomat List'],
+      'pixel' => ['Select Pixel', 'Pixel item'],
+      'campaign' => ['Campaign 1', 'Campaign 2'],
       'countries'  =>  CountryListFacade::getList('en'),
-      'country_group' => $country_group
+      'country_group' => ['group 1', 'group 2']
     ];
   }
 
   public function index() {
-    return view('/pages/redirects/step-url/custom-url', $this->compactData);
+    return view('/pages/redirects/custom-url', $this->compactData);
   }
 
   public function createNewCustomUrl(Request $request) {
     $input = $request->except('_token');
     unset($input['addFile']);
+    $block_item = ['link_name','tracking_url', 'dest_url','fallback_url', 'max_hit_day', 'campaign'];
+    $redirectData = [];
+    foreach($block_item as $item) {
+      if (isset($input[$item])) {
+        $redirectData[$item] = $input[$item];
+        unset($input[$item]);
+      }
+    }
     $data = $input;
-    $data['uuid'] = Str::random(7);
+    $uuid = Str::random(7);
     $res = CustomUrl::create($data);
     $addFile = json_decode($request->input('addFile'),true);
     $active_rule = json_decode($data['active_rule']);
+    $redirectData['uuid'] = $uuid;
+    $redirectData['item_id'] = $res->id;
+    $redirectData['table_name'] = 'custom_urls';
+    Redirect::create($redirectData);
     foreach($active_rule as $item) {
       $addFile[$item]['item_id'] = $res->id;
       $addFile[$item]['table_name'] = 'custom_urls';
@@ -81,7 +89,7 @@ class CustomUrlController extends Controller
           break;
       };
     }
-    $url = env('APP_URL').'/r/'.$data['uuid'];
+    $url = env('APP_URL').'/r/'.$uuid;
     return response()->json(['url' => $url]);
   }
 }
