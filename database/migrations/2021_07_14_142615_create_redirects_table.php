@@ -15,10 +15,16 @@ class CreateRedirectsTable extends Migration
     {
         Schema::create('redirects', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
-            $table->boolean('active')->default(false);
-            $table->integer('order')->default(0);
-            $table->integer('max_daily_hits');
+            $table->string('uuid')->unique();
+            $table->string('link_name')->nullable();
+            $table->string('dest_url')->nullable();
+            $table->string('tracking_url')->nullable();
+            $table->string('fallback_url');
+            $table->integer('take_count')->default(0);
+            $table->integer('max_hit_day');
+            $table->string('campaign')->nullable();
+            $table->string('item_id')->nullable();
+            $table->string('table_name')->nullable();
             $table->timestamps();
         });
     }
