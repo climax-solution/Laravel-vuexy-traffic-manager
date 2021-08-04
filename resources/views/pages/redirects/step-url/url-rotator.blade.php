@@ -3,7 +3,6 @@
 @section('title', trans('locale.CreateNewRedirect'))
 
 @section('vendor-style')
-  <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/pickadate/pickadate.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('css/plugins/forms/wizard.css')) }}">
   <style>
@@ -70,14 +69,6 @@
                                 <input type="text" id="link_name" class="form-control" name="linkname">
                             </div>
                         </div>
-                        <div class="form-group row">
-                          <div class="col-md-2">
-                            <span>Destination URL: </span>
-                          </div>
-                          <div class="col-md-10">
-                              <input type="text" id="dest_url" class="form-control" name="desturl">
-                          </div>
-                      </div>
                       <div class="form-group row">
                         <div class="col-md-2">
                           <span>Tracking URL: </span>
@@ -193,7 +184,7 @@
                             </div>
                         </div>
                       </div>
-                      <div class="row geo-ip-group border-light p-1 rounded-lg position-relative hidden rule-group">
+                      <div class="row geo-ip-group border-light p-1 rounded-lg position-relative hidden rule-group mb-1">
                         <div class="col-md-4">
                             <div class="row">
                               <div class="col-md-4">
@@ -237,7 +228,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group row border-light p-1 rounded-lg mt-2 proxy-group position-relative hidden rule-group">
+                      <div class="form-group row border-light p-1 rounded-lg mb-1 mt-1 proxy-group position-relative hidden rule-group ">
                         <div class="col-md-1">
                           <span class="mt-1-2 d-inline-block">Proxy: </span>
                         </div>
@@ -249,7 +240,7 @@
                         </div>
                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
                       </div>
-                      <div class="form-group row referrer-group border-light p-1 rounded-lg position-relative hidden rule-group">
+                      <div class="form-group row referrer-group border-light mb-1 mt-1 p-1 rounded-lg position-relative hidden rule-group">
                           <div class="col-md-5">
                             <div class="row">
                               <div class="col-md-3">
@@ -289,7 +280,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group row border-light p-1 rounded-lg mt-2 empty-referrer-group position-relative hidden rule-group">
+                      <div class="form-group row border-light p-1 rounded-lg  mb-1 mt-1 empty-referrer-group position-relative hidden rule-group">
                         <div class="col-md-2">
                           <span class="mt-1-2 d-inline-block">Empty referrer: </span>
                         </div>
@@ -301,7 +292,7 @@
                         </div>
                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="empty-referrer-group">REMOVE</button>
                       </div>
-                      <div class="form-group row device-type-group border-light p-1 rounded-lg position-relative hidden rule-group">
+                      <div class="form-group row device-type-group border-light mb-1 mt-1 p-1 rounded-lg position-relative hidden rule-group">
                         <div class="col-md-8">
                           <div class="row">
                             <div class="col-md-3">
@@ -320,9 +311,9 @@
                               </select>
                             </div>
                           </div>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="device-type-group">REMOVE</button>
                       </div>
-                      <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="device-type-group">REMOVE</button>
-                    </div>
                     </div>
                 </div>
                 </fieldset>
@@ -379,13 +370,13 @@
                           <div class="col-md-6">
                             <div class="form-group row">
                               <div class="col-md-8">
-                                <select class="form-control-sm" id="dest_url">
-                                  <option>Select from list of redirect links</option>
-                                  <option>Enter New</option>
+                                <select class="form-control" id="dest_url">
+                                  <option value="0">Select from list of redirect links</option>
+                                  <option value="1">Enter New</option>
                                 </select>
                               </div>
                               <div class="col-md-4">
-                                <button type="button" class="btn btn-outline-primary btn-sm waves-effect waves-light xx-small" id="add-btn">ADD</button>
+                                <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small hidden" id="url-add-btn">ADD</button>
                               </div>
                             </div>
                           </div>
@@ -393,7 +384,7 @@
                             <div class="form-group row">
                               <div class="col-md-12 text-right">
                                 <span>Bulk Upload (Max 1,000Kwds)</span>
-                                <button type="button" class="btn btn-outline-primary btn-sm waves-effect waves-light xx-small" id="add-btn">UPLOAD</button>
+                                <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small" id="upload-btn">UPLOAD</button>
                               </div>
                               <div class="col-md-12 text-right">
                                 <a href="#">Download Sample File</a>
@@ -403,111 +394,99 @@
                         </div>
                       </div>
                       <div class="target-urls-group">
+                        <div class="row">
+                          <div class="col-md-4"></div>
+                          <div class="col-md-2"><span>Weight/Max Hits</span></div>
+                          <div class="col-md-2"><span>Spoof Referrer</span></div>
+                          <div class="col-md-2"><span>Deep Link</span></div>
+                          <div class="col-md-2"></div>
+                        </div>
                         <div class="form-group row">
                           <div class="col-md-4">
-                            <ol>
-                              <li class="pl-1">
-                                <a href="#">https://domain.com/keyword1</a>
-                              </li>
-                              <li class="mt-1 pl-1">
-                                <input type="text" class="form-control form-control-sm" id="target-url">
-                              </li>
-                              <li class="mt-1 pl-1">
-                                <a href="#">https://domain.com/keyword1</a>
-                              </li>
-                            </ol>
+                            <input type="text" class="form-control form-control-sm" id="target-url">
                           </div>
                           <div class="col-md-2">
-                            <span>Weight/Max Hits</span>
                             <div class="form-group">
                               <input type="text" class="form-control form-control-sm" id="target-url">
-                              <input type="text" class="form-control form-control-sm mt-1" id="target-url">
-                              <input type="text" class="form-control form-control-sm mt-1" id="target-url">
                             </div>
                           </div>
                           <div class="col-md-2">
-                            <span>Spoof Referrer</span>
-                            <div class="form-group row">
-                              <div class="col-md-12">
-                                <div class="custom-control custom-switch custom-switch-success mr-2">
-                                  <input type="checkbox" class="custom-control-input custom-control-input-sm" id="spoof-switch-1">
-                                  <label class="custom-control-label" for="spoof-switch-1"></label>
-                                </div>
-                              </div>
-                            </div>
-
                               <div class="form-group row">
                                 <div class="col-md-12">
                                   <div class="row">
                                     <div class="col-md-4 col-sm-6 col-6">
                                       <div class="custom-control custom-switch custom-switch-success mr-2">
-                                        <input type="checkbox" class="custom-control-input custom-control-input-sm" id="spoof-switch-2">
-                                        <label class="custom-control-label" for="spoof-switch-2"></label>
+                                        <input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="add-spoof-switch">
+                                        <label class="custom-control-label" for="add-spoof-switch"></label>
                                       </div>
                                     </div>
                                     <div class="col-md-8 col-sm-6 col-6">
-                                      <select class="form-control form-control-sm" id="spoof-select">
-                                        <option>Google</option>
-                                        <option>Twitter</option>
+                                      <select class="form-control form-control-sm " id="add-spoof-select">
+                                        <option value="0">Google</option>
+                                        <option value="1">Twitter</option>
                                       </select>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div class="form-group row">
-                                <div class="col-md-12">
-                                  <div class="custom-control custom-switch custom-switch-success mr-2">
-                                    <input type="checkbox" class="custom-control-input" id="spoof-switch-3">
-                                    <label class="custom-control-label" for="spoof-switch-3"></label>
-                                  </div>
-                                </div>
-                              </div>
                           </div>
                           <div class="col-md-2">
-                            <span>Deep Link</span>
                             <div class="form-group row">
                               <div class="col-md-12">
                                 <div class="custom-control custom-switch custom-switch-success mr-2">
-                                  <input type="checkbox" class="custom-control-input custom-control-input-sm" id="deep-switch-1">
-                                  <label class="custom-control-label" for="deep-switch-1"></label>
+                                  <input type="checkbox" class="custom-control-input custom-control-input-sm" id="add-deep-switch">
+                                  <label class="custom-control-label" for="add-deep-switch"></label>
                                 </div>
                               </div>
                             </div>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>
+                            <a href="#"><i class="fa fa-trash fa-2x"></i></a>
+                          </div>
+                        </div>
+                        <div class="hidden form-group row new-url-group">
+                          <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" id="target-url">
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group">
+                              <input type="text" class="form-control form-control-sm" id="target-url">
+                            </div>
+                          </div>
+                          <div class="col-md-2">
                               <div class="form-group row">
                                 <div class="col-md-12">
                                   <div class="row">
                                     <div class="col-md-4 col-sm-6 col-6">
                                       <div class="custom-control custom-switch custom-switch-success mr-2">
-                                        <input type="checkbox" class="custom-control-input custom-control-input-sm" id="deep-switch-2">
-                                        <label class="custom-control-label" for="deep-switch-2"></label>
+                                        <input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="add-spoof-switch">
+                                        <label class="custom-control-label" for="add-spoof-switch"></label>
                                       </div>
                                     </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <div class="col-md-12">
-                                  <div class="custom-control custom-switch custom-switch-success mr-2">
-                                    <input type="checkbox" class="custom-control-input" id="deep-switch-3">
-                                    <label class="custom-control-label" for="deep-switch-3"></label>
+                                    <div class="col-md-8 col-sm-6 col-6">
+                                      <select class="form-control form-control-sm " id="add-spoof-select">
+                                        <option value="0">Google</option>
+                                        <option value="1">Twitter</option>
+                                      </select>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                           </div>
                           <div class="col-md-2">
-                            <ul class="text-right">
-                              <li class="">
-                                <a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>
-                                <a href="#"><i class="fa fa-trash fa-2x"></i></a>
-                              </li>
-                              <li class="mt-1">
-                                <a href="#"><i class="fa fa-trash fa-2x"></i></a>
-                              </li>
-                              <li class="mt-1">
-                                <a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>
-                                <a href="#"><i class="fa fa-trash fa-2x"></i></a>
-                              </li>
-                            </ul>
+                            <div class="form-group row">
+                              <div class="col-md-12">
+                                <div class="custom-control custom-switch custom-switch-success mr-2">
+                                  <input type="checkbox" class="custom-control-input custom-control-input-sm" id="add-deep-switch">
+                                  <label class="custom-control-label" for="add-deep-switch"></label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>
+                            <a href="#"><i class="fa fa-trash fa-2x"></i></a>
                           </div>
                         </div>
                       </div>
@@ -524,10 +503,9 @@
 @endsection
 
 @section('vendor-script')
-<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.date.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/jquery.steps.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
 
 @endsection
 
@@ -538,7 +516,15 @@
 <script src="{{ asset(mix('js/scripts/url-rotator.js')) }}"></script>
   <script>
     $(function(){
-
+      $('#dest_url').change(function(){
+        if ($(this).val() == 1) {
+          $('#url-add-btn').removeClass('hidden');
+        }
+        else $('#url-add-btn').addClass('hidden');
+      })
+      $('#url-add-btn').click(function() {
+        $('.new-url-group').removeClass('hidden');
+      })
     })
   </script>
 @endsection
