@@ -16,12 +16,11 @@ class CreateUrlRotatorListsTable extends Migration
         Schema::create('url_rotator_lists', function (Blueprint $table) {
           $table->id();
           $table->string('parent_id')->nullable();
-          $table->string('domain')->nullable();
           $table->integer('weight')->default(0);
           $table->integer('max_hit_day')->default(0);
-          $table->boolean('spoof')->default(0);
+          $table->boolean('spoof_referrer')->default(0);
           $table->boolean('spoof_type')->default(0);
-          $table->boolean('deep')->default(0);
+          $table->boolean('deep_link')->default(0);
           $table->timestamps();
         });
     }
