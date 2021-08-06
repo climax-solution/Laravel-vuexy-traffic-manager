@@ -12,6 +12,7 @@ use App\Models\Redirect;
 use App\Models\Referrer;
 use App\Models\UrlRotatorList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Monarobase\CountryList\CountryListFacade;
 
@@ -29,7 +30,7 @@ class UrlRotatorController extends Controller {
   }
 
   public function index() {
-    $links = Redirect::select('dest_url')->get();
+    $links = Redirect::select('dest_url')->where('table_name', '!=' ,'url_rotator')->get();
     $compactData = $this->compactData;
     $compactData['links'] = $links;
     return view('/pages/redirects/url-rotator',$compactData);
@@ -38,7 +39,7 @@ class UrlRotatorController extends Controller {
   public function createNewUrlRotator(Request $request) {
     $input = $request->except('_token');
     unset($input['addFile']);
-    $block_item = ['link_name','tracking_url', 'dest_url','fallback_url', 'max_hit_day', 'campaign'];
+    $block_item = ['link_name','tracking_url', 'dest_url','fallback_url', 'max_hit_day', 'campaign','pixel'];
     $redirectData = [];
     foreach($block_item as $item) {
       if (isset($input[$item])) {
@@ -94,7 +95,34 @@ class UrlRotatorController extends Controller {
           break;
       };
     }
+    $url_list = json_decode($input['url_list'],true);
+    foreach($url_list as $key => $url) {
+      $url['parent_id'] = $res->id;
+      $url['uuid'] = $key;
+      UrlRotatorList::create($url);
+    }
     $url = env('APP_URL').'/r/'.$uuid;
     return response()->json(['url' => $url]);
+  }
+
+  public function getCsvData(Request $request) {
+    $ext = $request->file('file')->getClientOriginalExtension();
+    $name = time().'.'.$ext;
+    Storage::disk('csv_file')->putFileAs('/',$request->file('file'),$name);
+    $header = null;
+    $data = array();
+    if (($handle = fopen(public_path('/csv_file/'.$name), 'r')) !== false)
+    {
+        while (($row = fgetcsv($handle, 1000, ',')) !== false)
+        {
+            if (!$header)
+                $header = $row;
+            else
+                $data[] = array_combine($header, $row);
+        }
+        fclose($handle);
+    }
+    unlink(public_path('/csv_file/'.$name));
+    return response()->json($data);
   }
 }

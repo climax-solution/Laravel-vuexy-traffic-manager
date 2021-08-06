@@ -10,6 +10,8 @@ use App\Models\Proxy;
 use Illuminate\Http\Request;
 use App\Models\Redirect;
 use App\Models\Referrer;
+use App\Models\UrlRotator;
+use App\Models\UrlRotatorList;
 use Monarobase\CountryList\CountryListFacade;
 use Illuminate\Support\Str;
 use IP2ProxyLaravel;
@@ -136,15 +138,24 @@ class RedirectController extends Controller
     }
 
     public function redirectTracking(Request $request) {
+      // dd($_SERVER);
       $id = $request->id;
-      $data = Redirect::where('uuid', $id)->first();
-      $src = CustomUrl::where('id',$data->item_id)->first();
+      $redirect_src = Redirect::where('uuid', $id)->first();
+      $src = '';
+      switch($redirect_src->table_name) {
+        case 'custom_urls':
+          $src = CustomUrl::where('id',$redirect_src->item_id)->first();
+          break;
+        case 'url_rotator':
+          $src = UrlRotator::where('id',$redirect_src->item_id)->first();
+          break;
+      };
       if (!$src) {
-        $message = "No Exist Data.";
+        $message = "No Exist redirect_src.";
         return;
       }
-      if ($data->max_hit_day == $data->take_count) {
-        echo "<script> window.location.href = '".$data->fallback_url."';</script>";
+      if ($redirect_src->max_hit_day == $redirect_src->take_count) {
+        echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
       }
       $ip = $request->ip();
       $ip = "188.43.136.32";
@@ -157,7 +168,7 @@ class RedirectController extends Controller
           $status[$item] = 0;
           switch($item) {
             case '0':
-              $row = GeoIp::where(['item_id' => $src->id, 'table_name' => 'custom_urls'])->first();
+              $row = GeoIp::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
               $country_list = explode(',',$row->country_list);
               $country_status = array_search($countryCode, $country_list);
               $geoip = 0;
@@ -171,39 +182,40 @@ class RedirectController extends Controller
               $status[$item] = $geoip;
               break;
             case '1':
-              $row = Proxy::where(['item_id' => $src->id, 'table_name' => 'custom_urls'])->first();
-              $db = new \IP2Proxy\WebService('CMLFVVOTC0',  'PX10', false);
-              $res = $db->lookup($ip);
+              $row = Proxy::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
+              $check = new \IP2Proxy\Database(base_path('vendor/ip2location/ip2proxy-php/data/PX10.SAMPLE.BIN'), \IP2PROXY\Database::FILE_IO);
+              $res = $check->lookup($ip, \IP2PROXY\Database::ALL);
               $proxy = 0;
               switch($row->action) {
                 case '0':
-                  if ($res['isProxy'] == 'YES') $proxy = 1;
+                  if ($res['isProxy']) $proxy = 1;
                   break;
                 case '1':
-                  if ($res['isProxy'] == 'NO') $proxy = 1;
+                  if (!$res['isProxy']) $proxy = 1;
                   break;
               }
               $status[$item] = $proxy;
               break;
             case '2':
-              $row = Referrer::where(['item_id' => $src->id, 'table_name' => 'custom_urls'])->first();
+              $row = Referrer::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
               $domain = $row->domain_name;
               $refer = 0;
+              $REFERRER = ($_SERVER);
               switch($row->action) {
                 case '0':
                   switch($row->domain_type) {
                     case '0':
                       switch($row->domain_reg) {
                         case '0':
-                          if ($src->dest_url != $domain) $refer = 1;
+                          if ($redirect_src->dest_url != $domain) $refer = 1;
                           break;
                         case '1':
-                          if ($src->dest_url == $domain) $refer = 1;
+                          if ($redirect_src->dest_url == $domain) $refer = 1;
                           break;
                       }
                       break;
                     case '1':
-                      $parse_domain = parse_url($src->dest_url);
+                      $parse_domain = parse_url($redirect_src->dest_url);
                       switch($row->domain_reg) {
                         case '0':
                           if ($parse_domain == $domain) $refer = 1;
@@ -220,15 +232,15 @@ class RedirectController extends Controller
                       case '0':
                         switch($row->domain_reg) {
                           case '0':
-                            if ($src->dest_url == $domain) $refer = 1;
+                            if ($redirect_src->dest_url == $domain) $refer = 1;
                             break;
                           case '1':
-                            if ($src->dest_url != $domain) $refer = 1;
+                            if ($redirect_src->dest_url != $domain) $refer = 1;
                             break;
                         }
                         break;
                       case '1':
-                        $parse_domain = parse_url($src->dest_url);
+                        $parse_domain = parse_url($redirect_src->dest_url);
                         switch($row->domain_reg) {
                           case '0':
                             if ($parse_domain == parse_url($domain)) $refer = 1;
@@ -244,7 +256,7 @@ class RedirectController extends Controller
               $status[$item] = $refer;
               break;
             case '3':
-              $row = EmptyReferrer::where(['item_id' => $src->id, 'table_name' => 'custom_urls'])->first();
+              $row = EmptyReferrer::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
               $empty = 0;
               switch($row->action) {
                 case '0':
@@ -257,7 +269,7 @@ class RedirectController extends Controller
               $status[$item] = $empty;
               break;
             case '4':
-              $row = DeviceType::where(['item_id' => $src->id, 'table_name' => 'custom_urls'])->first();
+              $row = DeviceType::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
               $device = 0;
               $agent = new Agent;
               switch($row->action) {
@@ -284,23 +296,72 @@ class RedirectController extends Controller
               break;
           }
         }
-        // dd($status);
-        $src->take_count ++;
+
+        $redirect_src->take_count ++;
         $flag = 0;
         foreach ($status as $item) {
           if ($item) $flag = 1;
         }
+        switch($redirect_src->table_name) {
+          case 'url_rotator':
+            $url_lists = UrlRotatorList::where('parent_id',$src->id)->get();
+            $list_len = count($url_lists);
+            $index = 0;
+            switch($src->rotation_option) {
+              case '0':
+                $index = rand(0, $list_len - 1);
+                break;
+              case '1':
+                $weight_sum = UrlRotatorList::where('parent_id',$src->id)->sum('weight');
+                $weight_index = [];
+                foreach ($url_lists as $key => $list) {
+                  $weight_item = array_fill(0, $list->weight, $key);
+                  $weight_index = array_merge($weight_index, $weight_item);
+                }
+                $rand = mt_rand(0, $weight_sum - 1);
+                $index = $weight_index[$rand];
+                break;
+              case '2':
+                if ($src->active_position == $list_len - 1) $src->active_position = 0;
+                else $src->active_position ++;
+                $index = $src->active_position;
+                break;
+              case '3':
+                $rand = rand(0, $list_len - 1);
+                $index = $this->pare_count($url_lists,$rand);
+                if ($index == false) {
+                  $flag = 1;
+                }
+                else $url_lists[$index]->take_count ++;
+                break;
+
+            }
+            $redirect_src->dest_url = $url_lists[$index]->dest_url;
+            UrlRotatorList::where(['parent_id' => $src->id, 'uuid' => $index])->update(['take_count' => $url_lists[$index]->take_count ]);
+            break;
+        }
+        Redirect::where('id',$redirect_src->id)->update(['take_count' => $redirect_src->take_count]);
+
         if ($flag) {
-          Redirect::where('id',$data->id)->update(['take_count' => $src->take_count]);
-          echo "<script> window.location.href = '".$data->fallback_url."';</script>";
+          echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
         }
         else {
-          Redirect::where('id',$data->id)->update(['take_count' => $src->take_count]);
-          echo "<script> window.location.href = '".$data->dest_url."';</script>";
+          UrlRotator::where('id',$src->id)->update(['active_position' => $src->active_position]);
+          echo "<script> window.location.href = '".$redirect_src->dest_url."';</script>";
         }
       }
       else {
         return view('error');
       }
     }
+  public function pare_count($data,$index) {
+    if ($data[$index]->take_count < $data[$index]->max_hit_day) {
+      return $index;
+    }
+    else {
+      if (count($data) == 1) return false;
+      $rand = rand(0, count($data) - 1);
+      $this->pare_count($data, $rand);
+    }
+  }
 }

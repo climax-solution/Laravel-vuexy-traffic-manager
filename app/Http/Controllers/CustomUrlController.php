@@ -33,7 +33,7 @@ class CustomUrlController extends Controller
   public function createNewCustomUrl(Request $request) {
     $input = $request->except('_token');
     unset($input['addFile']);
-    $block_item = ['link_name','tracking_url', 'dest_url','fallback_url', 'max_hit_day', 'campaign'];
+    $block_item = ['link_name','tracking_url', 'dest_url','fallback_url', 'max_hit_day', 'campaign', 'pixel'];
     $redirectData = [];
     foreach($block_item as $item) {
       if (isset($input[$item])) {

@@ -15,7 +15,8 @@ class Redirect extends Model
     'campaign',
     'max_hit_day',
     'take_count',
-    'item_name',
+    'pixel',
+    'item_id',
     'table_name',
     'fallback_url',
   ];
