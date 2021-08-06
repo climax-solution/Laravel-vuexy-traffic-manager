@@ -19,9 +19,9 @@ class CreateRedirectsTable extends Migration
             $table->string('link_name')->nullable();
             $table->string('dest_url')->nullable();
             $table->string('tracking_url')->nullable();
-            $table->string('fallback_url');
+            $table->string('fallback_url')->nullable();
             $table->integer('take_count')->default(0);
-            $table->integer('max_hit_day');
+            $table->integer('max_hit_day')->default(0);
             $table->string('campaign')->nullable();
             $table->string('pixel')->nullable();
             $table->string('item_id')->nullable();
