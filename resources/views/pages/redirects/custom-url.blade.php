@@ -47,7 +47,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form form-horizontal">
+                        <form class="form form-horizontal" id="custom-url-create-form">
                             <div class="form-body">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -56,7 +56,7 @@
                                               <span>Link Name: </span>
                                             </div>
                                             <div class="col-md-10">
-                                                <input type="text" id="link_name" class="form-control" name="linkname">
+                                                <input type="text" id="link_name" class="form-control" name="link_name">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -64,7 +64,7 @@
                                             <span>Destination URL: </span>
                                           </div>
                                           <div class="col-md-10">
-                                              <input type="text" id="dest_url" class="form-control" name="desturl">
+                                              <input type="text" id="dest_url" class="form-control" name="dest_url">
                                           </div>
                                       </div>
                                       <div class="form-group row">
@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="col-md-10">
                                           <fieldset class="form-group">
-                                            <select class="form-control" id="tracking_url">
+                                            <select class="form-control" id="tracking_url" name="tracking_url">
                                               @foreach ($track as $key => $item)
                                                 <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                                               @endforeach
@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="col-md-7">
                                           <fieldset class="form-group">
-                                            <select class="form-control" id="pixel">
+                                            <select class="form-control" id="pixel" name="pixel">
                                               @foreach ($pixel as $key => $item)
                                               <option value="{{$key}}">{{ $item }}</option>
                                             @endforeach
@@ -108,7 +108,7 @@
                                         </div>
                                         <div class="col-md-10">
                                           <fieldset class="form-group">
-                                            <select class="form-control" id="campaign">
+                                            <select class="form-control" id="campaign" name="campaign">
                                               @foreach ($campaign as $key => $item)
                                                 <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                                               @endforeach
@@ -130,7 +130,7 @@
                                             </div>
                                             <div class="col-md-7">
                                               <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                                                <input type="checkbox" class="custom-control-input" id="blank-refer-switch">
+                                                <input type="checkbox" class="custom-control-input" id="blank-refer-switch" name="blank-refer-switch">
                                                 <label class="custom-control-label" for="blank-refer-switch"></label>
                                               </div>
                                             </div>
@@ -143,12 +143,12 @@
                                               <div class="row">
                                                 <div class="col-md-4 col-sm-6 col-6">
                                                   <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                                                    <input type="checkbox" class="custom-control-input" id="spoof-refer-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="spoof-refer-switch" name="spoof-refer-switch">
                                                     <label class="custom-control-label" for="spoof-refer-switch"></label>
                                                   </div>
                                                 </div>
                                                 <div class="col-md-8 col-sm-6 col-6">
-                                                  <select class="form-control hidden" id="spoof-select">
+                                                  <select class="form-control hidden" id="spoof-select" name="spoof-select">
                                                     <option value="0" selected>Google</option>
                                                     <option value="1">Twitter</option>
                                                   </select>
@@ -162,7 +162,7 @@
                                             </div>
                                             <div class="col-md-7">
                                               <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                                                <input type="checkbox" class="custom-control-input" id="deep-link-switch">
+                                                <input type="checkbox" class="custom-control-input" id="deep-link-switch" name="deep-link-switch">
                                                 <label class="custom-control-label" for="deep-link-switch"></label>
                                               </div>
                                             </div>
@@ -174,7 +174,7 @@
                                               <span>Max Hits Day:</span>
                                             </div>
                                             <div class="col-md-5">
-                                              <input type='number' class="form-control" id="max_hit_day"/>
+                                              <input type='number' class="form-control" id="max_hit_day" name="max_hit_day"/>
                                             </div>
                                           </div>
                                           <div class="form-group row">
@@ -182,7 +182,7 @@
                                               <span>Fallback URL:</span>
                                             </div>
                                             <div class="col-md-8">
-                                              <input type="text" id="fallback_url" class="form-control" name="fallback">
+                                              <input type="text" id="fallback_url" class="form-control" name="fallback_url">
                                             </div>
                                           </div>
                                         </div>
@@ -202,7 +202,7 @@
                                                 </button>
                                               </div>
                                               <div class="col-md-10 col-sm-10 col-10">
-                                                <select class="form-control" id="active_rule">
+                                                <select class="form-control" id="active_rule" name="active_rule">
                                                   <option value="">ADD NEW RULE</option>
                                                   <option value="geo-ip-group" data-index="0">GeoIP</option>
                                                   <option value="proxy-group" data-index="1">Proxy</option>
@@ -221,7 +221,7 @@
                                                 <span class="mt-1-2 d-inline-block">Geo IP:</span>
                                               </div>
                                               <div class="col-md-8">
-                                                <select class="form-control" id="geo-ip">
+                                                <select class="form-control" id="geo-ip" name="geo-ip">
                                                     <option value="1" selected>Accept only from</option>
                                                     <option value="0">Reject from</option>
                                                 </select>
@@ -236,7 +236,7 @@
                                             </div>
                                             <div class="col-md-9">
                                               <div class="form-group">
-                                                <select class="select2 form-control" multiple="multiple" id="country-list">
+                                                <select class="select2 form-control" multiple="multiple" id="country-list" name="country-list">
                                                   @foreach ($countries as $key => $country)
                                                       <option value="{{$key}}">{{$country}}</option>
                                                   @endforeach
@@ -249,7 +249,7 @@
                                               <span class="mt-1-2 d-inline-block">Country Group: </span>
                                             </div>
                                             <div class="col-md-9">
-                                              <select class="form-control" id="country-group">
+                                              <select class="form-control" id="country-group" name="country-group">
                                                 @foreach ($country_group as $key => $item)
                                                   <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                                                 @endforeach
@@ -303,7 +303,7 @@
                                               </select>
                                             </div>
                                             <div class="col-md-4 col-sm-12 mt-sm-1 mt-md-0 mt-xs-1">
-                                              <input type="text" class="form-control" id="domain-name">
+                                              <input type="text" class="form-control" id="domain-name" name="domain-name">
                                             </div>
                                           </div>
                                         </div>
@@ -362,6 +362,7 @@
 @section('vendor-script')
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
 
 @endsection
 
@@ -370,5 +371,4 @@
     const createURL = "{{route('redirects.create-new-custom-url')}}";
   </script>
   <script src="{{ asset(mix('js/scripts/custom-url.js')) }}"></script>
-
 @endsection

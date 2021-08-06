@@ -59,7 +59,7 @@
                                               <span>Link Name: </span>
                                             </div>
                                             <div class="col-md-10">
-                                                <input type="text" id="link_name" class="form-control" name="linkname">
+                                                <input type="text" id="link_name" class="form-control" name="link_name">
                                             </div>
                                         </div>
                                         <div class="form-group row">

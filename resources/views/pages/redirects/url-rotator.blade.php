@@ -4,7 +4,10 @@
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.css')) }}">
+
   <link rel="stylesheet" href="{{ asset(mix('css/plugins/forms/wizard.css')) }}">
+
   <style>
     ul {
       list-style-type: none;
@@ -13,6 +16,8 @@
 @endsection
 
 @section('page-style')
+<link rel="stylesheet" href="{{ asset(mix('css/plugins/toastr.css')) }}">
+
   <style>
     .xx-small {
       font-size: xx-small;
@@ -53,20 +58,19 @@
         <div class="card">
           <div class="card-content">
             <div class="card-body">
-              <form action="#" class="number-tab-steps wizard-circle">
+              <div action="#" class="number-tab-steps wizard-circle">
 
                 <!-- Step 1 -->
                 <h6>Redirect settings</h6>
                 <fieldset>
-
-                  <div class="row">
+                  <form class="row" id="step-wizard-1">
                     <div class="col-md-12">
                         <div class="form-group row">
                             <div class="col-md-2">
                               <span>Link Name: </span>
                             </div>
                             <div class="col-md-10">
-                                <input type="text" id="link_name" class="form-control" name="linkname">
+                                <input type="text" id="link_name" class="form-control" name="link_name">
                             </div>
                         </div>
                       <div class="form-group row">
@@ -75,7 +79,7 @@
                         </div>
                         <div class="col-md-10">
                           <fieldset class="form-group">
-                            <select class="form-control" id="tracking_url">
+                            <select class="form-control" id="tracking_url" name="tracking_url">
                               @foreach ($track as $key => $item)
                                 <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                               @endforeach
@@ -89,7 +93,7 @@
                         </div>
                         <div class="col-md-7">
                           <fieldset class="form-group">
-                            <select class="form-control" id="pixel">
+                            <select class="form-control" id="pixel" name="pixel">
                               @foreach ($pixel as $key => $item)
                               <option value="{{$key}}">{{ $item }}</option>
                             @endforeach
@@ -110,7 +114,7 @@
                         </div>
                         <div class="col-md-10">
                           <fieldset class="form-group">
-                            <select class="form-control" id="campaign">
+                            <select class="form-control" id="campaign" name="campaign">
                               @foreach ($campaign as $key => $item)
                                 <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                               @endforeach
@@ -132,7 +136,7 @@
                             </div>
                             <div class="col-md-7">
                               <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                                <input type="checkbox" class="custom-control-input" id="blank-refer-switch">
+                                <input type="checkbox" class="custom-control-input" id="blank-refer-switch" name="blank-refer-switch">
                                 <label class="custom-control-label" for="blank-refer-switch"></label>
                               </div>
                             </div>
@@ -144,7 +148,7 @@
                               <span>Max Hits Day:</span>
                             </div>
                             <div class="col-md-5">
-                              <input type='number' class="form-control" id="max_hit_day"/>
+                              <input type='number' class="form-control" id="max_hit_day" name="max_hit_day" name="max_hit_day"/>
                             </div>
                           </div>
                           <div class="form-group row">
@@ -152,7 +156,7 @@
                               <span>Fallback URL:</span>
                             </div>
                             <div class="col-md-8">
-                              <input type="text" id="fallback_url" class="form-control" name="fallback">
+                              <input type="text" id="fallback_url" class="form-control" name="fallback_url">
                             </div>
                           </div>
                         </div>
@@ -172,7 +176,7 @@
                                 </button>
                               </div>
                               <div class="col-md-10 col-sm-10 col-10">
-                                <select class="form-control" id="active_rule">
+                                <select class="form-control" id="active_rule" name="active_rule">
                                   <option value="">ADD NEW RULE</option>
                                   <option value="geo-ip-group" data-index="0">GeoIP</option>
                                   <option value="proxy-group" data-index="1">Proxy</option>
@@ -191,7 +195,7 @@
                                 <span class="mt-1-2 d-inline-block">Geo IP:</span>
                               </div>
                               <div class="col-md-8">
-                                <select class="form-control" id="geo-ip">
+                                <select class="form-control" id="geo-ip" name="geo-ip">
                                     <option value="0" selected>Accept only from</option>
                                     <option value="1">Reject from</option>
                                 </select>
@@ -206,7 +210,7 @@
                             </div>
                             <div class="col-md-9">
                               <div class="form-group">
-                                <select class="select2 form-control" multiple="multiple" id="country-list">
+                                <select class="select2 form-control" multiple="multiple" id="country-list" name="country-list">
                                   @foreach ($countries as $key => $country)
                                       <option value="{{$key}}">{{$country}}</option>
                                   @endforeach
@@ -219,7 +223,7 @@
                               <span class="mt-1-2 d-inline-block">Country Group: </span>
                             </div>
                             <div class="col-md-9">
-                              <select class="form-control" id="country-group">
+                              <select class="form-control" id="country-group" name="country-group">
                                 @foreach ($country_group as $key => $item)
                                   <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                                 @endforeach
@@ -233,7 +237,7 @@
                           <span class="mt-1-2 d-inline-block">Proxy: </span>
                         </div>
                         <div class="col-md-8">
-                          <select class="form-control" id="proxy-action">
+                          <select class="form-control" id="proxy-action" name="proxy-action">
                             <option value="0" selected>Accept visitor only if proxy is detected</option>
                             <option value="1">Reject visitor is proxy is detected</option>
                           </select>
@@ -247,7 +251,7 @@
                                 <span class="d-inline-block mt-1-2">Referrer:</span>
                               </div>
                               <div class="col-md-8">
-                                <select class="form-control" id="referrer-action">
+                                <select class="form-control" id="referrer-action" name="referrer-actioon">
                                   <option value="0" selected>Accept only</option>
                                   <option value="1">Reject</option>
                                 </select>
@@ -261,21 +265,19 @@
                               <span class="d-inline-block mt-1-2">Referrer: </span>
                             </div>
                             <div class="col-md-3 col-sm-6">
-                              <select class="form-control" id="domain-type">
+                              <select class="form-control" id="domain-type" name="domain-type">
                                 <option value="0" selected>Full referrer</option>
                                 <option value="1">Domain only</option>
                               </select>
                             </div>
                             <div class="col-md-3 col-sm-6">
-                              <select class="form-control" id="domain-reg">
-                                <option value="0" selected>Matcheds regex</option>
-                                <option value="1">Does not match</option>
-                                <option value="2">Equals</option>
-                                <option value="3">Does not equal</option>
+                              <select class="form-control" id="domain-reg" name="domain-reg">
+                                <option value="0" selected>Equals</option>
+                                <option value="1">Does not equal</option>
                               </select>
                             </div>
                             <div class="col-md-4 col-sm-12 mt-sm-1 mt-md-0 mt-xs-1">
-                              <input type="text" class="form-control" id="domain-name">
+                              <input type="text" class="form-control" id="domain-name" name="domain-name">
                             </div>
                           </div>
                         </div>
@@ -285,7 +287,7 @@
                           <span class="mt-1-2 d-inline-block">Empty referrer: </span>
                         </div>
                         <div class="col-md-8">
-                          <select class="form-control" id="empty-referrer-action">
+                          <select class="form-control" id="empty-referrer-action" name="empty-referrer-action">
                             <option value="0" selected>Accept visitor only with empty referrer</option>
                             <option value="1">Reject visitor with empty referrer</option>
                           </select>
@@ -299,13 +301,13 @@
                               <span class="d-inline-block mt-1-2">Device Type:</span>
                             </div>
                             <div class="col-md-5">
-                              <select class="form-control" id="device-action-list">
+                              <select class="form-control" id="device-action-list" name="device-action-list">
                                 <option value="0" selected>Accept only from</option>
                                 <option value="1">Reject from</option>
                               </select>
                             </div>
                             <div class="col-md-4">
-                              <select class="form-control" id="device-type-list">
+                              <select class="form-control" id="device-type-list" name="device-type-list">
                                 <option value="0" selected>Desktop</option>
                                 <option value="1">Mobile</option>
                               </select>
@@ -315,21 +317,21 @@
                         <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="device-type-group">REMOVE</button>
                       </div>
                     </div>
-                </div>
+                  </form>
                 </fieldset>
 
                 <!-- Step 3 -->
                 <h6>Manage URLs</h6>
                 <fieldset>
-                  <div class="row">
+                  <form class="row">
                     <div class="col-md-12">
                       <div class="form-group row">
                         <div class="col-md-2">
                           <span>Rotation Options: </span>
                         </div>
                         <div class="col-md-10">
-                          <ul class="list-unstyled mb-0">
-                            <li class="d-inline-block mr-2">
+                          <ul class="list-unstyled mb-0 row">
+                            <li class="d-inline-block col-md-3 col-sm-6">
                               <fieldset>
                                 <div class="custom-control custom-radio">
                                   <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option1" value="0" checked>
@@ -337,7 +339,7 @@
                                 </div>
                               </fieldset>
                             </li>
-                            <li class="d-inline-block mr-2">
+                            <li class="d-inline-block col-md-3 col-sm-6">
                               <fieldset>
                                 <div class="custom-control custom-radio">
                                   <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option2" value="1">
@@ -345,7 +347,7 @@
                                 </div>
                               </fieldset>
                             </li>
-                            <li class="d-inline-block mr-2">
+                            <li class="d-inline-block col-md-3 col-sm-6">
                               <fieldset>
                                 <div class="custom-control custom-radio">
                                   <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option3" value="2">
@@ -353,7 +355,7 @@
                                 </div>
                               </fieldset>
                             </li>
-                            <li class="d-inline-block mr-2">
+                            <li class="d-inline-block col-md-3 col-sm-6">
                               <fieldset>
                                 <div class="custom-control custom-radio">
                                   <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option4" value="3">
@@ -369,24 +371,25 @@
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group row">
-                              <div class="col-md-8">
+                              <div class="col-md-8 col-sm-9 col-8">
                                 <select class="form-control" id="dest_url">
                                   <option value="0">Select from list of redirect links</option>
                                   <option value="1">Enter New</option>
                                 </select>
                               </div>
-                              <div class="col-md-4">
+                              <div class="col-md-4 col-sm-3 col-4">
                                 <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small hidden" id="url-add-btn">ADD</button>
                               </div>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group row">
-                              <div class="col-md-12 text-right">
+                              <div class="col-md-12 text-md-right text-center">
                                 <span>Bulk Upload (Max 1,000Kwds)</span>
                                 <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small" id="upload-btn">UPLOAD</button>
+                                <input type="file" name="csv-file" accept=".csv" class="d-none" id="csv-file"/>
                               </div>
-                              <div class="col-md-12 text-right">
+                              <div class="col-md-12 text-md-right text-center">
                                 <a href="#">Download Sample File</a>
                               </div>
                             </div>
@@ -394,19 +397,23 @@
                         </div>
                       </div>
                       <div class="target-urls-group">
+                        <h4>Target URLs <i class="feather icon-info"></i></h4>
+                        <hr>
                         <div class="row mb-2">
-                          <div class="col-md-4"></div>
-                          <div class="col-md-2"><span>Weight/Max Hits</span></div>
-                          <div class="col-md-2"><span>Spoof Referrer</span></div>
-                          <div class="col-md-2"><span>Deep Link</span></div>
-                          <div class="col-md-2"></div>
+                          <div class="col-md-4 d-md-block d-none"></div>
+                          <div class="col-md-2 d-md-block d-none"><span>Weight/Max Hits</span></div>
+                          <div class="col-md-2 d-md-block d-none"><span>Spoof Referrer</span></div>
+                          <div class="col-md-2 d-md-block d-none"><span>Deep Link</span></div>
+                          <div class="col-md-2 d-md-block d-none"></div>
                         </div>
+                        <div class="all-url-list-group">
+
                         @foreach ($links as $key => $item)
-                          <div class="form-group row">
-                            <div class="col-md-4">
+                          <div class="form-group row target-item-group" data-index="{{$key}}">
+                            <div class="col-md-4 col-8">
                               <span class="dest-url-link">{{$item->dest_url}}</span>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-4">
                               <div class="form-group">
                                 <input type="text" class="form-control form-control-sm weight-or-max_hit">
                               </div>
@@ -431,7 +438,7 @@
                                   </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-6">
                               <div class="form-group row">
                                 <div class="col-md-12">
                                   <div class="custom-control custom-switch custom-switch-success mr-2">
@@ -441,20 +448,24 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-6 text-right">
                               <a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>
-                              <a href="#"><i class="fa fa-trash fa-2x"></i></a>
+                              <a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>
                             </div>
                           </div>
                         @endforeach
-
+                        </div>
                         <div class="hidden form-group row new-url-group">
-                          <div class="col-md-4">
-                            <input type="text" class="form-control form-control-sm" id="target-url">
+                          <div class="col-md-12">
+                            <h4>Add New Url</h4>
+                            <hr>
                           </div>
-                          <div class="col-md-2">
+                          <div class="col-md-4 col-6">
+                            <input type="text" class="form-control form-control-sm" id="target-url" placeholder="Input redirect url.">
+                          </div>
+                          <div class="col-md-2 col-6">
                             <div class="form-group">
-                              <input type="text" class="form-control form-control-sm" id="weight-or-max_hit">
+                              <input type="number" class="form-control form-control-sm" id="weight-or-max_hit">
                             </div>
                           </div>
                           <div class="col-md-2">
@@ -463,13 +474,13 @@
                                   <div class="row">
                                     <div class="col-md-4 col-sm-6 col-6">
                                       <div class="custom-control custom-switch custom-switch-success mr-2">
-                                        <input type="checkbox" class="custom-control-input custom-control-input-sm" id="add-spoof-switch">
+                                        <input type="checkbox" class="custom-control-input custom-control-input-sm"  id="add-spoof-switch">
                                         <label class="custom-control-label" for="add-spoof-switch"></label>
                                       </div>
                                     </div>
                                     <div class="col-md-8 col-sm-6 col-6">
-                                      <select class="form-control form-control-sm " id="add-spoof-select">
-                                        <option value="0">Google</option>
+                                      <select class="form-control form-control-sm hidden" id="add-spoof-select">
+                                        <option value="0" selected>Google</option>
                                         <option value="1">Twitter</option>
                                       </select>
                                     </div>
@@ -477,7 +488,7 @@
                                 </div>
                               </div>
                           </div>
-                          <div class="col-md-2">
+                          <div class="col-md-2 col-6">
                             <div class="form-group row">
                               <div class="col-md-12">
                                 <div class="custom-control custom-switch custom-switch-success mr-2">
@@ -487,15 +498,16 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-2">
+                          <div class="col-md-2 col-6">
+                            <a href="#" id="new-url-add-btn"><i class="fa fa-save fa-2x"></i></a>
                             <a href="#" id="addgroup-hide-btn"><i class="fa fa-trash fa-2x"></i></a>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </form>
                 </fieldset>
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -508,35 +520,21 @@
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/jquery.steps.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
 
 @endsection
 
 @section('page-script')
 <script>
-  const createURL = "{{route('redirects.create-new-custom-url')}}";
+  const createURL = "{{route('redirects.create-new-url-rotator')}}";
 </script>
-<script src="{{ asset(mix('js/scripts/url-rotator.js')) }}"></script>
-  <script>
-    $(function(){
-      $('#dest_url').change(function(){
-        if ($(this).val() == 1) {
-          $('#url-add-btn').removeClass('hidden');
-        }
-        else $('#url-add-btn').addClass('hidden');
-      })
-      $('#url-add-btn').click(function() {
-        $('.new-url-group').removeClass('hidden');
-      })
-      $('#addgroup-hide-btn').click(function(){
-        $('.new-url-group').addClass('hidden');
-      })
-      $('.spoof-switch').change(function() {
-        const index = $('.spoof-switch').index($(this));
-        $('.add-spoof-select').eq(index).toggleClass('hidden');
-      })
-      $('input[name="rotate_option"]').change(function(){
-        console.log($(this).val());
-      })
+<script src="{{asset(mix('js/scripts/url-rotator.js'))}}"></script>
+<script>
+  $(function(){
+    $('body').on('click','.target-item-remove',function(){
+      const index = $('.target-item-remove').index($(this));
+      $('.target-item-group').eq(index).remove();
     })
-  </script>
+  })
+</script>
 @endsection
