@@ -22,7 +22,7 @@ Route::group(['middleware' => ['auth','locked']], function () {
   Route::get('/redirects', 'RedirectController@index')->name('redirects.index');
   Route::get('/redirects/create', 'RedirectController@create')->name('redirects.create');
   Route::get('/redirects/custom-url', 'CustomUrlController@index')->name('redirects.custom-url');
-  Route::get('/redirects/url-rotator', 'RedirectController@urlRotator')->name('redirects.url-rotator');
+  Route::get('/redirects/url-rotator', 'UrlRotatorController@index')->name('redirects.url-rotator');
   //Step Url
   Route::get('/redirects/step-url/asin', 'RedirectController@stepUrlAsin')->name('redirects.step-asin');
   Route::get('/redirects/step-url/store-front', 'RedirectController@stepUrlStoreFront')->name('redirects.step-store-front');
@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth','locked']], function () {
 
   //CRUD
   Route::post('/create-new-custom-url','CustomUrlController@createNewCustomUrl')->name('redirects.create-new-custom-url');
+  Route::post('/create-new-url-rotator','UrlRotatorController@createNewUrlRotator')->name('redirects.create-new-url-rotator');
+  Route::post('/get-csv-data','UrlRotatorController@getCsvData');
 });
 Route::get('/r/{id}','RedirectController@redirectTracking')->name('redirects.redirect-to');
 

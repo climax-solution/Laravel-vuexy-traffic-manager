@@ -3,12 +3,16 @@ $(function(){
   let active_rule = [];
   let addFile = {};
   const validate_list = ['link_name','dest_url','tracking_url','pixel','max_hit_day','fallback_url'];
+  const urlRegex = /^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/;
+
   $(".select2").select2({
     // the following code is used to disable x-scrollbar when click in select input and
     // take 100% width in responsive also
     dropdownAutoWidth: true,
     width: '100%'
   });
+  $('.select2-search__field').attr({'name' : 'country-select-input'});
+
   $('#spoof-refer-switch').change(()=> {
     const SpoofSelect = $('#spoof-select');
     if (SpoofSelect.hasClass('hidden')) SpoofSelect.removeClass('hidden');
@@ -22,38 +26,52 @@ $(function(){
       if (index == -1) active_rule.push(ruleList.indexOf(rule));
     }
   })
-  $('#active_rule').change((e)=> {
-    if ($(this).val() == '') e.preventDefault();
-  })
   $('#done-btn').click(() => {
 
     let flag = 0;
     let saveData = {
       '_token': $('meta[name="csrf-token"]').attr('content')
     };
-    validate_list.map((item, key) => {
-      if (!$('#'+item).val()) flag = 1;
-    })
-    if (!active_rule.length) flag = 1;
-    switch($('#active_rule').val()) {
-      case 'geo-ip-group':
-        if (!$('#country-list').val()) flag = 1;
-        break;
-      case 'referrer-group':
-        if (!$('#domain-name').val()) flag = 1;
-        break;
-    }
+    jQuery.validator.setDefaults({
+      debug: true,
+      success: "valid"
+    });
+    let rule_option = {
+      rules:{
+        link_name: {
+          required: true,
+          minlength: 10
+        },
+        dest_url: {
+          required: true,
+          url: true
+        },
+        max_hit_day: {
+          required: true
+        },
+        fallback_url:{
+          required: true,
+          url: true
+        }
+      }
+    };
 
-    if (flag) {
-      toastr.warning('Warning', 'Input is invalid!');
+    const res = $('#custom-url-create-form').validate(rule_option);
+    $('#custom-url-create-form').valid();
+    if (res.errorList.length) return;
+
+    if (!active_rule.length) {
+      toastr.warning('No selected rules!','Warning');
       return;
     }
     active_rule.map((item) => {
       let row = {};
+      console.log(item);
       switch(item) {
         case 0:
           let country_list = $('#country-list').val();
           if (!country_list.length) {
+            toastr.warning('No selected country.', 'Warning');
             flag = 1;
             break;
           }
@@ -72,6 +90,7 @@ $(function(){
           break;
         case 2:
           if (!$('#domain-name').val()) {
+            toastr.warning('No inputed referrer url.', 'Warning');
             flag = 1;
             break;
           }
@@ -112,7 +131,6 @@ $(function(){
       saveData[item] = $('#' + item).val();
     })
     if ( !active_rule || !addFile || flag ) {
-      toastr.warning('Warning', 'Input is invalid!');
       return;
     }
     saveData['active_rule'] = JSON.stringify(active_rule);
@@ -133,7 +151,13 @@ $(function(){
           type: "success",
           confirmButtonClass: 'btn btn-primary',
           buttonsStyling: false,
-        });
+          confirmButtonText: `RETURN TO DASHBOARD`,
+          allowOutsideClick:false
+        }).then((res) => {
+          if (res.value) {
+            window.location.href = '/redirects';
+          }
+        })
       },
       error: () => {
         toastr.error('Created Error!','Error');
