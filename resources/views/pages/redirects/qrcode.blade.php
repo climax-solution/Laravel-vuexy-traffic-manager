@@ -50,7 +50,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form class="form form-horizontal" id="custom-url-create-form">
+                        <form class="form form-horizontal" id="qr-code-create-form">
                             <div class="form-body">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -119,12 +119,11 @@
                                           </fieldset>
                                         </div>
                                       </div>
-                                      <!-- Begin Advanced Options Divider-->
+                                      <!--
                                       <div class="form-group">
                                         <span class="font-bold">Advanced Options</span>
                                         <hr>
                                       </div>
-                                      <!-- End Advanced Options Divider-->
                                       <div class="form-group row">
                                         <div class="col-md-5">
                                           <div class="form-group row">
@@ -190,12 +189,12 @@
                                           </div>
                                         </div>
                                       </div>
-                                      <!-- Begin Rules Divider-->
+
                                       <div class="form-group">
                                         <span class="font-bold">Rules</span>
                                         <hr>
                                       </div>
-                                      <!-- End Rules Divider-->
+
                                       <div class="form-group row">
                                         <div class="col-md-3">
                                             <div class="row">
@@ -346,6 +345,8 @@
                                       <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="device-type-group">REMOVE</button>
                                     </div>
                                     </div>
+                                  -->
+
                                     <div class="col-md-8 offset-md-4">
                                         <button type="button" class="btn btn-primary mr-1 mt-1 mb-1 pull-right" id="done-btn">DONE</button>
                                     </div>
@@ -371,7 +372,7 @@
 
 @section('page-script')
   <script>
-    const createURL = "{{route('redirects.create-new-custom-url')}}";
+    const createURL = "{{route('redirects.create-new-qr-code')}}";
   </script>
-  <script src="{{ asset(mix('js/scripts/custom-url.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/qr-code.js')) }}"></script>
 @endsection

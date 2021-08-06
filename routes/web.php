@@ -30,10 +30,11 @@ Route::group(['middleware' => ['auth','locked']], function () {
   Route::get('/redirects/step-url/product-result', 'RedirectController@stepUrlProductResult')->name('redirects.step-product-result');
   Route::get('/redirects/step-url/brand', 'RedirectController@stepUrlBrand')->name('redirects.step-brand');
   //
-  Route::get('/redirects/dynamic-qr-code', 'RedirectController@dynamicQrCode')->name('redirects.step-dynamic-qr-code');
+  Route::get('/redirects/dynamic-qr-code', 'QrCodeController@index')->name('redirects.step-dynamic-qr-code');
+  Route::post('/redirects/create-new-qr-code', 'QrCodeController@createNewQrCode')->name('redirects.create-new-qr-code');
+
   Route::get('/redirects/keyword-rotator', 'RedirectController@keywordRotator')->name('redirects.step-keyword-rotator');
-  Route::get('/redirects/cart-url', 'RedirectController@cartUrl')->name('redirects.cart-url');
-  Route::get('/redirects/product-url', 'RedirectController@productUrl')->name('redirects.product-url');
+
   //
   Route::get('/campaigns', 'CampaignController@index')->name('campaigns.index');
   Route::get('/campaigns/create', 'CampaignController@create')->name('campaigns.create');

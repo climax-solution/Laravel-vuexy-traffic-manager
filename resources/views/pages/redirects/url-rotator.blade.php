@@ -12,6 +12,9 @@
     ul {
       list-style-type: none;
     }
+    .error {
+      color: #ea5455 !important;
+    }
   </style>
 @endsection
 
@@ -323,7 +326,7 @@
                 <!-- Step 3 -->
                 <h6>Manage URLs</h6>
                 <fieldset>
-                  <form class="row">
+                  <div class="row">
                     <div class="col-md-12">
                       <div class="form-group row">
                         <div class="col-md-2">
@@ -401,7 +404,10 @@
                         <hr>
                         <div class="row mb-2">
                           <div class="col-md-4 d-md-block d-none"></div>
-                          <div class="col-md-2 d-md-block d-none"><span>Weight/Max Hits</span></div>
+                          <div class="col-md-2 d-md-block d-none">
+                            <span class="weight-hit hidden weight-text">Weight</span>
+                            <span class="weight-hit hidden max-hit-text">Max Hits</span>
+                          </div>
                           <div class="col-md-2 d-md-block d-none"><span>Spoof Referrer</span></div>
                           <div class="col-md-2 d-md-block d-none"><span>Deep Link</span></div>
                           <div class="col-md-2 d-md-block d-none"></div>
@@ -455,17 +461,17 @@
                           </div>
                         @endforeach
                         </div>
-                        <div class="hidden form-group row new-url-group">
+                        <form class="hidden form-group row new-url-group">
                           <div class="col-md-12">
                             <h4>Add New Url</h4>
                             <hr>
                           </div>
                           <div class="col-md-4 col-6">
-                            <input type="text" class="form-control form-control-sm" id="target-url" placeholder="Input redirect url.">
+                            <input type="text" class="form-control form-control-sm" id="target-url" name="target-url" placeholder="Input redirect url.">
                           </div>
                           <div class="col-md-2 col-6">
                             <div class="form-group">
-                              <input type="number" class="form-control form-control-sm" id="weight-or-max_hit">
+                              <input type="number" class="form-control form-control-sm" id="weight-or-max_hit" name="weight-or-max_hit">
                             </div>
                           </div>
                           <div class="col-md-2">
@@ -474,12 +480,12 @@
                                   <div class="row">
                                     <div class="col-md-4 col-sm-6 col-6">
                                       <div class="custom-control custom-switch custom-switch-success mr-2">
-                                        <input type="checkbox" class="custom-control-input custom-control-input-sm"  id="add-spoof-switch">
+                                        <input type="checkbox" class="custom-control-input custom-control-input-sm"  id="add-spoof-switch" name="add-spoof-switch">
                                         <label class="custom-control-label" for="add-spoof-switch"></label>
                                       </div>
                                     </div>
                                     <div class="col-md-8 col-sm-6 col-6">
-                                      <select class="form-control form-control-sm hidden" id="add-spoof-select">
+                                      <select class="form-control form-control-sm hidden" id="add-spoof-select" name="add-spoof-select">
                                         <option value="0" selected>Google</option>
                                         <option value="1">Twitter</option>
                                       </select>
@@ -492,20 +498,20 @@
                             <div class="form-group row">
                               <div class="col-md-12">
                                 <div class="custom-control custom-switch custom-switch-success mr-2">
-                                  <input type="checkbox" class="custom-control-input custom-control-input-sm" id="add-deep-switch">
+                                  <input type="checkbox" class="custom-control-input custom-control-input-sm" id="add-deep-switch" name="add-deep-switch">
                                   <label class="custom-control-label" for="add-deep-switch"></label>
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div class="col-md-2 col-6">
-                            <a href="#" id="new-url-add-btn"><i class="fa fa-save fa-2x"></i></a>
-                            <a href="#" id="addgroup-hide-btn"><i class="fa fa-trash fa-2x"></i></a>
+                            <a id="new-url-add-btn"><i class="fa fa-save fa-2x"></i></a>
+                            <a id="addgroup-hide-btn"><i class="fa fa-trash fa-2x"></i></a>
                           </div>
-                        </div>
+                        </form>
                       </div>
                     </div>
-                  </form>
+                  </div>
                 </fieldset>
               </div>
             </div>

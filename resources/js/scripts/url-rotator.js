@@ -34,18 +34,16 @@ $(function(){
               required: true,
               url: true
             }
-          },
-          highlight: function (element) {
-            $(element).addClass('text-danger')
-          },
-          unhighlight: function (element) {
-              $(element).removeClass('text-danger')
           }
         };
 
         const res = $('#step-wizard-1').validate(rule_option);
         $('#step-wizard-1').valid();
         if (res.errorList.length) return;
+        if (!active_rule.length) {
+          toastr.warning('No selected rule.', 'Warning');
+          return;
+        }
         active_rule.map((item) => {
           let row = {};
           switch(item) {
@@ -102,7 +100,7 @@ $(function(){
         let advance_options = {
           blank: $('#blank-refer-switch')[0].checked ? 1 : 0,
         };
-        if ( !active_rule || !addFile || flag ) {
+        if ( !active_rule.length || !addFile || flag ) {
           return;
         }
         let spoof_sevice = '';
@@ -219,7 +217,16 @@ $(function(){
     $('.add-spoof-select').eq(index).toggleClass('hidden');
   })
   $('input[name="rotate_option"]').change(function(){
-    console.log($(this).val());
+    switch($(this).val()) {
+      case '1':
+        $('.weight-hit').addClass('hidden');
+        $('.weight-text').removeClass('hidden');
+        break;
+      case '3':
+          $('.weight-hit').addClass('hidden');
+          $('.max-hit-text').removeClass('hidden');
+          break;
+    }
   })
   $('#add-spoof-switch').change(function() {
     $('#add-spoof-select').toggleClass('hidden');
@@ -230,8 +237,19 @@ $(function(){
     const spoof_checked = $('#add-spoof-switch').prop('checked');
     const deep_checked = $('#add-deep-switch').prop('checked');
     const spoof_service = $('#add-spoof-select').val();
-    if (!targetUrl || !weightHit || targetUrl && !urlRegex.test(targetUrl)) {
-      toastr.warning('Input is invalid!','Warning');
+    let res = $('.new-url-group').validate({
+      rules:{
+        'target-url': {
+          required: true,
+          url: true
+        },
+        'weight-or-max_hit': {
+          required: true
+        }
+      }
+    });
+    $('.new-url-group').valid();
+    if (res.errorList.length) {
       return;
     }
     const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();

@@ -66,7 +66,6 @@ $(function(){
     }
     active_rule.map((item) => {
       let row = {};
-      console.log(item);
       switch(item) {
         case 0:
           let country_list = $('#country-list').val();
@@ -130,7 +129,7 @@ $(function(){
     validate_list.map(item => {
       saveData[item] = $('#' + item).val();
     })
-    if ( !active_rule || !addFile || flag ) {
+    if ( !active_rule.length || !addFile || flag ) {
       return;
     }
     saveData['active_rule'] = JSON.stringify(active_rule);
