@@ -11,29 +11,9 @@
             "path": "url-rotator"
         },
         {
-            "name": "2-Step URL - ASIN",
+            "name": "2-Step URL",
             "description": "2-Step URL that provides incredible ranking results. This URL restricts products through an ASIN and a keyword. #1 ranking choice. After much testing, we have seen fantastic results with this URL.",
-            "path": "step-asin"
-        },
-        {
-            "name": "2-Step URL - STORE FRONT",
-            "description": "2-Step URL that provides incredible ranking results. This URL restricts products through an ASIN and a keyword. #1 ranking choice. After much testing, we have seen fantastic results with this URL.",
-            "path": "step-store-front"
-        },
-        {
-          "name": "2-Step URL - HIDDEN KEYWORD",
-          "description": "2-Step URL that provides incredible ranking results. This URL restricts products through an ASIN and a keyword. #1 ranking choice. After much testing, we have seen fantastic results with this URL.",
-          "path": "step-hidden-keyword"
-        },
-        {
-          "name": "2-Step URL - PRODUCT PAGE FROM SEARCH RESULTS",
-          "description": "2-Step URL that provides incredible ranking results. This URL restricts products through an ASIN and a keyword. #1 ranking choice. After much testing, we have seen fantastic results with this URL.",
-          "path": "step-product-result"
-        },
-        {
-          "name": "2-Step URL - BRAND 2 STEP URL",
-          "description": "2-Step URL that provides incredible ranking results. This URL restricts products through an ASIN and a keyword. #1 ranking choice. After much testing, we have seen fantastic results with this URL.",
-          "path": "step-brand"
+            "path": "step-url"
         },
         {
             "name": "Dynamic QR Code",

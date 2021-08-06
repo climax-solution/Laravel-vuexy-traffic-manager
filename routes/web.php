@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth','locked']], function () {
   Route::get('/redirects/custom-url', 'CustomUrlController@index')->name('redirects.custom-url');
   Route::get('/redirects/url-rotator', 'UrlRotatorController@index')->name('redirects.url-rotator');
   //Step Url
+  Route::get('/redirects/step-url', 'StepUrlController@index')->name('redirects.step-url');
   Route::get('/redirects/step-url/asin', 'RedirectController@stepUrlAsin')->name('redirects.step-asin');
   Route::get('/redirects/step-url/store-front', 'RedirectController@stepUrlStoreFront')->name('redirects.step-store-front');
   Route::get('/redirects/step-url/hidden-keyword', 'RedirectController@stepUrlHiddenKeyword')->name('redirects.step-hidden-keyword');
@@ -46,7 +47,11 @@ Route::group(['middleware' => ['auth','locked']], function () {
   //CRUD
   Route::post('/create-new-custom-url','CustomUrlController@createNewCustomUrl')->name('redirects.create-new-custom-url');
   Route::post('/create-new-url-rotator','UrlRotatorController@createNewUrlRotator')->name('redirects.create-new-url-rotator');
+
+  Route::post('/create-new-step-asin','StepUrlController@createNewStepAsin')->name('redirects.create-new-step-asin');
+
   Route::post('/get-csv-data','UrlRotatorController@getCsvData');
+  Route::post('/get-csv-data-step-asin','StepUrlController@getCsvData');
 });
 Route::get('/r/{id}','RedirectController@redirectTracking')->name('redirects.redirect-to');
 
