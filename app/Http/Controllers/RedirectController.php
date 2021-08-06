@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asin;
 use App\Models\CustomUrl;
 use App\Models\DeviceType;
 use App\Models\EmptyReferrer;
@@ -10,6 +11,7 @@ use App\Models\Proxy;
 use Illuminate\Http\Request;
 use App\Models\Redirect;
 use App\Models\Referrer;
+use App\Models\StepUrlList;
 use App\Models\UrlRotator;
 use App\Models\UrlRotatorList;
 use Monarobase\CountryList\CountryListFacade;
@@ -139,17 +141,25 @@ class RedirectController extends Controller
 
     public function redirectTracking(Request $request) {
       // dd($_SERVER);
+      $Model = '';
+      $ReList = StepUrlList::class;
       $id = $request->id;
       $redirect_src = Redirect::where('uuid', $id)->first();
       $src = '';
       switch($redirect_src->table_name) {
         case 'custom_urls':
-          $src = CustomUrl::where('id',$redirect_src->item_id)->first();
+          $Model = CustomUrl::class;
           break;
         case 'url_rotator':
-          $src = UrlRotator::where('id',$redirect_src->item_id)->first();
+          $Model = UrlRotator::class;
+          $ReList = UrlRotator::class;
+          break;
+        case 'asin':
+          $Model = Asin::class;
           break;
       };
+      $src = $Model::where('id',$redirect_src->item_id)->first();
+
       if ($redirect_src->table_name != 'qr_code' && !$src) {
         $message = "No Exist redirect_src.";
         return;
@@ -306,8 +316,13 @@ class RedirectController extends Controller
           if ($item) $flag = 1;
         }
         switch($redirect_src->table_name) {
-          case 'url_rotator':
-            $url_lists = UrlRotatorList::where('parent_id',$src->id)->get();
+          case 'custom_url':
+            break;
+          case 'qr_code':
+            break;
+          default:
+            $url_lists = $ReList::where('parent_id',$src->id)->get();
+            $weight_sum = $ReList::where('parent_id',$src->id)->sum('weight');
             $list_len = count($url_lists);
             $index = 0;
             switch($src->rotation_option) {
@@ -315,7 +330,6 @@ class RedirectController extends Controller
                 $index = rand(0, $list_len - 1);
                 break;
               case '1':
-                $weight_sum = UrlRotatorList::where('parent_id',$src->id)->sum('weight');
                 $weight_index = [];
                 foreach ($url_lists as $key => $list) {
                   $weight_item = array_fill(0, $list->weight, $key);
@@ -340,17 +354,16 @@ class RedirectController extends Controller
 
             }
             $redirect_src->dest_url = $url_lists[$index]->dest_url;
-            UrlRotatorList::where(['parent_id' => $src->id, 'uuid' => $index])->update(['take_count' => $url_lists[$index]->take_count ]);
+            $ReList::where(['parent_id' => $src->id, 'uuid' => $index])->update(['take_count' => $url_lists[$index]->take_count ]);
             break;
         }
         if ($redirect_src->table_name != 'qr_code') Redirect::where('id',$redirect_src->id)->update(['take_count' => $redirect_src->take_count]);
-
         if ($flag) {
           echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
         }
         else {
-          if ($redirect_src->table_name != 'qr_code' ) {
-            UrlRotator::where('id',$src->id)->update(['active_position' => $src->active_position]);
+          if ($redirect_src->table_name != 'qr_code' && $redirect_src->table_name != 'custom_url' ) {
+            $Model::where('id',$src->id)->update(['active_position' => $src->active_position]);
           }
           echo "<script> window.location.href = '".$redirect_src->dest_url."';</script>";
         }
