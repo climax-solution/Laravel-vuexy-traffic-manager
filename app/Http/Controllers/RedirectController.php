@@ -150,92 +150,69 @@ class RedirectController extends Controller
           $src = UrlRotator::where('id',$redirect_src->item_id)->first();
           break;
       };
-      if (!$src) {
+      if ($redirect_src->table_name != 'qr_code' && !$src) {
         $message = "No Exist redirect_src.";
         return;
       }
-      if ($redirect_src->max_hit_day == $redirect_src->take_count) {
+
+      if ($redirect_src->table_name != 'qr_code' && $redirect_src->max_hit_day == $redirect_src->take_count) {
         echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
       }
       $ip = $request->ip();
       $ip = "188.43.136.32";
       $data = \Location::get($ip);
       $status = [];
-      $active_rule = json_decode($src->active_rule, true);
+      if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
       $countryCode = $data->countryCode;
       if (!is_bool($data)) {
-        foreach($active_rule as $item) {
-          $status[$item] = 0;
-          switch($item) {
-            case '0':
-              $row = GeoIp::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
-              $country_list = explode(',',$row->country_list);
-              $country_status = array_search($countryCode, $country_list);
-              $geoip = 0;
-              switch($row->action) {
-                case '0':
-                  if ( $country_status != false ) $geoip = 1;
-                  break;
-                case '1':
-                  if ( !$country_status ) $geoip = 1;
-              }
-              $status[$item] = $geoip;
-              break;
-            case '1':
-              $row = Proxy::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
-              $check = new \IP2Proxy\Database(base_path('vendor/ip2location/ip2proxy-php/data/PX10.SAMPLE.BIN'), \IP2PROXY\Database::FILE_IO);
-              $res = $check->lookup($ip, \IP2PROXY\Database::ALL);
-              $proxy = 0;
-              switch($row->action) {
-                case '0':
-                  if ($res['isProxy']) $proxy = 1;
-                  break;
-                case '1':
-                  if (!$res['isProxy']) $proxy = 1;
-                  break;
-              }
-              $status[$item] = $proxy;
-              break;
-            case '2':
-              $row = Referrer::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
-              $domain = $row->domain_name;
-              $refer = 0;
-              $REFERRER = ($_SERVER);
-              switch($row->action) {
-                case '0':
-                  switch($row->domain_type) {
-                    case '0':
-                      switch($row->domain_reg) {
-                        case '0':
-                          if ($redirect_src->dest_url != $domain) $refer = 1;
-                          break;
-                        case '1':
-                          if ($redirect_src->dest_url == $domain) $refer = 1;
-                          break;
-                      }
-                      break;
-                    case '1':
-                      $parse_domain = parse_url($redirect_src->dest_url);
-                      switch($row->domain_reg) {
-                        case '0':
-                          if ($parse_domain == $domain) $refer = 1;
-                          break;
-                        case '1':
-                          if ($parse_domain != $domain) $refer = 1;
-                          break;
-                      }
-                      break;
-                  }
-                  break;
-                case '1':
+        if ($redirect_src->table_name != 'qr_code') {
+          foreach($active_rule as $item) {
+            $status[$item] = 0;
+            switch($item) {
+              case '0':
+                $row = GeoIp::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
+                $country_list = explode(',',$row->country_list);
+                $country_status = array_search($countryCode, $country_list);
+                $geoip = 0;
+                switch($row->action) {
+                  case '0':
+                    if ( $country_status != false ) $geoip = 1;
+                    break;
+                  case '1':
+                    if ( !$country_status ) $geoip = 1;
+                }
+                $status[$item] = $geoip;
+                break;
+              case '1':
+                $row = Proxy::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
+                $check = new \IP2Proxy\Database(base_path('vendor/ip2location/ip2proxy-php/data/PX10.SAMPLE.BIN'), \IP2PROXY\Database::FILE_IO);
+                $res = $check->lookup($ip, \IP2PROXY\Database::ALL);
+                $proxy = 0;
+                switch($row->action) {
+                  case '0':
+                    if ($res['isProxy']) $proxy = 1;
+                    break;
+                  case '1':
+                    if (!$res['isProxy']) $proxy = 1;
+                    break;
+                }
+                $status[$item] = $proxy;
+                break;
+              case '2':
+                $row = Referrer::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
+                $domain = $row->domain_name;
+                $refer = 0;
+                $REFERRER = ($_SERVER);
+                switch($row->action) {
+                  case '0':
                     switch($row->domain_type) {
                       case '0':
                         switch($row->domain_reg) {
                           case '0':
-                            if ($redirect_src->dest_url == $domain) $refer = 1;
+                            if ($redirect_src->dest_url != $domain) $refer = 1;
                             break;
                           case '1':
-                            if ($redirect_src->dest_url != $domain) $refer = 1;
+                            if ($redirect_src->dest_url == $domain) $refer = 1;
                             break;
                         }
                         break;
@@ -243,57 +220,83 @@ class RedirectController extends Controller
                         $parse_domain = parse_url($redirect_src->dest_url);
                         switch($row->domain_reg) {
                           case '0':
-                            if ($parse_domain == parse_url($domain)) $refer = 1;
+                            if ($parse_domain == $domain) $refer = 1;
                             break;
                           case '1':
-                            if ($parse_domain != parse_url($domain)) $refer = 1;
+                            if ($parse_domain != $domain) $refer = 1;
                             break;
                         }
                         break;
                     }
                     break;
-              }
-              $status[$item] = $refer;
-              break;
-            case '3':
-              $row = EmptyReferrer::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
-              $empty = 0;
-              switch($row->action) {
-                case '0':
-                  if (!isset($_SERVER['HTTP_REFERER'])) $empty = 1;
-                  break;
-                case '1':
-                  if (isset($_SERVER['HTTP_REFERER'])) $empty = 1;
-                  break;
-              }
-              $status[$item] = $empty;
-              break;
-            case '4':
-              $row = DeviceType::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
-              $device = 0;
-              $agent = new Agent;
-              switch($row->action) {
-                case '0':
-                  switch($row->device) {
-                    case '0':
-                      if ($agent->isMobile()) $device = 1;
+                  case '1':
+                      switch($row->domain_type) {
+                        case '0':
+                          switch($row->domain_reg) {
+                            case '0':
+                              if ($redirect_src->dest_url == $domain) $refer = 1;
+                              break;
+                            case '1':
+                              if ($redirect_src->dest_url != $domain) $refer = 1;
+                              break;
+                          }
+                          break;
+                        case '1':
+                          $parse_domain = parse_url($redirect_src->dest_url);
+                          switch($row->domain_reg) {
+                            case '0':
+                              if ($parse_domain == parse_url($domain)) $refer = 1;
+                              break;
+                            case '1':
+                              if ($parse_domain != parse_url($domain)) $refer = 1;
+                              break;
+                          }
+                          break;
+                      }
                       break;
-                    case '1':
-                      if ($agent->isDesktop()) $device = 1;
-                  }
-                  break;
-                case '1':
-                  switch($row->device) {
-                    case '0':
-                      if ($agent->isMobile()) $device = 1;
-                      break;
-                    case '1':
-                      if ($agent->isDesktop()) $device = 1;
-                  }
-                  break;
-              }
-              $status[$device] = $device;
-              break;
+                }
+                $status[$item] = $refer;
+                break;
+              case '3':
+                $row = EmptyReferrer::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
+                $empty = 0;
+                switch($row->action) {
+                  case '0':
+                    if (!isset($_SERVER['HTTP_REFERER'])) $empty = 1;
+                    break;
+                  case '1':
+                    if (isset($_SERVER['HTTP_REFERER'])) $empty = 1;
+                    break;
+                }
+                $status[$item] = $empty;
+                break;
+              case '4':
+                $row = DeviceType::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
+                $device = 0;
+                $agent = new Agent;
+                switch($row->action) {
+                  case '0':
+                    switch($row->device) {
+                      case '0':
+                        if ($agent->isMobile()) $device = 1;
+                        break;
+                      case '1':
+                        if ($agent->isDesktop()) $device = 1;
+                    }
+                    break;
+                  case '1':
+                    switch($row->device) {
+                      case '0':
+                        if ($agent->isMobile()) $device = 1;
+                        break;
+                      case '1':
+                        if ($agent->isDesktop()) $device = 1;
+                    }
+                    break;
+                }
+                $status[$device] = $device;
+                break;
+            }
           }
         }
 
@@ -340,13 +343,15 @@ class RedirectController extends Controller
             UrlRotatorList::where(['parent_id' => $src->id, 'uuid' => $index])->update(['take_count' => $url_lists[$index]->take_count ]);
             break;
         }
-        Redirect::where('id',$redirect_src->id)->update(['take_count' => $redirect_src->take_count]);
+        if ($redirect_src->table_name != 'qr_code') Redirect::where('id',$redirect_src->id)->update(['take_count' => $redirect_src->take_count]);
 
         if ($flag) {
           echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
         }
         else {
-          UrlRotator::where('id',$src->id)->update(['active_position' => $src->active_position]);
+          if ($redirect_src->table_name != 'qr_code' ) {
+            UrlRotator::where('id',$src->id)->update(['active_position' => $src->active_position]);
+          }
           echo "<script> window.location.href = '".$redirect_src->dest_url."';</script>";
         }
       }
