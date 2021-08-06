@@ -55,6 +55,11 @@ return [
             'visibility' => 'public',
         ],
 
+        'csv_file' => [
+          'driver' => 'local',
+          'root' => public_path('csv_file'),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
