@@ -18,6 +18,7 @@ class CreateUrlRotatorsTable extends Migration
             $table->json('advance_options')->nullable();
             $table->string('pixel')->nullable();
             $table->string('active_rule')->nullable();
+            $table->integer('active_position')->default(0);
             $table->enum('rotation_option',[0,1,2,3])->default(0);
             $table->timestamps();
         });

@@ -23,6 +23,7 @@ class CreateRedirectsTable extends Migration
             $table->integer('take_count')->default(0);
             $table->integer('max_hit_day');
             $table->string('campaign')->nullable();
+            $table->string('pixel')->nullable();
             $table->string('item_id')->nullable();
             $table->string('table_name')->nullable();
             $table->timestamps();
