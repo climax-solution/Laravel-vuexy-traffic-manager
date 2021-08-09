@@ -30,7 +30,7 @@ class UrlRotatorController extends Controller {
   }
 
   public function index() {
-    $links = Redirect::select('dest_url')->where('table_name', '!=' ,'url_rotator')->get();
+    $links = Redirect::select('dest_url')->where('table_name', 'custom_url')->get();
     $compactData = $this->compactData;
     $compactData['links'] = $links;
     return view('/pages/redirects/url-rotator',$compactData);

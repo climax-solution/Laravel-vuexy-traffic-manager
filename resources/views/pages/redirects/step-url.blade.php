@@ -52,7 +52,7 @@
 @section('content')
 	<div class="row">
     <div class="col-md-12">
-      <span>Edit Redirect Link.</span>
+      <span>Create New Step URL Redirect Link.</span>
       <button type="button" class="btn btn-outline-dark round mr-1 mb-1 pull-right f-10">You are creating a Custom URL redirect</button>
 
     </div>
@@ -386,7 +386,7 @@
                 <h6>Select options</h6>
                 <fieldset>
                   <div class="row">
-                    <h1 class="mb-1">ASIN 2-STEP URL</h1>
+                    <h1 class="mb-1 step-text">ASIN 2-STEP URL</h1>
                     <div class="col-md-12">
                       <div class="asin-group">
                         <div class="row">

@@ -3,6 +3,7 @@ $(function(){
   let active_rule = [];
   let addFile = {};
   const validate_list = ['link_name','tracking_url','pixel','max_hit_day','fallback_url','amazon_aff_id'];
+  let step_text = 'ASIN 2-Step URL';
   let saveData = {
     '_token': $('meta[name="csrf-token"]').attr('content')
   };
@@ -117,18 +118,29 @@ $(function(){
         saveData.advance_options = JSON.stringify(advance_options);
         saveData.spoof_service = spoof_sevice;
         saveData.campaign = $('#campaign').val();
+        if ($('#link_type').val() == '4') $('.brand-input').removeClass('hidden');
+        else $('.brand-input').addClass('hidden');
         switch($('#link_type').val()) {
           case '1':
+            step_text = 'STOREFRONT 2-STEP URL';
             $('#asin-label').addClass('hidden');
             $('#merchant-label').removeClass('hidden');
+            break;
+          case '2':
+            step_text = 'HIDDEN KEYWORD 2-STEP URL';
+            break;
+          case '3':
+            step_text = 'PRODUCT PAGE FROM SEARCH RESULTS';
+            break;
+          case '4':
+            step_text = 'BRAND 2-STEP URL';
             break;
           default:
             $('#asin-label').removeClass('hidden');
             $('#merchant-label').addClass('hidden');
             break;
         }
-        if ($('#link_type').val() == '4') $('.brand-input').removeClass('hidden');
-        else $('.brand-input').addClass('hidden');
+        $('.step-text').html(step_text);
         return true;
       },
       onFinishing: () => {
@@ -162,8 +174,20 @@ $(function(){
             url: createURL,
             data: saveData,
             success:function(res) {
+              let title = '';
+              switch($('#link_type').val()) {
+                case '3':
+                  title = 'Product Page from Search Results URL';
+                  break;
+                case '4':
+                  title = 'Brand 2-Step URL';
+                  break;
+                default:
+                  title = 'ASIN 2-Step URL';
+                  break;
+              }
               Swal.fire({
-                title: "ASIN Step URL successfully created.",
+                title: title + " successfully created.",
                 html : "<p>Your Unique URL is</p><p>"+res.url+"</p>",
                 type: "success",
                 confirmButtonClass: 'btn btn-primary',
@@ -278,13 +302,19 @@ $(function(){
     switch($('#link_type').val()) {
       case '1':
         preview_link = 'https://www.amazon.com' + (market ? '.' + market: '') + '/s?k=' + keyword + '&me=' + $('#asin').val() + '&ref=nb_sb_noss&' + $('#custom-parameter').val();
+        step_text = 'STOREFRONT 2-STEP URL';
         break;
       case '2':
         preview_link = 'https://www.amazon.com' + (market ? '.' + market: '') + '/s?k=' + keyword + '&hidden-keywords=' + $('#asin').val() + '&ref=nb_sb_noss_1&' + $('#custom-parameter').val();
+        step_text = 'HIDDEN KEYWORD 2-STEP URL';
+        break;
+      case '3':
+        preview_link = 'https://www.amazon.com' + (market ? '.' + market: '') + '/dp/' + $('#asin').val();
+        step_text = 'PRODUCT PAGE FROM SEARCH RESULTS';
         break;
       case '4':
         preview_link = 'https://www.amazon.com' + (market ? '.' + market: '') + '/s?k=' + keyword + '&rh=p_4%3A123%2Cp_78%3A' + $('#asin').val() + '&ref=nb_sb_noss_2&' + $('#custom-parameter').val();
-
+        step_text = 'BRAND 2-STEP URL';
         break;
     }
     let html ='<div class="form-group row target-item-group">'+

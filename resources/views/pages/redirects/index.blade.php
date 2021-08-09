@@ -85,7 +85,7 @@
 					  @foreach ($redirects as $redirect)
 					  <tr>
 							<td>{{ $redirect->id }}</td>
-							<td>{{ $redirect->url }}</td>
+							<td>{{ $redirect->dest_url }}</td>
 						  	<td>
 								<div class="custom-control custom-switch custom-switch-danger switch-lg mr-2">
 									<input id="locked_{{ $redirect->id }}" class="custom-control-input" type="checkbox" {{ $redirect->active == 1 ? "checked" : "" }}>
@@ -96,7 +96,7 @@
 								</div>
 							</td>
 							<td>{{ $redirect->order }}</td>
-							<td>{{ $redirect->max_daily_hits }}</td>
+							<td>{{ $redirect->max_hit_day }}</td>
 							<td></td>
 					  </tr>
 					  @endforeach

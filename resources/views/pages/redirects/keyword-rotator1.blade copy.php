@@ -3,24 +3,17 @@
 @section('title', trans('locale.CreateNewRedirect'))
 
 @section('vendor-style')
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/pickadate/pickadate.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
-  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.css')) }}">
-
   <link rel="stylesheet" href="{{ asset(mix('css/plugins/forms/wizard.css')) }}">
-
   <style>
     ul {
       list-style-type: none;
-    }
-    .error {
-      color: #ea5455 !important;
     }
   </style>
 @endsection
 
 @section('page-style')
-<link rel="stylesheet" href="{{ asset(mix('css/plugins/toastr.css')) }}">
-
   <style>
     .xx-small {
       font-size: xx-small;
@@ -43,9 +36,6 @@
     .top-1-2 {
       top: 0.5rem !important
     }
-    .text-break-all {
-      word-break: break-all;
-    }
   </style>
 @endsection
 
@@ -64,12 +54,13 @@
         <div class="card">
           <div class="card-content">
             <div class="card-body">
-              <div action="#" class="number-tab-steps wizard-circle">
+              <form action="#" class="number-tab-steps wizard-circle">
 
                 <!-- Step 1 -->
                 <h6>Redirect settings</h6>
                 <fieldset>
-                  <form class="row" id="step-wizard-1">
+
+                  <div class="row">
                     <div class="col-md-12">
                         <div class="form-group row">
                             <div class="col-md-2">
@@ -84,7 +75,7 @@
                             <span>Destination URL: </span>
                           </div>
                           <div class="col-md-10">
-                              <input type="text" id="dest_url" class="form-control" name="dest_url">
+                              <input type="text" id="dest_url" class="form-control" name="desturl">
                           </div>
                       </div>
                       <div class="form-group row">
@@ -93,10 +84,10 @@
                         </div>
                         <div class="col-md-10">
                           <fieldset class="form-group">
-                            <select class="form-control" id="tracking_url" name="tracking_url">
-                              @foreach ($track as $key => $item)
-                                <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
-                              @endforeach
+                            <select class="form-control" id="trackingurl">
+                                <option>IT</option>
+                                <option>Blade Runner</option>
+                                <option>Thor Ragnarok</option>
                             </select>
                         </fieldset>
                         </div>
@@ -107,10 +98,10 @@
                         </div>
                         <div class="col-md-7">
                           <fieldset class="form-group">
-                            <select class="form-control" id="pixel" name="pixel">
-                              @foreach ($pixel as $key => $item)
-                              <option value="{{$key}}">{{ $item }}</option>
-                            @endforeach
+                            <select class="form-control" id="pixel">
+                                <option>IT</option>
+                                <option>Blade Runner</option>
+                                <option>Thor Ragnarok</option>
                             </select>
                             <span class="xx-small">The pixel will be fired before the user is redirected to the Destination URL.</span>
                           </fieldset>
@@ -129,14 +120,14 @@
                       </div>
                       <!-- End Advanced Options Divider-->
                       <div class="form-group row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                           <div class="form-group row">
                             <div class="col-md-5">
                               <span>Blank Referrer: </span>
                             </div>
                             <div class="col-md-7">
                               <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                                <input type="checkbox" class="custom-control-input" id="blank-refer-switch" name="blank-refer-switch">
+                                <input type="checkbox" class="custom-control-input" id="blank-refer-switch">
                                 <label class="custom-control-label" for="blank-refer-switch"></label>
                               </div>
                             </div>
@@ -147,19 +138,20 @@
                             </div>
                             <div class="col-md-7">
                               <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                                <input type="checkbox" class="custom-control-input" id="deep-link-switch" name="deep-link-switch">
+                                <input type="checkbox" class="custom-control-input" id="deep-link-switch">
                                 <label class="custom-control-label" for="deep-link-switch"></label>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-8">
                           <div class="form-group row">
                             <div class="col-md-4">
                               <span>Max Hits Day:</span>
                             </div>
                             <div class="col-md-5">
-                              <input type='number' class="form-control" id="max_hit_day" name="max_hit_day"/>
+                              <input type='text' class="form-control pickadate" />
+
                             </div>
                           </div>
                           <div class="form-group row">
@@ -167,7 +159,7 @@
                               <span>Fallback URL:</span>
                             </div>
                             <div class="col-md-8">
-                              <input type="text" id="fallback_url" class="form-control" name="fallback_url">
+                              <input type="text" id="fallback_url" class="form-control" name="fallback">
                             </div>
                           </div>
                         </div>
@@ -182,46 +174,46 @@
                         <div class="col-md-3">
                             <div class="row">
                               <div class="col-md-2 col-sm-2 col-2">
-                                <button type="button" class="btn btn-icon btn-outline-light waves-effect waves-light" id="rule-box-toggle">
+                                <button type="button" class="btn btn-icon btn-outline-light waves-effect waves-light">
                                   <i class="feather icon-plus"></i>
                                 </button>
                               </div>
                               <div class="col-md-10 col-sm-10 col-10">
-                                <select class="form-control" id="active_rule" name="active_rule">
-                                  <option value="">ADD NEW RULE</option>
-                                  <option value="geo-ip-group" data-index="0">GeoIP</option>
-                                  <option value="proxy-group" data-index="1">Proxy</option>
-                                  <option value="referrer-group" data-index="2">Referrer</option>
-                                  <option value="empty-referrer-group" data-index="3">Empty referrer</option>
-                                  <option value="device-type-group" data-index="4">Device Type</option>
+                                <select class="form-control" id="campaign">
+                                  <option>ADD NEW RULE</option>
+                                  <option>GeoIP</option>
+                                  <option>Proxy</option>
+                                  <option>Referrer</option>
+                                  <option>Empty refer</option>
+                                  <option>Device Type</option>
                               </select>
                               </div>
                             </div>
                         </div>
                       </div>
-                      <div class="row geo-ip-group border-light p-1 rounded-lg position-relative hidden rule-group mb-1">
-                        <div class="col-md-4">
+                      <div class="row geo-ip-group border-light p-1 rounded-lg position-relative">
+                        <div class="col-md-3">
                             <div class="row">
                               <div class="col-md-4">
                                 <span class="mt-1-2 d-inline-block">Geo IP:</span>
                               </div>
                               <div class="col-md-8">
-                                <select class="form-control" id="geo-ip" name="geo-ip">
-                                    <option value="0" selected>Accept only from</option>
-                                    <option value="1">Reject from</option>
+                                <select class="form-control" id="geo-ip">
+                                    <option>Accept only from</option>
+                                    <option>Reject from</option>
                                 </select>
                               </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="geo-ip-group">REMOVE</button>
-                        <div class="offset-md-2 col-md-8 mt-2">
+                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="geo-ip-remove">REMOVE</button>
+                        <div class="offset-md-2 col-md-9 mt-2">
                           <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                               <span class="mt-1-2 d-inline-block">Country: </span>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-10">
                               <div class="form-group">
-                                <select class="select2 form-control" multiple="multiple" id="country-list" name="country-list">
+                                <select class="select2 form-control" multiple="multiple" id="country-list">
                                   @foreach ($countries as $key => $country)
                                       <option value="{{$key}}">{{$country}}</option>
                                   @endforeach
@@ -230,105 +222,69 @@
                             </div>
                           </div>
                           <div class="form-group row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                               <span class="mt-1-2 d-inline-block">Country Group: </span>
                             </div>
-                            <div class="col-md-9">
-                              <select class="form-control" id="country-group" name="country-group">
-                                @foreach ($country_group as $key => $item)
-                                  <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
-                                @endforeach
-                              </select>
+                            <div class="col-md-10">
+                              <input type="text" class="form-control" id="country-group">
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div class="form-group row border-light p-1 rounded-lg mb-1 mt-1 proxy-group position-relative hidden rule-group ">
+                      <div class="form-group row border-light p-1 rounded-lg mt-2 proxy-group position-relative">
                         <div class="col-md-1">
                           <span class="mt-1-2 d-inline-block">Proxy: </span>
                         </div>
-                        <div class="col-md-8">
-                          <select class="form-control" id="proxy-action" name="proxy-action">
-                            <option value="0" selected>Accept visitor only if proxy is detected</option>
-                            <option value="1">Reject visitor is proxy is detected</option>
+                        <div class="col-md-10">
+                          <select class="form-control" id="proxy-action">
+                            <option value="accept">Accept visitor only if proxy is detected</option>
+                            <option value="reject">Reject visitor is proxy is detected</option>
                           </select>
                         </div>
-                          <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
+                          <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="proxy-remove">REMOVE</button>
                       </div>
-                      <div class="form-group row referrer-group border-light mb-1 mt-1 p-1 rounded-lg position-relative hidden rule-group">
+                      <div class="form-group row referrer-group border-light p-1 rounded-lg position-relative">
                           <div class="col-md-5">
                             <div class="row">
                               <div class="col-md-3">
                                 <span class="d-inline-block mt-1-2">Referrer:</span>
                               </div>
                               <div class="col-md-8">
-                                <select class="form-control" id="referrer-action" name="referrer-actioon">
-                                  <option value="0" selected>Accept only</option>
-                                  <option value="1">Reject</option>
-                                </select>
+                                <select class="form-control" id="referrer-action">
+                                  <option>Accept only</option>
+                                  <option>Reject</option>
+                              </select>
                               </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="referrer-group">REMOVE</button>
-                        <div class="offset-md-1 col-md-10 mt-2">
-                          <div class="form-group row">
-                            <div class="col-md-2">
-                              <span class="d-inline-block mt-1-2">Referrer: </span>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                              <select class="form-control" id="domain-type" name="domain-type">
-                                <option value="0" selected>Full referrer</option>
-                                <option value="1">Domain only</option>
-                              </select>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                              <select class="form-control" id="domain-reg" name="domain-reg">
-                                <option value="0" selected>Equals</option>
-                                <option value="1">Does not equal</option>
-                              </select>
-                            </div>
-                            <div class="col-md-4 col-sm-12 mt-sm-1 mt-md-0 mt-xs-1">
-                              <input type="text" class="form-control" id="domain-name" name="domain-name">
-                            </div>
+                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2" id="referrer-remove">REMOVE</button>
+                      <div class="offset-md-1 col-md-10 mt-2">
+                        <div class="form-group row">
+                          <div class="col-md-2">
+                            <span class="d-inline-block mt-1-2">Referrer: </span>
+                          </div>
+                          <div class="col-md-3 col-sm-6">
+                            <select class="form-control" id="domain_type">
+                              <option>Full referrer</option>
+                              <option>Domain only</option>
+                            </select>
+                          </div>
+                          <div class="col-md-3 col-sm-6">
+                            <select class="form-control" id="domain-reg">
+                              <option>Matcheds regex</option>
+                              <option>Does not match</option>
+                              <option>Equals</option>
+                              <option>Does not equal</option>
+                            </select>
+                          </div>
+                          <div class="col-md-4 col-sm-12 mt-sm-1 mt-md-0 mt-xs-1">
+                            <input type="text" class="form-control" id="domain-name">
                           </div>
                         </div>
                       </div>
-                      <div class="form-group row border-light p-1 rounded-lg  mb-1 mt-1 empty-referrer-group position-relative hidden rule-group">
-                        <div class="col-md-2">
-                          <span class="mt-1-2 d-inline-block">Empty referrer: </span>
-                        </div>
-                        <div class="col-md-8">
-                          <select class="form-control" id="empty-referrer-action" name="empty-referrer-action">
-                            <option value="0" selected>Accept visitor only with empty referrer</option>
-                            <option value="1">Reject visitor with empty referrer</option>
-                          </select>
-                        </div>
-                          <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="empty-referrer-group">REMOVE</button>
-                      </div>
-                      <div class="form-group row device-type-group border-light mb-1 mt-1 p-1 rounded-lg position-relative hidden rule-group">
-                        <div class="col-md-8">
-                          <div class="row">
-                            <div class="col-md-3">
-                              <span class="d-inline-block mt-1-2">Device Type:</span>
-                            </div>
-                            <div class="col-md-5">
-                              <select class="form-control" id="device-action-list" name="device-action-list">
-                                <option value="0" selected>Accept only from</option>
-                                <option value="1">Reject from</option>
-                              </select>
-                            </div>
-                            <div class="col-md-4">
-                              <select class="form-control" id="device-type-list" name="device-type-list">
-                                <option value="0" selected>Desktop</option>
-                                <option value="1">Mobile</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="device-type-group">REMOVE</button>
                       </div>
                     </div>
-                  </form>
+                </div>
                 </fieldset>
 
                 <!-- Step 3 -->
@@ -336,88 +292,122 @@
                 <fieldset>
                   <div class="row">
                     <div class="col-md-12">
+                      <p>
+                        The keywords entered in this step will replace the {keyword} variable that you have entered in the destination URL in Step 1.
+                        You can add up to 1000keywords. However, for ranking campaigns we recommend to focus on few keywords only unless you are planning to giveaway a large number of units.
+                      </p>
                       <div class="form-group row">
                         <div class="col-md-2">
                           <span>Rotation Options: </span>
                         </div>
                         <div class="col-md-10">
-                          <ul class="list-unstyled mb-0 row">
-                            <li class="d-inline-block col-md-3 col-sm-6">
+                          <ul class="list-unstyled mb-0">
+                            <li class="d-inline-block mr-2">
                               <fieldset>
                                 <div class="custom-control custom-radio">
-                                  <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option1" value="0" checked>
-                                  <label class="custom-control-label" for="rotate_option1">Random</label>
+                                  <input type="radio" class="custom-control-input" name="customRadio" id="customRadio1" checked>
+                                  <label class="custom-control-label" for="customRadio1">Radnom</label>
                                 </div>
                               </fieldset>
                             </li>
-                            <li class="d-inline-block col-md-3 col-sm-6">
+                            <li class="d-inline-block mr-2">
                               <fieldset>
                                 <div class="custom-control custom-radio">
-                                  <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option2" value="1">
-                                  <label class="custom-control-label" for="rotate_option2">Weighted Rotation</label>
+                                  <input type="radio" class="custom-control-input" name="customRadio" id="customRadio2">
+                                  <label class="custom-control-label" for="customRadio2">Weighted Rotation</label>
                                 </div>
                               </fieldset>
                             </li>
-                            <li class="d-inline-block col-md-3 col-sm-6">
+                            <li class="d-inline-block mr-2">
                               <fieldset>
                                 <div class="custom-control custom-radio">
-                                  <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option3" value="2">
-                                  <label class="custom-control-label" for="rotate_option3">Position</label>
+                                  <input type="radio" class="custom-control-input" name="customRadio" id="customRadio3">
+                                  <label class="custom-control-label" for="customRadio3">Position</label>
                                 </div>
                               </fieldset>
                             </li>
-                            <li class="d-inline-block col-md-3 col-sm-6">
+                            <li class="d-inline-block mr-2">
                               <fieldset>
                                 <div class="custom-control custom-radio">
-                                  <input type="radio" class="custom-control-input" name="rotate_option" id="rotate_option4" value="3">
-                                  <label class="custom-control-label" for="rotate_option4">Fixed Hits</label>
+                                  <input type="radio" class="custom-control-input" name="customRadio" id="customRadio4">
+                                  <label class="custom-control-label" for="customRadio4">Fixed Hits</label>
                                 </div>
                               </fieldset>
                             </li>
                           </ul>
                         </div>
                       </div>
-                      <form class="new-url-group">
+                      <div class="destination-url-group">
                         <div class="row">
                           <div class="col-md-6">
                             <div class="row">
                               <div class="col-md-6">
                                 <label>Key word</label>
-                                <input type="text" class="form-control" id="keyword" name="keyword">
+                                <input type="text" class="form-control" id="keyword">
                               </div>
                               <div class="col-md-4">
                                 <label>Weight/Max Hits</label>
-                                <input type="text" class="form-control" id="weight-or-max_hit" name="weight-or-max_hit">
+                                <input type="text" class="form-control" id="weight-max-hit">
                               </div>
                               <div class="col-md-2">
-                                <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small mt-2" id="new-url-add-btn">ADD</button>
+                                <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small mt-2" id="add-btn">ADD</button>
                               </div>
                             </div>
                           </div>
                           <div class="col-md-6">
-                            <div class="form-group row mt-md-n1">
-                              <div class="col-md-12 text-md-right text-center ">
+                            <div class="form-group row mt-1">
+                              <div class="col-md-12 text-right mt-1">
                                 <span>Bulk Upload (Max 1,000Kwds)</span>
-                                <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small" id="upload-btn">UPLOAD</button>
-                                <input type="file" name="csv-file" accept=".csv" class="d-none" id="csv-file"/>
+                                <button type="button" class="btn btn-outline-primary  waves-effect waves-light xx-small" id="add-btn">UPLOAD</button>
                               </div>
-                              <div class="col-md-12 text-md-right text-center">
+                              <div class="col-md-12 text-right">
                                 <a href="#">Download Sample File</a>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </form>
+                      </div>
                       <div class="form-group">
                         <span class="font-bold">Target Keywords<i class="feather icon-info"></i></span>
                         <hr>
                       </div>
-                      <div class="target-keywords-group mb-4">
+                      <div class="target-urls-group mb-4">
+                        <table>
+                          <thead>
+                            <tr>
+                              <th width="3%"></th>
+                              <th width="40%"></th>
+                              <th width="15%">Weight/Max Hits</th>
+                              <th width="15%">Preview Link</th>
+                              <th width="10%"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @for ($i = 0; $i < 3; $i ++)
+                              <tr>
+                                <td>{{$i + 1}}.</td>
+                                <td class="pr-1">
+                                  <input type="text" class="form-control">
+                                </td>
+                                <td class="pr-1">
+                                  <input type="text" class="form-control">
+                                </td>
+                                <td>
+                                  https://domain.com/keyword1
+                                </td>
+                                <td class="text-right">
+                                  <a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>
+                                  <a href="#"><i class="fa fa-trash fa-2x"></i></a>
+                                </td>
+                              </tr>
+                            @endfor
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
                 </fieldset>
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -427,24 +417,38 @@
 @endsection
 
 @section('vendor-script')
+<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.date.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/jquery.steps.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
-
 @endsection
 
 @section('page-script')
-<script>
-  const createURL = "{{route('redirects.create-new-step-asin')}}";
-</script>
-<script src="{{asset(mix('js/scripts/keyword-rotator.js'))}}"></script>
-<script>
-  $(function(){
-    $('body').on('click','.target-item-remove',function(){
-      const index = $('.target-item-remove').index($(this));
-      $('.target-item-group').eq(index).remove();
+  <script>
+    $(function(){
+      $(".number-tab-steps").steps({
+          headerTag: "h6",
+          bodyTag: "fieldset",
+          transitionEffect: "fade",
+          titleTemplate: '<span class="step">#index#</span> #title#',
+          labels: {
+              finish: 'Submit'
+          },
+          onFinished: function (event, currentIndex) {
+              alert("Form submitted.");
+          }
+      });
+
+      $(".select2").select2({
+        // the following code is used to disable x-scrollbar when click in select input and
+        // take 100% width in responsive also
+        dropdownAutoWidth: true,
+        width: '100%'
+      });
+
+      $('.pickadate').pickadate();
+
     })
-  })
-</script>
+  </script>
 @endsection

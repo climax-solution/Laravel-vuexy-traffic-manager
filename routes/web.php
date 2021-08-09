@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth','locked']], function () {
   Route::get('/redirects/dynamic-qr-code', 'QrCodeController@index')->name('redirects.step-dynamic-qr-code');
   Route::post('/redirects/create-new-qr-code', 'QrCodeController@createNewQrCode')->name('redirects.create-new-qr-code');
 
-  Route::get('/redirects/keyword-rotator', 'RedirectController@keywordRotator')->name('redirects.step-keyword-rotator');
+  Route::get('/redirects/keyword-rotator', 'KeywordRotatorController@index')->name('redirects.step-keyword-rotator');
 
   //
   Route::get('/campaigns', 'CampaignController@index')->name('campaigns.index');
