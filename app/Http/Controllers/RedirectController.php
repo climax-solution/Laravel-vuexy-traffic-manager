@@ -7,6 +7,8 @@ use App\Models\CustomUrl;
 use App\Models\DeviceType;
 use App\Models\EmptyReferrer;
 use App\Models\GeoIp;
+use App\Models\KeywordRotator;
+use App\Models\KeywordRotatorList;
 use App\Models\Proxy;
 use Illuminate\Http\Request;
 use App\Models\Redirect;
@@ -129,6 +131,9 @@ class RedirectController extends Controller
           break;
         case 'asin':
           $Model = Asin::class;
+        case 'keyword_rotator':
+          $Model = KeywordRotator::class;
+          $ReList = KeywordRotatorList::class;
           break;
       };
       $src = $Model::where('id',$redirect_src->item_id)->first();
@@ -326,6 +331,7 @@ class RedirectController extends Controller
                 break;
 
             }
+
             $redirect_src->dest_url = $url_lists[$index]->dest_url;
             $ReList::where(['parent_id' => $src->id, 'uuid' => $index])->update(['take_count' => $url_lists[$index]->take_count ]);
             break;

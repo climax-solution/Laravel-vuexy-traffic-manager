@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class KeywordRotatorList extends Model
 {
-    //
+    protected $fillable = [
+      'id',
+      'parent_id',
+      'uuid',
+      'keyword',
+      'dest_url',
+      'weight',
+      'max_hit_day',
+      'take_count'
+    ];
 }

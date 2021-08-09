@@ -55,6 +55,7 @@ class KeywordRotatorController extends Controller
     Redirect::create($redirectData);
     foreach($active_rule as $item) {
       $addFile[$item]['item_id'] = $res->id;
+      $addFile[$item]['table_name'] = 'keyword_rotator';
       $flag = 0;
       switch($item) {
         case '0':
