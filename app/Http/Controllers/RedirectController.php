@@ -42,7 +42,7 @@ class RedirectController extends Controller
         $redirects = Redirect::all();
         $analysis = [
             'activeLinks' => 3,
-            'totalRedirects' => 8,
+            'totalRedirects' => count($redirects),
             'totalPixelsFired' => 8,
             'totalBlockedTraffic' => 8
         ];
@@ -60,33 +60,6 @@ class RedirectController extends Controller
         ]);
     }
 
-    public function stepUrlAsin() {
-      return view('/pages/redirects/step-url/asin', $this->compactData);
-    }
-
-    public function stepUrlStoreFront() {
-      return view('/pages/redirects/step-url/store-front', $this->compactData);
-    }
-
-    public function stepUrlHiddenKeyword() {
-      return view('/pages/redirects/step-url/hidden-keyword', $this->compactData);
-    }
-
-    public function stepUrlProductResult() {
-      return view('/pages/redirects/step-url/product-result', $this->compactData);
-    }
-
-    public function stepUrlBrand() {
-      return view('/pages/redirects/step-url/brand', $this->compactData);
-    }
-
-    public function dynamicQrCode() {
-
-    }
-
-    public function keywordRotator() {
-      return view('/pages/redirects/step-url/keyword-rotator', ['countries' => $this->countries]);
-    }
 
     public function createNewCustomUrl(Request $request) {
       $input = $request->except('_token');
