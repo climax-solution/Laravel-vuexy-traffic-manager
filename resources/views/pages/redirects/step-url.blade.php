@@ -230,7 +230,7 @@
                       </div>
                       <!-- End Rules Divider-->
                       <div class="form-group row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="row">
                               <div class="col-md-2 col-sm-2 col-2">
                                 <button type="button" class="btn btn-icon btn-outline-light waves-effect waves-light" id="rule-box-toggle">

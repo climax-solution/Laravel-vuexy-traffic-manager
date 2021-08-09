@@ -129,8 +129,8 @@
                       </div>
                       <!-- End Advanced Options Divider-->
                       <div class="form-group row">
-                        <div class="col-md-5">
-                          <div class="form-group row">
+                        <div class="col-md-5 row">
+                          <div class="form-group row col-md-12 col-sm-6 col-7">
                             <div class="col-md-5">
                               <span>Blank Referrer: </span>
                             </div>
@@ -141,7 +141,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="form-group row">
+                          <div class="form-group row col-md-12 col-sm-6 col-5">
                             <div class="col-md-5">
                               <span>Deep Link: </span>
                             </div>
@@ -179,7 +179,7 @@
                       </div>
                       <!-- End Rules Divider-->
                       <div class="form-group row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="row">
                               <div class="col-md-2 col-sm-2 col-2">
                                 <button type="button" class="btn btn-icon btn-outline-light waves-effect waves-light" id="rule-box-toggle">
@@ -385,12 +385,13 @@
                                 <label>Key word</label>
                                 <input type="text" class="form-control" id="keyword" name="keyword">
                               </div>
-                              <div class="col-md-4">
-                                <label>Weight/Max Hits</label>
+                              <div class="col-md-4 mt-md-0 mt-1">
+                                <label class="weight-label hidden">Weight</label>
+                                <label class="max_hit-label hidden">Max Hits</label>
                                 <input type="number" class="form-control" id="weight-or-max_hit" name="weight-or-max_hit">
                               </div>
-                              <div class="col-md-2">
-                                <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small mt-2" id="new-url-add-btn">ADD</button>
+                              <div class="col-md-2 text-center mt-md-0 mt-1">
+                                <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small mt-md-2" id="new-url-add-btn">ADD</button>
                               </div>
                             </div>
                           </div>
