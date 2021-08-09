@@ -387,7 +387,7 @@
                               </div>
                               <div class="col-md-4">
                                 <label>Weight/Max Hits</label>
-                                <input type="text" class="form-control" id="weight-or-max_hit" name="weight-or-max_hit">
+                                <input type="number" class="form-control" id="weight-or-max_hit" name="weight-or-max_hit">
                               </div>
                               <div class="col-md-2">
                                 <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small mt-2" id="new-url-add-btn">ADD</button>
@@ -436,7 +436,7 @@
 
 @section('page-script')
 <script>
-  const createURL = "{{route('redirects.create-new-step-asin')}}";
+  const createURL = "{{route('redirects.create-new-keyword-rotator')}}";
 </script>
 <script src="{{asset(mix('js/scripts/keyword-rotator.js'))}}"></script>
 <script>

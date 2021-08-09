@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth','locked']], function () {
   //CRUD
   Route::post('/create-new-custom-url','CustomUrlController@createNewCustomUrl')->name('redirects.create-new-custom-url');
   Route::post('/create-new-url-rotator','UrlRotatorController@createNewUrlRotator')->name('redirects.create-new-url-rotator');
+  Route::post('/create-new-keyword-rotator','KeywordRotatorController@createNewKeywordRotator')->name('redirects.create-new-keyword-rotator');
 
   Route::post('/create-new-step-asin','StepUrlController@createNewStepAsin')->name('redirects.create-new-step-asin');
 

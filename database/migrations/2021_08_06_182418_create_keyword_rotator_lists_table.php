@@ -17,6 +17,7 @@ class CreateKeywordRotatorListsTable extends Migration
             $table->id();
             $table->string('parent_id')->nullable();
             $table->integer('uuid')->default(0);
+            $table->string('keyword')->nullable();
             $table->string('dest_url')->nullable();
             $table->integer('weight')->default(0);
             $table->integer('max_hit_day')->default(0);

@@ -100,6 +100,10 @@ $(function(){
           addFile[item] = row;
         })
 
+        if (($('#dest_url').val()).indexOf("{keyword}") < 0) {
+          toastr.warning('Please input destination url correctly!');
+          return false;
+        }
 
         let advance_options = {
           blank: $('#blank-refer-switch')[0].checked ? 1 : 0,
@@ -231,18 +235,20 @@ $(function(){
     }
     const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
     const keyword = $('#keyword').val();
-    let preview_link = $('#dest_url').val() + '/' + keyword;
+    const dest_url = $('#dest_url').val();
+    // const st_k = dest_url.indexOf('{'); const en_k = dest_url.indexOf('}');
+    let preview_link = dest_url.replace('{keyword}',keyword);
     let html ='<div class="form-group row target-item-group">'+
-        '<div class="col-md-2 col-6">'+
-          '<span class="keyword">'+keyword+'</span>'+
+        '<div class="col-md-2 col-6 d-table">'+
+        '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+keyword+'">'+
         '</div>'+
-        '<div class="col-md-2 col-6">'+
-          '<div class="form-group">'+
-            '<span>'+$('#weight-or-max_hit').val()+'</span>'+
+        '<div class="col-md-2 col-6 d-table">'+
+          '<div class="form-group d-table-cell align-middle">'+
+            '<input type="number" class="form-control weight-or-max_hit" value="'+$('#weight-or-max_hit').val()+'">'+
           '</div>'+
         '</div>'+
-        '<div class="col-md-6 col-9">'+
-          '<p class="preview-link text-break-all">'+preview_link+'</p>'+
+        '<div class="col-md-6 col-9 d-table">'+
+          '<p class="preview-link text-break-all d-table-cell align-middle">'+preview_link+'</p>'+
         '</div>'+
         '<div class="col-md-2 col-3 text-right">'+
           '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
@@ -261,7 +267,7 @@ $(function(){
     const Kewyword = $('.keyword');
     Kewyword.each(function(index) {
       let row = {};
-      row.keyword = $(this).text();
+      row.keyword = $(this).val();
       row.uuid = index;
       row.dest_url = $('.preview-link').eq(index).text();
       const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
@@ -302,16 +308,16 @@ $(function(){
         const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
         res.map((item, index) => {
           html += '<div class="form-group row target-item-group">'+
-          '<div class="col-md-2 col-6">'+
-            '<span class="keyword">'+item.keyword+'</span>'+
+          '<div class="col-md-2 col-6 d-table">'+
+            '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+item.keyword+'">'+
           '</div>'+
-          '<div class="col-md-2 col-6">'+
-            '<div class="form-group">'+
-              '<span>'+item.weight_hit+'</span>'+
+          '<div class="col-md-2 col-6 d-table">'+
+            '<div class="form-group d-table-cell align-middle">'+
+            '<input type="number" class="form-control weight-or-max_hit" value="'+item.weight_hit+'">'+
             '</div>'+
           '</div>'+
-          '<div class="col-md-6 col-9">'+
-            '<span class="preview-link text-break-all">'+item.dest_url+'</span>'+
+          '<div class="col-md-6 col-9 d-table">'+
+            '<span class="preview-link text-break-all d-table-cell align-middle">'+item.dest_url+'</span>'+
           '</div>'+
           '<div class="col-md-2 col-3 text-right">'+
             '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
