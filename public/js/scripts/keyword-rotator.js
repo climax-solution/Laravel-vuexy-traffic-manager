@@ -186,7 +186,6 @@ $(function(){
   $('input.select2-search__field').attr({'name' : 'country-select-input'});
 
   $('#rule-box-toggle').click(()=> {
-
     const rule = $('#active_rule').val();
     if (rule) {
       $('.' + rule).removeClass('hidden');
@@ -209,13 +208,6 @@ $(function(){
   })
   $('#addgroup-hide-btn').click(function(){
     $('.new-url-group').addClass('hidden');
-  })
-  $('.spoof-switch').on('change', function() {
-    const index = $('.spoof-switch').index($(this));
-    $('.add-spoof-select').eq(index).toggleClass('hidden');
-  })
-  $('#add-spoof-switch').change(function() {
-    $('#add-spoof-select').toggleClass('hidden');
   })
   $('#new-url-add-btn').click(function(){
     let rule_option = {
@@ -288,6 +280,24 @@ $(function(){
   $('#upload-btn').click(function(){
     $('#csv-file').click();
   })
+
+  $('input[name="rotate_option"]').change(function(){
+    switch($(this).val()) {
+      case '1':
+        $('.weight-label').removeClass('hidden');
+        $('.max_hit-label').addClass('hidden');
+        break;
+      case '3':
+          $('.weight-label').addClass('hidden');
+          $('.max_hit-label').removeClass('hidden');
+          break;
+      default:
+        $('.weight-label').addClass('hidden');
+        $('.max_hit-label').addClass('hidden');
+        break;
+    }
+  })
+
   $('#csv-file').change(function(){
     let sendData = new FormData();
     sendData.append('_token',$('input[name="_token"]').val());
@@ -298,7 +308,7 @@ $(function(){
     sendData.append('file',$(this)[0].files[0]);
     $.ajax({
       type:'post',
-      url: '/get-csv-data-step-asin',
+      url: '/get-csv-data',
       data: sendData,
       cache: false,
       contentType: false,

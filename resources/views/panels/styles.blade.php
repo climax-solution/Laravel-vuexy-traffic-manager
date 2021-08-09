@@ -41,3 +41,8 @@ $configData = Helper::applClasses();
 @if($configData['direction'] === 'rtl')
         <link rel="stylesheet" href="{{ asset(mix('css/custom-rtl.css')) }}">
 @endif
+<style>
+  ul[role="tablist"] li {
+    width: 50% !important;
+  }
+</style>

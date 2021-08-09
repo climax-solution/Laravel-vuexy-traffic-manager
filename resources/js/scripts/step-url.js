@@ -103,6 +103,8 @@ $(function(){
 
         let advance_options = {
           blank: $('#blank-refer-switch')[0].checked ? 1 : 0,
+          spoof: $('#spoof-refer-switch')[0].checked ? 1 : 0,
+          deep: $('#deep-link-switch')[0].checked ? 1 : 0
         };
         if ( !active_rule.length || !addFile || flag ) {
           return;
@@ -255,6 +257,13 @@ $(function(){
     const index = $('.spoof-switch').index($(this));
     $('.add-spoof-select').eq(index).toggleClass('hidden');
   })
+
+  $('#spoof-refer-switch').change(()=> {
+    const SpoofSelect = $('#spoof-select');
+    if (SpoofSelect.hasClass('hidden')) SpoofSelect.removeClass('hidden');
+    else SpoofSelect.addClass('hidden');
+  })
+
   $('input[name="rotate_option"]').change(function(){
     switch($(this).val()) {
       case '1':
