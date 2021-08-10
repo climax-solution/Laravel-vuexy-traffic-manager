@@ -127,7 +127,7 @@ class RedirectController extends Controller
           break;
         case 'url_rotator':
           $Model = UrlRotator::class;
-          $ReList = UrlRotator::class;
+          $ReList = UrlRotatorList::class;
           break;
         case 'asin':
           $Model = Asin::class;
