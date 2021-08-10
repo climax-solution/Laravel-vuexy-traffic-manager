@@ -10,6 +10,7 @@ use App\Models\GeoIp;
 use App\Models\KeywordRotator;
 use App\Models\KeywordRotatorList;
 use App\Models\Proxy;
+use App\Models\QrCode;
 use Illuminate\Http\Request;
 use App\Models\Redirect;
 use App\Models\Referrer;
@@ -131,6 +132,9 @@ class RedirectController extends Controller
           break;
         case 'asin':
           $Model = Asin::class;
+          break;
+        case 'qr_code':
+          $Model = QrCode::class;
           break;
         case 'keyword_rotator':
           $Model = KeywordRotator::class;
