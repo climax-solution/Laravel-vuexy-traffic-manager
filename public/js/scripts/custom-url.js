@@ -3,7 +3,6 @@ $(function(){
   let active_rule = [];
   let addFile = {};
   const validate_list = ['link_name','dest_url','tracking_url','pixel','max_hit_day','fallback_url'];
-  const urlRegex = /^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/;
 
   $(".select2").select2({
     // the following code is used to disable x-scrollbar when click in select input and

@@ -38,7 +38,7 @@ $(function(){
       rules:{
         link_name: {
           required: true,
-          minlength: 10
+          minlength: 1
         },
         dest_url: {
           required: true,

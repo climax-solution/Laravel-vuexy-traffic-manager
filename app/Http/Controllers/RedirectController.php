@@ -131,13 +131,13 @@ class RedirectController extends Controller
           break;
         case 'asin':
           $Model = Asin::class;
+          break;
         case 'keyword_rotator':
           $Model = KeywordRotator::class;
           $ReList = KeywordRotatorList::class;
           break;
       };
       $src = $Model::where('id',$redirect_src->item_id)->first();
-
       if ($redirect_src->table_name != 'qr_code' && !$src) {
         $message = "No Exist redirect_src.";
         return;
