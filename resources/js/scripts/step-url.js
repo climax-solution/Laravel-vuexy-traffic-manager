@@ -26,7 +26,7 @@ $(function(){
           rules:{
             'link_name': {
               required: true,
-              minlength: 10
+              minlength: 1
             },
             'max_hit_day': {
               required: true
