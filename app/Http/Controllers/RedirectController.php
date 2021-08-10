@@ -63,56 +63,9 @@ class RedirectController extends Controller
         ]);
     }
 
-
-    public function createNewCustomUrl(Request $request) {
-      $input = $request->except('_token');
-      unset($input['addFile']);
-      $data = $input;
-      $data['uuid'] = Str::random(7);
-      $res = CustomUrl::create($data);
-      $addFile = json_decode($request->input('addFile'),true);
-      $active_rule = json_decode($data['active_rule']);
-      foreach($active_rule as $item) {
-        $addFile[$item]['item_id'] = $res->id;
-        $addFile[$item]['table_name'] = 'custom_urls';
-        $flag = 0;
-        switch($item) {
-          case '0':
-            $count = GeoIp::where('item_id',$res->id)->count();
-            if ($count) GeoIp::where('item_id',$res->id)->update($addFile[$item]);
-            else GeoIp::create($addFile[$item]);
-            $flag = 1;
-            break;
-          case '1':
-            $count = Proxy::where('item_id',$res->id)->count();
-            if ($count) Proxy::where('item_id',$res->id)->update($addFile[$item]);
-            else Proxy::create($addFile[$item]);
-            $flag = 1;
-
-            break;
-          case '2':
-            $count = Referrer::where('item_id',$res->id)->count();
-            if ($count) Referrer::where('item_id',$res->id)->update($addFile[$item]);
-            else Referrer::create($addFile[$item]);
-            $flag = 1;
-
-            break;
-          case '3':
-            $count = EmptyReferrer::where('item_id',$res->id)->count();
-            if ($count) EmptyReferrer::where('item_id',$res->id)->update($addFile[$item]);
-            else EmptyReferrer::create($addFile[$item]);
-            $flag = 1;
-            break;
-          case '4':
-            $count = DeviceType::where('item_id',$res->id)->count();
-            if ($count) DeviceType::where('item_id',$res->id)->update($addFile[$item]);
-            else DeviceType::create($addFile[$item]);
-            $flag = 1;
-            break;
-        };
-      }
-      $url = env('APP_URL').'/r/'.$data['uuid'];
-      return response()->json(['url' => $url]);
+    public function updateActive(Request $request) {
+      $res = Redirect::where('id',$request->id)->update(['active' => $request->active]);
+      return $res;
     }
 
     public function redirectTracking(Request $request) {
@@ -121,6 +74,9 @@ class RedirectController extends Controller
       $ReList = StepUrlList::class;
       $id = $request->id;
       $redirect_src = Redirect::where('uuid', $id)->first();
+      if (!$redirect_src->active) {
+        echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
+      }
       $src = '';
       switch($redirect_src->table_name) {
         case 'custom_urls':
@@ -355,14 +311,14 @@ class RedirectController extends Controller
         return view('error');
       }
     }
-  public function pare_count($data,$index) {
-    if ($data[$index]->take_count < $data[$index]->max_hit_day) {
-      return $index;
+    public function pare_count($data,$index) {
+      if ($data[$index]->take_count < $data[$index]->max_hit_day) {
+        return $index;
+      }
+      else {
+        if (count($data) == 1) return false;
+        $rand = rand(0, count($data) - 1);
+        $this->pare_count($data, $rand);
+      }
     }
-    else {
-      if (count($data) == 1) return false;
-      $rand = rand(0, count($data) - 1);
-      $this->pare_count($data, $rand);
-    }
-  }
 }

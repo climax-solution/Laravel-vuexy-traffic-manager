@@ -18,6 +18,7 @@ class Redirect extends Model
     'pixel',
     'item_id',
     'table_name',
+    'active',
     'fallback_url',
   ];
 }

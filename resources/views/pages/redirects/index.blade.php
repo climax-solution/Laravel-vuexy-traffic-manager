@@ -85,10 +85,10 @@
 					  @foreach ($redirects as $redirect)
 					  <tr>
 							<td>{{ $redirect->id }}</td>
-							<td>{{ env('APP_URL').'/'.$redirect->uuid }}</td>
+							<td>{{ env('APP_URL').'/r/'.$redirect->uuid }}</td>
 						  	<td>
 								<div class="custom-control custom-switch custom-switch-success switch-lg mr-2">
-									<input id="locked_{{ $redirect->id }}" class="custom-control-input" type="checkbox" {{ $redirect->active == 1 ? "checked" : "" }}>
+									<input id="locked_{{ $redirect->id }}" class="custom-control-input active-switch" type="checkbox" {{ $redirect->active == 1 ? "checked" : "" }} value="{{$redirect->id}}">
 									<label class="custom-control-label" for="locked_{{ $redirect->id }}">
 										<span class="switch-text-left">Active</span>
 										<span class="switch-text-right white">Inactive</span>
@@ -126,5 +126,7 @@
 @section('page-script')
 <script>
   var tblRedirects = $("#tblRedirects").DataTable();
+  const updateURL = "{{route('redirects.update-url-active')}}";
 </script>
+<script src="{{asset(mix('js/scripts/redirects.js'))}}"></script>
 @endsection

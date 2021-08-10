@@ -43,10 +43,10 @@ $(function(){
         const res = $('#step-wizard-1').validate(rule_option);
         $('#step-wizard-1').valid();
         if (res.errorList.length) return;
-        if (!active_rule.length) {
-          toastr.warning('No selected rule.', 'Warning');
-          return;
-        }
+        // if (!active_rule.length) {
+        //   toastr.warning('No selected rule.', 'Warning');
+        //   return;
+        // }
         active_rule.map((item) => {
           let row = {};
           switch(item) {
@@ -145,26 +145,11 @@ $(function(){
         return true;
       },
       onFinishing: () => {
-        const weightHit = $('.weight-or-max_hit');
-        let sumHit = 0;
-        // const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
-
-        // switch(rotate_checked) {
-        //   case '1':
-        //     weightHit.each(function(){
-        //       sumHit += Number($(this).val());
-        //     })
-        //     if ( !sumHit ) {
-        //       toastr.warning('Total value is wrong!','Warning');
-        //       return false;
-        //     }
-        //     break;
-        // }
-        // if (!weightHit.length) {
-        //   toastr.warning('No exist rows!','Warning');
-        //   return false;
-        // }
-
+        const itemList = $('.target-item-group');
+        if (!itemList.length) {
+          toastr.warning('No existing rows');
+          return false;
+        }
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
         addUrlList();
         let flag = 0;
