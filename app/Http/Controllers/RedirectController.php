@@ -294,11 +294,12 @@ class RedirectController extends Controller
           if ($item) $flag = 1;
         }
         switch($redirect_src->table_name) {
-          case 'custom_url':
+          case 'custom_urls':
             break;
           case 'qr_code':
             break;
           default:
+            dd($redirect_src->table_name);
             $url_lists = $ReList::where('parent_id',$src->id)->get();
             $weight_sum = $ReList::where('parent_id',$src->id)->sum('weight');
             $list_len = count($url_lists);
@@ -341,7 +342,7 @@ class RedirectController extends Controller
           echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
         }
         else {
-          if ($redirect_src->table_name != 'qr_code' && $redirect_src->table_name != 'custom_url' ) {
+          if ($redirect_src->table_name != 'qr_code' && $redirect_src->table_name != 'custom_urls' ) {
             $Model::where('id',$src->id)->update(['active_position' => $src->active_position]);
           }
           echo "<script> window.location.href = '".$redirect_src->dest_url."';</script>";
