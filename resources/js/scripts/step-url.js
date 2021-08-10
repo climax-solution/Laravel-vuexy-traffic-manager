@@ -105,7 +105,7 @@ $(function(){
           spoof: $('#spoof-refer-switch')[0].checked ? 1 : 0,
           deep: $('#deep-link-switch')[0].checked ? 1 : 0
         };
-        if ( !active_rule.length || !addFile || flag ) {
+        if (flag ) {
           return;
         }
         let spoof_sevice = '';

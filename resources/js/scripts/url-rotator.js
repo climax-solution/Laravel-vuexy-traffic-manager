@@ -240,6 +240,7 @@ $(function(){
       rules:{
         'target-url': {
           required: true,
+          url: true
         },
         'weight-or-max_hit': {
           required: true

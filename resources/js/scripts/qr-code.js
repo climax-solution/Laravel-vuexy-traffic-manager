@@ -126,7 +126,7 @@ $(function(){
     validate_list.map(item => {
       saveData[item] = $('#' + item).val();
     })
-    // if ( !active_rule.length || !addFile || flag ) {
+    // if (flag ) {
     //   return;
     // }
     // saveData['active_rule'] = JSON.stringify(active_rule);
