@@ -299,7 +299,6 @@ class RedirectController extends Controller
           case 'qr_code':
             break;
           default:
-            dd($redirect_src->table_name);
             $url_lists = $ReList::where('parent_id',$src->id)->get();
             $weight_sum = $ReList::where('parent_id',$src->id)->sum('weight');
             $list_len = count($url_lists);
