@@ -388,6 +388,7 @@
                               <div class="col-md-4 mt-md-0 mt-1">
                                 <label class="weight-label hidden">Weight</label>
                                 <label class="max_hit-label hidden">Max Hits</label>
+                                <label></label>
                                 <input type="number" class="form-control" id="weight-or-max_hit" name="weight-or-max_hit">
                               </div>
                               <div class="col-md-2 text-center mt-md-0 mt-1">
