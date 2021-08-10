@@ -25,7 +25,6 @@ $(function(){
           rules:{
             link_name: {
               required: true,
-              minlength: 1
             },
             max_hit_day: {
               required: true
@@ -40,10 +39,10 @@ $(function(){
         const res = $('#step-wizard-1').validate(rule_option);
         $('#step-wizard-1').valid();
         if (res.errorList.length) return;
-        if (!active_rule.length) {
-          toastr.warning('No selected rule.', 'Warning');
-          return;
-        }
+        // if (!active_rule.length) {
+        //   toastr.warning('No selected rule.', 'Warning');
+        //   return;
+        // }
         active_rule.map((item) => {
           let row = {};
           switch(item) {
@@ -100,7 +99,7 @@ $(function(){
         let advance_options = {
           blank: $('#blank-refer-switch')[0].checked ? 1 : 0,
         };
-        if ( !active_rule.length || !addFile || flag ) {
+        if ( flag ) {
           return;
         }
         let spoof_sevice = '';
@@ -241,7 +240,6 @@ $(function(){
       rules:{
         'target-url': {
           required: true,
-          url: true
         },
         'weight-or-max_hit': {
           required: true

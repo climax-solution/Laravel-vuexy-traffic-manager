@@ -23,18 +23,17 @@ $(function(){
         });
         let rule_option = {
           rules:{
-            'link_name': {
-              required: true,
-              minlength: 1
+            link_name: {
+              required: true
             },
-            'dest_url': {
+            dest_url: {
               required: true,
               url: true
             },
-            'max_hit_day': {
+            max_hit_day: {
               required: true
             },
-            'fallback_url':{
+            fallback_url:{
               required: true,
               url: true
             }
@@ -44,10 +43,10 @@ $(function(){
         const res = $('#step-wizard-1').validate(rule_option);
         $('#step-wizard-1').valid();
         if (res.errorList.length) return;
-        if (!active_rule.length) {
-          toastr.warning('No selected rule.', 'Warning');
-          return;
-        }
+        // if (!active_rule.length) {
+        //   toastr.warning('No selected rule.', 'Warning');
+        //   return;
+        // }
         active_rule.map((item) => {
           let row = {};
           switch(item) {
@@ -109,7 +108,7 @@ $(function(){
           blank: $('#blank-refer-switch')[0].checked ? 1 : 0,
           deep: $('#deep-link-switch')[0].checked ? 1 : 0
         };
-        if ( !active_rule.length || !addFile || flag ) {
+        if ( flag ) {
           return;
         }
         let spoof_sevice = '';

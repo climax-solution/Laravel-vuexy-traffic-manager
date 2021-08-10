@@ -24,17 +24,16 @@ $(function(){
         });
         let rule_option = {
           rules:{
-            'link_name': {
+            link_name: {
               required: true,
-              minlength: 1
             },
-            'max_hit_day': {
+            max_hit_day: {
               required: true
             },
-            'amazon_aff_id': {
+            amazon_aff_id: {
               required: true
             },
-            'fallback_url':{
+            fallback_url:{
               required: true,
               url: true
             }

@@ -85,13 +85,13 @@
 					  @foreach ($redirects as $redirect)
 					  <tr>
 							<td>{{ $redirect->id }}</td>
-							<td>{{ $redirect->dest_url }}</td>
+							<td>{{ env('APP_URL').'/'.$redirect->uuid }}</td>
 						  	<td>
-								<div class="custom-control custom-switch custom-switch-danger switch-lg mr-2">
+								<div class="custom-control custom-switch custom-switch-success switch-lg mr-2">
 									<input id="locked_{{ $redirect->id }}" class="custom-control-input" type="checkbox" {{ $redirect->active == 1 ? "checked" : "" }}>
 									<label class="custom-control-label" for="locked_{{ $redirect->id }}">
 										<span class="switch-text-left">Active</span>
-										<span class="switch-text-right">Inactive</span>
+										<span class="switch-text-right white">Inactive</span>
 									</label>
 								</div>
 							</td>

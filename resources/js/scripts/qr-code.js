@@ -37,8 +37,7 @@ $(function(){
     let rule_option = {
       rules:{
         link_name: {
-          required: true,
-          minlength: 1
+          required: true
         },
         dest_url: {
           required: true,
@@ -141,7 +140,7 @@ $(function(){
       url: createURL,
       data: saveData,
       success:(res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status) toastr.success('Created','Success');
         Swal.fire({
           title: "Qr Code successfully created.",

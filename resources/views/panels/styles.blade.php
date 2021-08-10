@@ -45,4 +45,10 @@ $configData = Helper::applClasses();
   ul[role="tablist"] li {
     width: 50% !important;
   }
+  .custom-switch .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+    background-color: #ea5455;
+  }
+  .custom-switch.switch-lg .custom-control-label::before {
+    background-color: #ea5455;
+  }
 </style>
