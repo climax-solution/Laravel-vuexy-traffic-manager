@@ -130,6 +130,7 @@ class RedirectController extends Controller
       }
       $ip = $request->ip();
       // $ip = "188.43.136.32";
+      dd($ip);
       $data = \Location::get($ip);
       $status = [];
       if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
@@ -330,7 +331,7 @@ class RedirectController extends Controller
         }
       }
       else {
-        return view('error');
+        echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
       }
     }
     public function pare_count($data,$index) {
