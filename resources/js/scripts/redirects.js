@@ -17,4 +17,14 @@ $(function(){
       }
     })
   })
+  $('.copy-btn').click(function() {
+    const index = $(this).attr('data-index');
+    const text = $('.redirect-url').eq(index).text();
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(text).select();
+    document.execCommand("copy");
+    $temp.remove();
+    toastr.success('Copied!');
+  })
 })

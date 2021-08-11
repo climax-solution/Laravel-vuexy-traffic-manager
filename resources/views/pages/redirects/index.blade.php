@@ -82,10 +82,10 @@
 					 </tr>
 				  </thead>
 				  <tbody>
-					  @foreach ($redirects as $redirect)
+					  @foreach ($redirects as $key => $redirect)
 					  <tr>
 							<td>{{ $redirect->id }}</td>
-							<td>{{ env('APP_URL').'/r/'.$redirect->uuid }}</td>
+							<td class="redirect-url">{{ env('APP_URL').'/r/'.$redirect->uuid }}</td>
 						  	<td>
 								<div class="custom-control custom-switch custom-switch-success switch-lg mr-2">
 									<input id="locked_{{ $redirect->id }}" class="custom-control-input active-switch" type="checkbox" {{ $redirect->active == 1 ? "checked" : "" }} value="{{$redirect->id}}">
@@ -97,7 +97,11 @@
 							</td>
 							<td>{{ $redirect->order }}</td>
 							<td>{{ $redirect->max_hit_day }}</td>
-							<td></td>
+							<td>
+                <a class="copy-btn" data-index="{{$key}}"><i class="fa fa-copy"></i></a>
+                <a class="clone-btn" data-index="{{$key}}"><i class="fa fa-clone"></i></a>
+                <a class="remove-btn" data-index="{{$key}}"><i class="feather icon-trash-2"></i></a>
+              </td>
 					  </tr>
 					  @endforeach
 				  </tbody>

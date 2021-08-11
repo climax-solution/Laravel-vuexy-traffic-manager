@@ -8,6 +8,7 @@ class Redirect extends Model
 {
   protected $fillable = [
     'id',
+    'user_id',
     'uuid',
     'link_name',
     'dest_url',
