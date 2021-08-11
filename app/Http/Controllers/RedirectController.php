@@ -128,7 +128,7 @@ class RedirectController extends Controller
       if ($redirect_src->table_name != 'qr_code' && $redirect_src->max_hit_day == $redirect_src->take_count) {
         echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
       }
-      $ip = $request->ip();
+      $ip = request()->ip();
       // $ip = "188.43.136.32";
       dd($ip);
       $data = \Location::get($ip);
