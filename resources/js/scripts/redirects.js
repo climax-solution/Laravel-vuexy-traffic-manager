@@ -50,14 +50,16 @@ $(function(){
         const action_btn = '<a class="copy-btn" data-index="'+key+'"><i class="fa fa-copy fa-2x"></i></a>'+
         '<a class="clone-btn" data-id="'+res.id+'"><i class="fa fa-clone fa-2x"></i></a>'+
         '<a class="remove-btn" data-id="'+res.id+'" data-index="'+key+'"><i class="feather icon-trash-2 fa-2x"></i></a>';
-        table.row.add([
+        let row = table.row.add([
           res.id,
           APP_URL + '/' + res.uuid,
           active_switch,
           '',
           res.max_hit_day,
           action_btn
-        ]).draw( true );
+        ]);
+        table.row(row).column(1).nodes().to$().addClass('redirect-url');
+        table.row(row).draw(true);
         let total_redirect = Number($('.total-redirect').text());
         total_redirect ++;
         $('.total-redirect').text(total_redirect);
