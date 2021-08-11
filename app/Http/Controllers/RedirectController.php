@@ -130,7 +130,7 @@ class RedirectController extends Controller
       }
       $ip = request()->ip();
       // $ip = "188.43.136.32";
-      dd($ip);
+      dd(\Request::getClientIp(true));
       $data = \Location::get($ip);
       $status = [];
       if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
