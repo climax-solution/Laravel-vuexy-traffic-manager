@@ -52,7 +52,7 @@ $(function(){
         '<a class="remove-btn" data-id="'+res.id+'" data-index="'+key+'"><i class="feather icon-trash-2 fa-2x"></i></a>';
         let row = table.row.add([
           res.id,
-          APP_URL + '/' + res.uuid,
+          APP_URL + '/r/' + res.uuid,
           active_switch,
           '',
           res.max_hit_day,
