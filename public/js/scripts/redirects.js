@@ -87,7 +87,7 @@ $(function(){
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Ok',
       confirmButtonClass: 'btn btn-primary',
       cancelButtonClass: 'btn btn-danger ml-1',
       buttonsStyling: false,
