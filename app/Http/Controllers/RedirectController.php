@@ -129,11 +129,10 @@ class RedirectController extends Controller
         echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
       }
       $ip = $request->ip();
-      dd($ip);
       // $ip = "188.43.136.32";
       $data = \Location::get($ip);
       $status = [];
-
+      dd($data);
       if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
       $countryCode = $data->countryCode;
       if (!is_bool($data)) {
