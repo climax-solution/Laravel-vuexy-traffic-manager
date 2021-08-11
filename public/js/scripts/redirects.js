@@ -59,6 +59,7 @@ $(function(){
           action_btn
         ]);
         table.row(row).column(1).nodes().to$().addClass('redirect-url');
+        table.row(row).column(5).nodes().to$().addClass('action-group');
         table.row(row).draw(true);
         let total_redirect = Number($('.total-redirect').text());
         total_redirect ++;

@@ -97,7 +97,7 @@
 							</td>
 							<td>{{ $redirect->order }}</td>
 							<td>{{ $redirect->max_hit_day }}</td>
-							<td>
+							<td class="action-group">
                 <a class="copy-btn" data-index="{{$key}}"><i class="fa fa-copy fa-2x"></i></a>
                 <a class="clone-btn" data-id="{{$redirect->id}}"><i class="fa fa-clone fa-2x"></i></a>
                 <a class="remove-btn" data-id="{{$redirect->id}}" data-index="{{$key}}"><i class="feather icon-trash-2 fa-2x"></i></a>
@@ -124,7 +124,7 @@
 	.custom-select {
 		height: auto;
 	}
-  td:last-child {
+  .action-group {
     display: flex;
     justify-content: space-evenly;
   }
