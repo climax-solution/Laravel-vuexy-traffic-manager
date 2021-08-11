@@ -98,9 +98,9 @@
 							<td>{{ $redirect->order }}</td>
 							<td>{{ $redirect->max_hit_day }}</td>
 							<td class="action-group">
-                <a class="copy-btn" data-index="{{$key}}"><i class="fa fa-copy fa-2x"></i></a>
-                <a class="clone-btn" data-id="{{$redirect->id}}"><i class="fa fa-clone fa-2x"></i></a>
-                <a class="remove-btn" data-id="{{$redirect->id}}" data-index="{{$key}}"><i class="feather icon-trash-2 fa-2x"></i></a>
+                <a class="copy-btn" data-index="{{$key}}"><i class="fa fa-copy text-em"></i></a>
+                <a class="clone-btn" data-id="{{$redirect->id}}"><i class="fa fa-clone text-em"></i></a>
+                <a class="remove-btn" data-id="{{$redirect->id}}" data-index="{{$key}}"><i class="feather icon-trash-2 text-em"></i></a>
               </td>
 					  </tr>
 					  @endforeach
@@ -127,6 +127,9 @@
   .action-group {
     display: flex;
     justify-content: space-evenly;
+  }
+  .text-em {
+    font-size: 16px;
   }
 </style>
 @endsection
