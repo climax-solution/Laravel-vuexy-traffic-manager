@@ -9,7 +9,7 @@
 			<div class="card">
 				<div class="card-header d-flex align-items-start pb-0">
 					<div>
-						<h2 class="text-bold-700 mb-0">{{ $analysis['activeLinks'] }}</h2>
+						<h2 class="text-bold-700 mb-0 active-links">{{ $analysis['activeLinks'] }}</h2>
 						<p>Active Links</p>
 					</div>
 					<div class="avatar bg-rgba-primary p-50 m-0">

@@ -316,7 +316,7 @@ $(function(){
         '</div>'+
         '<div class="col-md-2 col-6">'+
           '<div class="form-group">'+
-            '<span>'+$('#weight-or-max_hit').val()+'</span>'+
+            '<span class="weight-or-max_hit">'+$('#weight-or-max_hit').val()+'</span>'+
           '</div>'+
         '</div>'+
         '<div class="col-md-6 col-9">'+
@@ -346,10 +346,10 @@ $(function(){
       const weightHit = $('.weight-or-max_hit');
       switch(rotate_checked) {
         case '1':
-          row.weight = weightHit.eq(index).val();
+          row.weight = Number(weightHit.eq(index).text());
           break;
         case '3':
-          row.max_hit = weightHit.eq(index).val();
+          row.max_hit = Number(weightHit.eq(index).text());
           break;
       }
       url_list.push(row);
@@ -385,7 +385,7 @@ $(function(){
           '</div>'+
           '<div class="col-md-2 col-6">'+
             '<div class="form-group">'+
-              '<span>'+item.weight_hit+'</span>'+
+              '<span class="weight-or-max_hit">'+item.weight_hit+'</span>'+
             '</div>'+
           '</div>'+
           '<div class="col-md-6 col-9">'+

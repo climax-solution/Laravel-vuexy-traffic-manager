@@ -489,12 +489,12 @@
                         <h4>Target URLs <i class="feather icon-info"></i></h4>
                         <hr>
                         <div class="row mb-2">
-                          <div class="col-md-4 d-md-block d-none">Keyword</div>
+                          <div class="col-md-2 d-md-block d-none">Keyword</div>
                           <div class="col-md-2 d-md-block d-none">
                             <span class="weight-hit hidden weight-text">Weight</span>
                             <span class="weight-hit hidden max-hit-text">Max Hits</span>
                           </div>
-                          <div class="col-md-2 d-md-block d-none"><span>Preview Link</span></div>
+                          <div class="col-md-6 d-md-block d-none"><span>Preview Link</span></div>
                           <div class="col-md-2 d-md-block d-none"></div>
                         </div>
                         <div class="all-url-list-group">

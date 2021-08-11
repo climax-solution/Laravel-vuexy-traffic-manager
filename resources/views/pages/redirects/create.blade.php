@@ -39,7 +39,7 @@
                 </td>
                 <td>
                   <a href="{{route('redirects.'.$product['path'])}}" class="btn btn-danger btn-sm pt-1 pb-1 btn-block">SELECT</a>
-                  <span class="xx-small">How does it work?</span>
+                  <a class="xx-small work-btn">How does it work?</a>
                 </td>
               </tr>
             @endforeach

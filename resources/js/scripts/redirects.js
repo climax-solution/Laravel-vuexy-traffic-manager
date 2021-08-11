@@ -1,7 +1,8 @@
 $(function(){
   $('.active-switch').change(function(){
+    const active = $(this).prop('checked');
     const updateData = {
-      active: $(this).prop('checked') ? 1 : 0,
+      active: active ? 1 : 0,
       id: $(this).val(),
       _token: $('input[name="_token"]').val()
     }
@@ -10,7 +11,9 @@ $(function(){
       url: updateURL,
       data: updateData,
       success:function(res) {
-        console.log(res);
+        let link_num = Number($('.active-links').text());
+        active ? link_num ++ : link_num --;
+        $('.active-links').text(link_num);
       }
     })
   })

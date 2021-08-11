@@ -259,7 +259,7 @@ $(function(){
         '</div>'+
         '<div class="col-md-2 col-4">'+
           '<div class="form-group">'+
-            '<input type="text" class="form-control form-control-sm weight-or-max_hit" value="' + (rotate_checked == '1' ? weightHit : rotate_checked == '3' ? weightHit : '') + '">'+
+            '<input type="text" class="form-control form-control-sm weight-or-max_hit" value="' + weightHit + '">'+
           '</div>'+
         '</div>'+
         '<div class="col-md-2">'+
@@ -293,7 +293,7 @@ $(function(){
           '</div>'+
         '</div>'+
         '<div class="col-md-2 col-6 text-right">'+
-          '<a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+          '<a href="'+targetUrl+'"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
           '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
         '</div>'+
       '</div>' ;
@@ -352,7 +352,7 @@ $(function(){
             '</div>'+
             '<div class="col-md-2 col-4">'+
               '<div class="form-group">'+
-                '<input type="text" class="form-control form-control-sm weight-or-max_hit" value="' + (rotate_checked == '1' ? item.weight_hit : rotate_checked == '3' ? item.weight_hit : '') + '">'+
+                '<input type="text" class="form-control form-control-sm weight-or-max_hit" value="' + item.weight_hit + '">'+
               '</div>'+
             '</div>'+
             '<div class="col-md-2">'+
@@ -386,7 +386,7 @@ $(function(){
               '</div>'+
             '</div>'+
             '<div class="col-md-2 col-6 text-right">'+
-              '<a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+              '<a href="'+item.dest_url+'"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
               '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
             '</div>'+
           '</div>'
