@@ -80,20 +80,35 @@ $(function(){
       id: id,
       _token: $('input[name="_token"]').val()
     };
-    $.ajax({
-      type: 'post',
-      url: deleteURL,
-      data: updateData,
-      success:function(res) {
-        toastr.success('Removed');
-        const checked = $('.active-switch').eq(index).prop('checked');
-        let link_num = Number($('.active-links').text());
-        table.row(tr.eq(index)).remove().draw();
-        if (checked) {
-          link_num --;
-          $('.active-links').text(link_num);
-        }
-        $('.total-redirect').text(tr.length - 1);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn btn-danger ml-1',
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        $.ajax({
+          type: 'post',
+          url: deleteURL,
+          data: updateData,
+          success:function(res) {
+            toastr.success('Removed');
+            const checked = $('.active-switch').eq(index).prop('checked');
+            let link_num = Number($('.active-links').text());
+            table.row(tr.eq(index)).remove().draw();
+            if (checked) {
+              link_num --;
+              $('.active-links').text(link_num);
+            }
+            $('.total-redirect').text(tr.length - 1);
+          }
+        })
       }
     })
   })
