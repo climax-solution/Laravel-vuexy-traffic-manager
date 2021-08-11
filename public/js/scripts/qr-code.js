@@ -37,8 +37,7 @@ $(function(){
     let rule_option = {
       rules:{
         link_name: {
-          required: true,
-          minlength: 1
+          required: true
         },
         dest_url: {
           required: true,
@@ -127,7 +126,7 @@ $(function(){
     validate_list.map(item => {
       saveData[item] = $('#' + item).val();
     })
-    // if ( !active_rule.length || !addFile || flag ) {
+    // if (flag ) {
     //   return;
     // }
     // saveData['active_rule'] = JSON.stringify(active_rule);
@@ -141,7 +140,7 @@ $(function(){
       url: createURL,
       data: saveData,
       success:(res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status) toastr.success('Created','Success');
         Swal.fire({
           title: "Qr Code successfully created.",

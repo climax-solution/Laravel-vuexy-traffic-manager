@@ -1,4 +1,10 @@
 $(document).ready(function(){
+  $('.work-btn').on('click',function(){
+    Swal.fire({
+      html : "<p>Use this redirect link for any non-Amazon related URLs. This works well for sharing articles to your audience, sending traffic to your Shioify store, retargeting click-through traffic, and much more.</p>",
+      type: "info"
+    })
+  })
   var dataListView = $(".data-list-view").DataTable({
     responsive: false,
     columnDefs: [
@@ -46,5 +52,6 @@ $(document).ready(function(){
       }
     }, 50);
   });
+
 
 })

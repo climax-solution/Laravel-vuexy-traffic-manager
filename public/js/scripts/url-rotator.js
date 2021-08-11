@@ -25,7 +25,6 @@ $(function(){
           rules:{
             link_name: {
               required: true,
-              minlength: 1
             },
             max_hit_day: {
               required: true
@@ -40,10 +39,10 @@ $(function(){
         const res = $('#step-wizard-1').validate(rule_option);
         $('#step-wizard-1').valid();
         if (res.errorList.length) return;
-        if (!active_rule.length) {
-          toastr.warning('No selected rule.', 'Warning');
-          return;
-        }
+        // if (!active_rule.length) {
+        //   toastr.warning('No selected rule.', 'Warning');
+        //   return;
+        // }
         active_rule.map((item) => {
           let row = {};
           switch(item) {
@@ -100,7 +99,7 @@ $(function(){
         let advance_options = {
           blank: $('#blank-refer-switch')[0].checked ? 1 : 0,
         };
-        if ( !active_rule.length || !addFile || flag ) {
+        if ( flag ) {
           return;
         }
         let spoof_sevice = '';
@@ -260,7 +259,7 @@ $(function(){
         '</div>'+
         '<div class="col-md-2 col-4">'+
           '<div class="form-group">'+
-            '<input type="text" class="form-control form-control-sm weight-or-max_hit" value="' + (rotate_checked == '1' ? weightHit : rotate_checked == '3' ? weightHit : '') + '">'+
+            '<input type="text" class="form-control form-control-sm weight-or-max_hit" value="' + weightHit + '">'+
           '</div>'+
         '</div>'+
         '<div class="col-md-2">'+
@@ -294,7 +293,7 @@ $(function(){
           '</div>'+
         '</div>'+
         '<div class="col-md-2 col-6 text-right">'+
-          '<a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+          '<a href="'+targetUrl+'"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
           '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
         '</div>'+
       '</div>' ;
@@ -353,7 +352,7 @@ $(function(){
             '</div>'+
             '<div class="col-md-2 col-4">'+
               '<div class="form-group">'+
-                '<input type="text" class="form-control form-control-sm weight-or-max_hit" value="' + (rotate_checked == '1' ? item.weight_hit : rotate_checked == '3' ? item.weight_hit : '') + '">'+
+                '<input type="text" class="form-control form-control-sm weight-or-max_hit" value="' + item.weight_hit + '">'+
               '</div>'+
             '</div>'+
             '<div class="col-md-2">'+
@@ -387,7 +386,7 @@ $(function(){
               '</div>'+
             '</div>'+
             '<div class="col-md-2 col-6 text-right">'+
-              '<a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+              '<a href="'+item.dest_url+'"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
               '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
             '</div>'+
           '</div>'

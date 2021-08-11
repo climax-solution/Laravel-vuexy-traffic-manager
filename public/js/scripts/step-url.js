@@ -24,17 +24,16 @@ $(function(){
         });
         let rule_option = {
           rules:{
-            'link_name': {
+            link_name: {
               required: true,
-              minlength: 1
             },
-            'max_hit_day': {
+            max_hit_day: {
               required: true
             },
-            'amazon_aff_id': {
+            amazon_aff_id: {
               required: true
             },
-            'fallback_url':{
+            fallback_url:{
               required: true,
               url: true
             }
@@ -44,10 +43,10 @@ $(function(){
         const res = $('#step-wizard-1').validate(rule_option);
         $('#step-wizard-1').valid();
         if (res.errorList.length) return;
-        if (!active_rule.length) {
-          toastr.warning('No selected rule.', 'Warning');
-          return;
-        }
+        // if (!active_rule.length) {
+        //   toastr.warning('No selected rule.', 'Warning');
+        //   return;
+        // }
         active_rule.map((item) => {
           let row = {};
           switch(item) {
@@ -106,7 +105,7 @@ $(function(){
           spoof: $('#spoof-refer-switch')[0].checked ? 1 : 0,
           deep: $('#deep-link-switch')[0].checked ? 1 : 0
         };
-        if ( !active_rule.length || !addFile || flag ) {
+        if (flag ) {
           return;
         }
         let spoof_sevice = '';
@@ -146,26 +145,11 @@ $(function(){
         return true;
       },
       onFinishing: () => {
-        const weightHit = $('.weight-or-max_hit');
-        let sumHit = 0;
-        // const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
-
-        // switch(rotate_checked) {
-        //   case '1':
-        //     weightHit.each(function(){
-        //       sumHit += Number($(this).val());
-        //     })
-        //     if ( !sumHit ) {
-        //       toastr.warning('Total value is wrong!','Warning');
-        //       return false;
-        //     }
-        //     break;
-        // }
-        // if (!weightHit.length) {
-        //   toastr.warning('No exist rows!','Warning');
-        //   return false;
-        // }
-
+        const itemList = $('.target-item-group');
+        if (!itemList.length) {
+          toastr.warning('No existing rows');
+          return false;
+        }
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
         addUrlList();
         let flag = 0;
@@ -332,7 +316,7 @@ $(function(){
         '</div>'+
         '<div class="col-md-2 col-6">'+
           '<div class="form-group">'+
-            '<span>'+$('#weight-or-max_hit').val()+'</span>'+
+            '<span class="weight-or-max_hit">'+$('#weight-or-max_hit').val()+'</span>'+
           '</div>'+
         '</div>'+
         '<div class="col-md-6 col-9">'+
@@ -362,10 +346,10 @@ $(function(){
       const weightHit = $('.weight-or-max_hit');
       switch(rotate_checked) {
         case '1':
-          row.weight = weightHit.eq(index).val();
+          row.weight = Number(weightHit.eq(index).text());
           break;
         case '3':
-          row.max_hit = weightHit.eq(index).val();
+          row.max_hit = Number(weightHit.eq(index).text());
           break;
       }
       url_list.push(row);
@@ -401,7 +385,7 @@ $(function(){
           '</div>'+
           '<div class="col-md-2 col-6">'+
             '<div class="form-group">'+
-              '<span>'+item.weight_hit+'</span>'+
+              '<span class="weight-or-max_hit">'+item.weight_hit+'</span>'+
             '</div>'+
           '</div>'+
           '<div class="col-md-6 col-9">'+

@@ -39,7 +39,6 @@ $(function(){
       rules:{
         link_name: {
           required: true,
-          minlength: 10
         },
         dest_url: {
           required: true,
@@ -59,10 +58,10 @@ $(function(){
     $('#custom-url-create-form').valid();
     if (res.errorList.length) return;
 
-    if (!active_rule.length) {
-      toastr.warning('No selected rules!','Warning');
-      return;
-    }
+    // if (!active_rule.length) {
+    //   toastr.warning('No selected rules!','Warning');
+    //   return;
+    // }
     active_rule.map((item) => {
       let row = {};
       switch(item) {
@@ -128,7 +127,7 @@ $(function(){
     validate_list.map(item => {
       saveData[item] = $('#' + item).val();
     })
-    if ( !active_rule.length || !addFile || flag ) {
+    if (flag ) {
       return;
     }
     saveData['active_rule'] = JSON.stringify(active_rule);
