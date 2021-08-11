@@ -22,7 +22,7 @@
 	<div class="row">
 		<p>Select the Type of Redirect Link that you would like to create.<p>
       <div class="table-responsive">
-        <table class="table data-list-view">
+        <table class="table data-list-view dataTable">
           <tbody>
             @foreach ($products as $key => $product)
               @php
