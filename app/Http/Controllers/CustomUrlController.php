@@ -49,6 +49,7 @@ class CustomUrlController extends Controller
     $redirectData['uuid'] = $uuid;
     $redirectData['item_id'] = $res->id;
     $redirectData['table_name'] = 'custom_urls';
+    $redirectData['user_id'] = auth()->user()->id;
     Redirect::create($redirectData);
     foreach($active_rule as $item) {
       $addFile[$item]['item_id'] = $res->id;

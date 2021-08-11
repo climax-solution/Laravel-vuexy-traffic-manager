@@ -52,6 +52,7 @@ class KeywordRotatorController extends Controller
     $redirectData['uuid'] = $uuid;
     $redirectData['item_id'] = $res->id;
     $redirectData['table_name'] = 'keyword_rotator';
+    $redirectData['user_id'] = auth()->user()->id;
     Redirect::create($redirectData);
     foreach($active_rule as $item) {
       $addFile[$item]['item_id'] = $res->id;

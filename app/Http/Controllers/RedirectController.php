@@ -42,8 +42,9 @@ class RedirectController extends Controller
     public function index()
     {
         $pageConfigs = $this->pageConfigs;
-        $redirects = Redirect::all();
-        $activeLink = Redirect::where('active', 1)->count();
+        $id = auth()->user()->id;
+        $redirects = Redirect::where('user_id', $id)->get();
+        $activeLink = Redirect::where('active', 1)->where('user_id', $id)->count();
         $analysis = [
             'activeLinks' => $activeLink,
             'totalRedirects' => count($redirects),

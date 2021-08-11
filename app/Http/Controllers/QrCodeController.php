@@ -50,6 +50,7 @@ class QrCodeController extends Controller
     $new = ModelsQrCode::create($data);
     $input['table_name'] = 'qr_code';
     $input['item_id'] = $new->id;
+    $redirectData['user_id'] = auth()->user()->id;
     Redirect::create($input);
     return response()->json(['file' => asset($file_name) ]);
   }
