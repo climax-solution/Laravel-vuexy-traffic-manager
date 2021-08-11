@@ -129,6 +129,7 @@ class RedirectController extends Controller
         echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
       }
       $ip = $request->ip();
+      dd($ip);
       // $ip = "188.43.136.32";
       $data = \Location::get($ip);
       $status = [];
