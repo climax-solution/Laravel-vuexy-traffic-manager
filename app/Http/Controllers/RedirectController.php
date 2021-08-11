@@ -132,10 +132,9 @@ class RedirectController extends Controller
       // $ip = "188.43.136.32";
       $data = \Location::get($ip);
       $status = [];
-      dd($data);
       if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
-      $countryCode = $data->countryCode;
       if (!is_bool($data)) {
+        $countryCode = $data->countryCode;
         if ($redirect_src->table_name != 'qr_code') {
           foreach($active_rule as $item) {
             $status[$item] = 0;
