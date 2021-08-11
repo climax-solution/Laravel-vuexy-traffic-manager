@@ -70,6 +70,26 @@ class RedirectController extends Controller
       return $res;
     }
 
+    public function cloneURL(Request $request) {
+      $data = json_decode(Redirect::where('id',$request->id)->first(), true);
+      $create = [];
+      unset($data['id']);
+      unset($data['created_at']);
+      unset($data['updated_at']);
+      $data['uuid'] = Str::random(7);
+      $data['active'] = 0;
+      foreach($data as $key => $value) {
+        $create[$key] = $value;
+      }
+      $res = Redirect::create($create);
+      return $res;
+    }
+
+    public function deleteURL(Request $request) {
+      $data = Redirect::where('id',$request->id)->delete();
+      return $data;
+    }
+
     public function redirectTracking(Request $request) {
       // dd($_SERVER);
       $Model = '';

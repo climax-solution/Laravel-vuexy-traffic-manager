@@ -24,7 +24,7 @@
 			<div class="card">
 				<div class="card-header d-flex align-items-start pb-0">
 					<div>
-						<h2 class="text-bold-700 mb-0">{{ $analysis['totalRedirects'] }}</h2>
+						<h2 class="text-bold-700 mb-0 total-redirect">{{ $analysis['totalRedirects'] }}</h2>
 						<p>Total Redirects</p>
 					</div>
 					<div class="avatar bg-rgba-success p-50 m-0">
@@ -86,7 +86,7 @@
 					  <tr>
 							<td>{{ $redirect->id }}</td>
 							<td class="redirect-url">{{ env('APP_URL').'/r/'.$redirect->uuid }}</td>
-						  	<td>
+						  <td>
 								<div class="custom-control custom-switch custom-switch-success switch-lg mr-2">
 									<input id="locked_{{ $redirect->id }}" class="custom-control-input active-switch" type="checkbox" {{ $redirect->active == 1 ? "checked" : "" }} value="{{$redirect->id}}">
 									<label class="custom-control-label" for="locked_{{ $redirect->id }}">
@@ -98,9 +98,9 @@
 							<td>{{ $redirect->order }}</td>
 							<td>{{ $redirect->max_hit_day }}</td>
 							<td>
-                <a class="copy-btn" data-index="{{$key}}"><i class="fa fa-copy"></i></a>
-                <a class="clone-btn" data-index="{{$key}}"><i class="fa fa-clone"></i></a>
-                <a class="remove-btn" data-index="{{$key}}"><i class="feather icon-trash-2"></i></a>
+                <a class="copy-btn" data-index="{{$key}}"><i class="fa fa-copy fa-2x"></i></a>
+                <a class="clone-btn" data-id="{{$redirect->id}}"><i class="fa fa-clone fa-2x"></i></a>
+                <a class="remove-btn" data-id="{{$redirect->id}}" data-index="{{$key}}"><i class="feather icon-trash-2 fa-2x"></i></a>
               </td>
 					  </tr>
 					  @endforeach
@@ -113,24 +113,37 @@
 
 @section('vendor-style')
 <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/datatables.min.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.css')) }}">
+
 @endsection
 
 @section('page-style')
+<link rel="stylesheet" href="{{ asset(mix('css/plugins/toastr.css')) }}">
+
 <style>
 	.custom-select {
 		height: auto;
 	}
+  td:last-child {
+    display: flex;
+    justify-content: space-evenly;
+  }
 </style>
 @endsection
 @section('vendor-script')
 <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.bootstrap4.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
+
 @endsection
 
 @section('page-script')
 <script>
   var tblRedirects = $("#tblRedirects").DataTable();
   const updateURL = "{{route('redirects.update-url-active')}}";
+  const cloneURL = "{{route('redirects.clone-url')}}";
+  const deleteURL = "{{route('redirects.delete-url')}}";
+  const APP_URL = "{{env('APP_URL')}}";
 </script>
 <script src="{{asset(mix('js/scripts/redirects.js'))}}"></script>
 @endsection

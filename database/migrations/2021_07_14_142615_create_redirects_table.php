@@ -15,7 +15,7 @@ class CreateRedirectsTable extends Migration
     {
         Schema::create('redirects', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->unique();
+            $table->string('user_id')->string();
             $table->string('uuid')->unique();
             $table->string('link_name')->nullable();
             $table->string('dest_url')->nullable();

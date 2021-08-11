@@ -52,6 +52,8 @@ Route::group(['middleware' => ['auth','locked']], function () {
   Route::post('/create-new-step-asin','StepUrlController@createNewStepAsin')->name('redirects.create-new-step-asin');
 
   Route::post('/update-url-active','RedirectController@updateActive')->name('redirects.update-url-active');
+  Route::post('/clone-url','RedirectController@cloneURL')->name('redirects.clone-url');
+  Route::post('/delete-url','RedirectController@deleteURL')->name('redirects.delete-url');
 
   Route::post('/get-csv-data','UrlRotatorController@getCsvData');
   Route::post('/get-csv-data-step-asin','StepUrlController@getCsvData');
