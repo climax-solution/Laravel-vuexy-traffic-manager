@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Asin;
+use App\Models\StepUrl;
 use App\Models\DeviceType;
 use App\Models\EmptyReferrer;
 use App\Models\GeoIp;
@@ -67,8 +67,8 @@ class StepUrlController extends Controller
     }
     $table_name = '';
     $data = $input;
-    $res = Asin::create($data);
-    $table_name = 'asin';
+    $res = StepUrl::create($data);
+    $table_name = 'step_url';
     $uuid = Str::random(7);
     $addFile = json_decode($request->input('addFile'),true);
     $active_rule = json_decode($data['active_rule']);

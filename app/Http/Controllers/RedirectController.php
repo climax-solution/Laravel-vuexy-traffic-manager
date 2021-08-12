@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Asin;
+use App\Models\StepUrl;
 use App\Models\CustomUrl;
 use App\Models\DeviceType;
 use App\Models\EmptyReferrer;
@@ -97,7 +97,7 @@ class RedirectController extends Controller
       $id = $request->id;
       $redirect_src = Redirect::where('uuid', $id)->first();
       if (!$redirect_src->active) {
-        echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
+        return abort(404);
       }
       $src = '';
       switch($redirect_src->table_name) {
@@ -108,8 +108,8 @@ class RedirectController extends Controller
           $Model = UrlRotator::class;
           $ReList = UrlRotatorList::class;
           break;
-        case 'asin':
-          $Model = Asin::class;
+        case 'step_url':
+          $Model = StepUrl::class;
           break;
         case 'qr_code':
           $Model = QrCode::class;
@@ -121,15 +121,12 @@ class RedirectController extends Controller
       };
       $src = $Model::where('id',$redirect_src->item_id)->first();
       if ($redirect_src->table_name != 'qr_code' && !$src) {
-        $message = "No Exist redirect_src.";
-        return;
+        return abort(404);
       }
 
       if ($redirect_src->table_name != 'qr_code' && $redirect_src->max_hit_day == $redirect_src->take_count) {
         echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
       }
-      $ip = request()->ip();
-      // $ip = "188.43.136.32";
       $ipaddress = '';
       if (isset($_SERVER['HTTP_CLIENT_IP']))
           $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
@@ -348,6 +345,7 @@ class RedirectController extends Controller
         echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
       }
     }
+
     public function pare_count($data,$index) {
       if ($data[$index]->take_count < $data[$index]->max_hit_day) {
         return $index;
@@ -356,6 +354,28 @@ class RedirectController extends Controller
         if (count($data) == 1) return false;
         $rand = rand(0, count($data) - 1);
         $this->pare_count($data, $rand);
+      }
+    }
+
+    public function editURL(Request $request) {
+      $uuid = $request->uuid;
+      $row = Redirect::where('uuid', $uuid)->first();
+      switch($row->table_name) {
+        case 'custom_urls':
+          return redirect('/redirects/custom-url?id='.$row->id);
+          break;
+        case 'url_rotator':
+          return redirect('/redirects/url-rotator?id='.$row->id);
+          break;
+        case 'step_url':
+          return redirect('/redirects/step-url?id='.$row->id);
+          break;
+        case 'qr_code':
+          return redirect('/redirects/qr-code?id='.$row->id);
+          break;
+        case 'keyword_rotator':
+          return redirect('/redirects/keyword-rotator?id='.$row->id);
+          break;
       }
     }
 }
