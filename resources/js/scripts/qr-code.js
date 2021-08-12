@@ -11,9 +11,9 @@ $(function(){
   // });
   // $('.select2-search__field').attr({'name' : 'country-select-input'});
 
-  // $('#spoof-refer-switch').change(()=> {
+  // $('#spoof-refer-switch').change(function() {
   //   const SpoofSelect = $('#spoof-select');
-  //   if (SpoofSelect.hasClass('hidden')) SpoofSelect.removeClass('hidden');
+  //   if ($(this).prop('checked')) SpoofSelect.removeClass('hidden');
   //   else SpoofSelect.addClass('hidden');
   // })
   // $('#rule-box-toggle').click(()=> {
@@ -120,7 +120,7 @@ $(function(){
     //   deep: $('#deep-link-switch')[0].checked ? 1 : 0
     // };
 
-    // let spoof_sevice = '';
+    // let spoof_service = '';
     // if (advance_options.spoof) spoof_service = $('#spoof-select').val();
 
     validate_list.map(item => {
@@ -132,7 +132,7 @@ $(function(){
     // saveData['active_rule'] = JSON.stringify(active_rule);
     // saveData['addFile'] = JSON.stringify(addFile);
     // saveData.advance_options = JSON.stringify(advance_options);
-    // saveData.spoof_service = spoof_sevice;
+    // saveData.spoof_service = spoof_service;
     saveData.campaign = $('#campaign').val();
     saveData.id = $('input[name="_id"]').val();
     $.ajax({

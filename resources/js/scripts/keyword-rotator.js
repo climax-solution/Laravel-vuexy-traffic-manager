@@ -1,8 +1,7 @@
 $(function(){
   const ruleList = ['geo-ip-group','proxy-group','referrer-group','empty-referrer-group','device-type-group'];
-  let active_rule = [];
   let addFile = {};
-  const validate_list = ['link_name','dest_url','tracking_url','pixel','max_hit_day','fallback_url'];
+  const validate_list = ['link_name','tracking_url','pixel','max_hit_day','fallback_url'];
   let saveData = {
     '_token': $('meta[name="csrf-token"]').attr('content')
   };
@@ -111,7 +110,7 @@ $(function(){
         if ( flag ) {
           return;
         }
-        let spoof_sevice = '';
+        let spoof_service = '';
         if (advance_options.spoof) spoof_service = $('#spoof-select').val();
         validate_list.map(item => {
           saveData[item] = $('#' + item).val();
@@ -144,6 +143,7 @@ $(function(){
         }
 
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
+        saveData.id = $('input[name="_id"]').val();
         addUrlList();
         let flag = 0;
         async function SaveData() {

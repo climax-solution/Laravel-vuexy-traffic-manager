@@ -1,6 +1,5 @@
 $(function(){
   const ruleList = ['geo-ip-group','proxy-group','referrer-group','empty-referrer-group','device-type-group'];
-  let active_rule = [];
   let addFile = {};
   const validate_list = ['link_name','tracking_url','pixel','max_hit_day','fallback_url','amazon_aff_id'];
   let step_text = 'ASIN 2-Step URL';
@@ -108,7 +107,7 @@ $(function(){
         if (flag ) {
           return;
         }
-        let spoof_sevice = '';
+        let spoof_service = '';
         if (advance_options.spoof) spoof_service = $('#spoof-select').val();
         validate_list.map(item => {
           saveData[item] = $('#' + item).val();
@@ -117,7 +116,7 @@ $(function(){
         saveData.active_rule = JSON.stringify(active_rule);
         saveData.addFile = JSON.stringify(addFile);
         saveData.advance_options = JSON.stringify(advance_options);
-        saveData.spoof_service = spoof_sevice;
+        saveData.spoof_service = spoof_service;
         saveData.campaign = $('#campaign').val();
         if ($('#link_type').val() == '4') $('.brand-input').removeClass('hidden');
         else $('.brand-input').addClass('hidden');
@@ -151,6 +150,7 @@ $(function(){
           return false;
         }
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
+        saveData.id = $('input[name="_id"]').val();
         addUrlList();
         let flag = 0;
         async function SaveData() {
@@ -242,9 +242,9 @@ $(function(){
     $('.add-spoof-select').eq(index).toggleClass('hidden');
   })
 
-  $('#spoof-refer-switch').change(()=> {
+  $('#spoof-refer-switch').change(function() {
     const SpoofSelect = $('#spoof-select');
-    if (SpoofSelect.hasClass('hidden')) SpoofSelect.removeClass('hidden');
+    if ($(this).prop('checked')) SpoofSelect.removeClass('hidden');
     else SpoofSelect.addClass('hidden');
   })
 

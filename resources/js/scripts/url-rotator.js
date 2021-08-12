@@ -256,7 +256,7 @@ $(function(){
         '</div>'+
         '<div class="col-md-2 col-4">'+
           '<div class="form-group">'+
-            '<input type="text" class="form-control form-control-sm weight-or-max_hit" value="' + weightHit + '">'+
+            '<input type="number" class="form-control form-control-sm weight-or-max_hit" value="' + weightHit + '">'+
           '</div>'+
         '</div>'+
         '<div class="col-md-2">'+
@@ -352,7 +352,7 @@ $(function(){
             '</div>'+
             '<div class="col-md-2 col-4">'+
               '<div class="form-group">'+
-                '<input type="text" class="form-control form-control-sm weight-or-max_hit" value="' + item.weight_hit + '">'+
+                '<input type="number" class="form-control form-control-sm weight-or-max_hit" value="' + item.weight_hit + '">'+
               '</div>'+
             '</div>'+
             '<div class="col-md-2">'+
