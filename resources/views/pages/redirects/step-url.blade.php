@@ -232,11 +232,6 @@
                       <div class="form-group row">
                         <div class="col-md-4">
                             <div class="row">
-                              <div class="col-md-2 col-sm-2 col-2">
-                                <button type="button" class="btn btn-icon btn-outline-light waves-effect waves-light" id="rule-box-toggle">
-                                  <i class="feather icon-plus"></i>
-                                </button>
-                              </div>
                               <div class="col-md-10 col-sm-10 col-10">
                                 <select class="form-control" id="active_rule" name="active_rule">
                                   <option value="">ADD NEW RULE</option>
@@ -245,7 +240,12 @@
                                   <option value="referrer-group" data-index="2">Referrer</option>
                                   <option value="empty-referrer-group" data-index="3">Empty referrer</option>
                                   <option value="device-type-group" data-index="4">Device Type</option>
-                              </select>
+                                </select>
+                              </div>
+                              <div class="col-md-2 col-sm-2 col-2">
+                                <button type="button" class="btn btn-icon btn-outline-light waves-effect waves-light" id="rule-box-toggle">
+                                  <i class="feather icon-plus"></i>
+                                </button>
                               </div>
                             </div>
                         </div>

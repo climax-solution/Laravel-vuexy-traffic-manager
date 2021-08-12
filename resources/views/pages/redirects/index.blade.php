@@ -83,6 +83,9 @@
 				  </thead>
 				  <tbody>
 					  @foreach ($redirects as $key => $redirect)
+            @php
+              $editURL = '/edit-url/'.$redirect->uuid;
+            @endphp
 					  <tr>
 							<td>{{ $redirect->id }}</td>
 							<td class="redirect-url">{{ env('APP_URL').'/r/'.$redirect->uuid }}</td>
@@ -99,6 +102,7 @@
 							<td>{{ $redirect->max_hit_day }}</td>
 							<td class="action-group">
                 <a class="copy-btn" data-index="{{$key}}"><i class="fa fa-copy text-em"></i></a>
+                <a href="{{ url($editURL) }}" class="edit-btn color-inherit" data-index="{{$key}}"><i class="feather icon-edit text-em"></i></a>
                 <a class="clone-btn" data-id="{{$redirect->id}}"><i class="fa fa-clone text-em"></i></a>
                 <a class="remove-btn" data-id="{{$redirect->id}}" data-index="{{$key}}"><i class="feather icon-trash-2 text-em"></i></a>
               </td>
@@ -130,6 +134,9 @@
   }
   .text-em {
     font-size: 16px;
+  }
+  .color-inherit,.color-inherit:hover {
+    color: inherit;
   }
 </style>
 @endsection

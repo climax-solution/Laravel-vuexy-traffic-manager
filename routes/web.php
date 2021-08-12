@@ -25,11 +25,6 @@ Route::group(['middleware' => ['auth','locked']], function () {
   Route::get('/redirects/url-rotator', 'UrlRotatorController@index')->name('redirects.url-rotator');
   //Step Url
   Route::get('/redirects/step-url', 'StepUrlController@index')->name('redirects.step-url');
-  Route::get('/redirects/step-url/asin', 'RedirectController@stepUrlAsin')->name('redirects.step-asin');
-  Route::get('/redirects/step-url/store-front', 'RedirectController@stepUrlStoreFront')->name('redirects.step-store-front');
-  Route::get('/redirects/step-url/hidden-keyword', 'RedirectController@stepUrlHiddenKeyword')->name('redirects.step-hidden-keyword');
-  Route::get('/redirects/step-url/product-result', 'RedirectController@stepUrlProductResult')->name('redirects.step-product-result');
-  Route::get('/redirects/step-url/brand', 'RedirectController@stepUrlBrand')->name('redirects.step-brand');
   //
   Route::get('/redirects/dynamic-qr-code', 'QrCodeController@index')->name('redirects.step-dynamic-qr-code');
   Route::post('/redirects/create-new-qr-code', 'QrCodeController@createNewQrCode')->name('redirects.create-new-qr-code');
@@ -54,6 +49,7 @@ Route::group(['middleware' => ['auth','locked']], function () {
   Route::post('/update-url-active','RedirectController@updateActive')->name('redirects.update-url-active');
   Route::post('/clone-url','RedirectController@cloneURL')->name('redirects.clone-url');
   Route::post('/delete-url','RedirectController@deleteURL')->name('redirects.delete-url');
+  Route::get('/edit-url/{uuid}','RedirectController@editURL')->name('redirects.edit-url/{uuid}');
 
   Route::post('/get-csv-data','UrlRotatorController@getCsvData');
   Route::post('/get-csv-data-step-asin','StepUrlController@getCsvData');
