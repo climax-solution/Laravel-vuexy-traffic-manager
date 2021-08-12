@@ -10,6 +10,7 @@ class StepUrlList extends Model
       'parent_id',
       'uuid',
       'dest_url',
+      'keyword',
       'weight',
       'max_hit_day',
       'take_count'

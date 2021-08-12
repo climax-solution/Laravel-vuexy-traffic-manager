@@ -16,6 +16,7 @@ class CreateStepUrlsTable extends Migration
         Schema::create('step_urls', function (Blueprint $table) {
           $table->id();
           $table->json('advance_options')->nullable();
+          $table->string('spoof_service')->nullable();
           $table->string('pixel')->nullable();
           $table->string('amazon_aff_id')->nullable();
           $table->string('active_rule')->nullable();

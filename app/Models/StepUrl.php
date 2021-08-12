@@ -8,6 +8,7 @@ class StepUrl extends Model
 {
   protected $fillable = [
     'advance_options',
+    'spoof_service',
     'pixel',
     'amazon_aff_id',
     'active_rule',
