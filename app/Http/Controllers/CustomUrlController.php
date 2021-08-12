@@ -72,7 +72,7 @@ class CustomUrlController extends Controller
       }
     }
     $data = $input;
-    $data['id'] = $redirect->item_id;
+    if(isset($redirect->item_id)) $data['id'] = $redirect->item_id;
     $uuid = Str::random(7);
     if (!isset($data['id'])) $res = CustomUrl::create($data);
     else {

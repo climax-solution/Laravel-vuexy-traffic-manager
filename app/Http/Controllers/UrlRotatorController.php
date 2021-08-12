@@ -144,7 +144,6 @@ class UrlRotatorController extends Controller {
     foreach($url_list as $key => $url) {
       $url['parent_id'] = $res->id;
       $url['uuid'] = $key;
-      var_dump($url);
       UrlRotatorList::create($url);
     }
     $url = env('APP_URL').'/r/'.$redirectData['uuid'];
