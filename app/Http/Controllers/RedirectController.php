@@ -145,11 +145,10 @@ class RedirectController extends Controller
           $ipaddress = $_SERVER['REMOTE_ADDR'];
       else
           $ipaddress = 'UNKNOWN';
-      dd($_SERVER);
       $data = \Location::get($ipaddress);
       $status = [];
       if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
-      if (!is_bool($data)) {
+      if (is_array($data) && count($data)) {
         $countryCode = $data->countryCode;
         if ($redirect_src->table_name != 'qr_code') {
           foreach($active_rule as $item) {
