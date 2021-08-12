@@ -145,7 +145,7 @@ class RedirectController extends Controller
       $data = \Location::get($ipaddress);
       $status = [];
       if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
-      if (is_array($data) && count($data)) {
+      if (is_object($data)) {
         $countryCode = $data->countryCode;
         if ($redirect_src->table_name != 'qr_code') {
           foreach($active_rule as $item) {
@@ -168,7 +168,7 @@ class RedirectController extends Controller
               case '1':
                 $row = Proxy::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
                 $check = new \IP2Proxy\Database(base_path('vendor/ip2location/ip2proxy-php/data/PX10.SAMPLE.BIN'), \IP2PROXY\Database::FILE_IO);
-                $res = $check->lookup($ip, \IP2PROXY\Database::ALL);
+                $res = $check->lookup($ipaddress, \IP2PROXY\Database::ALL);
                 $proxy = 0;
                 switch($row->action) {
                   case '0':

@@ -7,11 +7,13 @@ use App\Models\DeviceType;
 use App\Models\EmptyReferrer;
 use App\Models\GeoIp;
 use App\Models\Proxy;
+use App\Models\Referrer;
 use Illuminate\Http\Request;
 use App\Models\Redirect;
-use App\Models\Referrer;
 use Monarobase\CountryList\CountryListFacade;
 use Illuminate\Support\Str;
+use Helper;
+use stdClass;
 
 class CustomUrlController extends Controller
 {
@@ -24,15 +26,43 @@ class CustomUrlController extends Controller
       'countries'  =>  CountryListFacade::getList('en'),
       'country_group' => ['group 1', 'group 2']
     ];
+    $this->rule_list = [
+      GeoIp::class,
+      Proxy::class,
+      Referrer::class,
+      EmptyReferrer::class,
+      DeviceType::class
+    ];
   }
 
-  public function index() {
-    return view('/pages/redirects/custom-url', $this->compactData);
+  public function index(Request $request) {
+    $id = $request->query('id');
+    $url_data = Redirect::where('id', $id)->where('table_name', 'custom_urls')->first();
+    $compactData = $this->compactData;
+    $rule_data = [];
+    $advance_options = [];
+    if ($url_data) {
+      $custom_url = CustomUrl::where('id',$url_data->item_id)->first();
+      $Rule = $this->rule_list;
+      foreach($Rule as $key => $item) {
+        $rule_data[$key] = $item::where('item_id',$custom_url->id)->where('table_name','custom_urls')->first();
+      }
+      $advance_options = json_decode($custom_url->advance_options, true);
+      $advance_options['spoof_service'] = $custom_url->spoof_service;
+    }
+    $compactData['rule_data'] = $rule_data;
+    $compactData['url_data'] = !$url_data ? [] : $url_data;
+    $compactData['advance_options'] = $advance_options;
+    $compactData['id'] = $id;
+    return view('/pages/redirects/custom-url', $compactData);
   }
 
   public function createNewCustomUrl(Request $request) {
     $input = $request->except('_token');
     unset($input['addFile']);
+    $redirect = Redirect::where('id', $input['id'])->first();
+    if(isset($redirect->item_id)) Helper::removeRules($redirect->item_id);
+    unset($input['id']);
     $block_item = ['link_name','tracking_url', 'dest_url','fallback_url', 'max_hit_day', 'campaign', 'pixel'];
     $redirectData = [];
     foreach($block_item as $item) {
@@ -42,19 +72,29 @@ class CustomUrlController extends Controller
       }
     }
     $data = $input;
+    $data['id'] = $redirect->item_id;
     $uuid = Str::random(7);
-    $res = CustomUrl::create($data);
+    if (!isset($data['id'])) $res = CustomUrl::create($data);
+    else {
+      CustomUrl::where('id', $data['id'])->update($data);
+      $res = new stdClass();
+      $res->id = $redirect->item_id;
+    }
     $addFile = json_decode($request->input('addFile'),true);
     $active_rule = json_decode($data['active_rule']);
-    $redirectData['uuid'] = $uuid;
     $redirectData['item_id'] = $res->id;
     $redirectData['table_name'] = 'custom_urls';
     $redirectData['user_id'] = auth()->user()->id;
-    Redirect::create($redirectData);
+    if(!isset($redirect->item_id)) {
+      $redirectData['uuid'] = $uuid;
+      Redirect::create($redirectData);
+    }
+    else {
+      Redirect::where('id',$redirect->id)->update($redirectData);
+    }
     foreach($active_rule as $item) {
       $addFile[$item]['item_id'] = $res->id;
       $addFile[$item]['table_name'] = 'custom_urls';
-      $flag = 0;
       switch($item) {
         case '0':
           $count = GeoIp::where('item_id',$res->id)->count();

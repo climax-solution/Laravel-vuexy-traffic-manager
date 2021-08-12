@@ -44,6 +44,7 @@
       <span>Edit Redirect Link.</span>
       <button type="button" class="btn btn-outline-dark round mr-1 mb-1 pull-right f-10">You are creating a Custom URL redirect</button>
     </div>
+    <input type="hidden" name="_id" value="{{$id}}"/>
     <div class="col-md-12">
       <div class="row match-height">
         <div class="col-md-12 col-12">
@@ -59,7 +60,7 @@
                                               <span>Link Name: </span>
                                             </div>
                                             <div class="col-md-10">
-                                                <input type="text" id="link_name" class="form-control" name="link_name">
+                                                <input type="text" id="link_name" class="form-control" name="link_name" value="{{ isset($url_data->link_name) ? $url_data->link_name : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -67,7 +68,7 @@
                                             <span>Destination URL: </span>
                                           </div>
                                           <div class="col-md-10">
-                                              <input type="text" id="dest_url" class="form-control" name="dest_url">
+                                              <input type="text" id="dest_url" class="form-control" name="dest_url" value="{{ isset($url_data->dest_url) ? $url_data->dest_url : '' }}">
                                           </div>
                                       </div>
                                       <div class="form-group row">
@@ -76,7 +77,7 @@
                                         </div>
                                         <div class="col-md-10">
                                           <fieldset class="form-group">
-                                            <select class="form-control" id="tracking_url" name="tracking_url">
+                                            <select class="form-control" id="tracking_url" name="tracking_url" value="{{ isset($url_data->tracking_url) ? $url_data->tracking_url : '' }}">
                                               @foreach ($track as $key => $item)
                                                 <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                                               @endforeach
@@ -90,7 +91,7 @@
                                         </div>
                                         <div class="col-md-7">
                                           <fieldset class="form-group">
-                                            <select class="form-control" id="pixel" name="pixel">
+                                            <select class="form-control" id="pixel" name="pixel" value="{{ isset($url_data->pixel) ? $url_data->pixel : '' }}">
                                               @foreach ($pixel as $key => $item)
                                               <option value="{{$key}}">{{ $item }}</option>
                                             @endforeach
@@ -111,7 +112,7 @@
                                         </div>
                                         <div class="col-md-10">
                                           <fieldset class="form-group">
-                                            <select class="form-control" id="campaign" name="campaign">
+                                            <select class="form-control" id="campaign" name="campaign" value="{{ isset($url_data->campaign) ? $url_data->campaign : '' }}">
                                               @foreach ($campaign as $key => $item)
                                                 <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                                               @endforeach
@@ -177,7 +178,7 @@
                                               <span>Max Hits Day:</span>
                                             </div>
                                             <div class="col-md-5">
-                                              <input type='number' class="form-control" id="max_hit_day" name="max_hit_day"/>
+                                              <input type='number' class="form-control" id="max_hit_day" name="max_hit_day" value="{{isset($url_data->max_hit_day) ? $url_data->max_hit_day : ''}}"/>
                                             </div>
                                           </div>
                                           <div class="form-group row">
@@ -185,7 +186,7 @@
                                               <span>Fallback URL:</span>
                                             </div>
                                             <div class="col-md-8">
-                                              <input type="text" id="fallback_url" class="form-control" name="fallback_url">
+                                              <input type="text" id="fallback_url" class="form-control" name="fallback_url"  value="{{isset($url_data->fallback_url) ? $url_data->fallback_url : ''}}">
                                             </div>
                                           </div>
                                         </div>
@@ -217,7 +218,7 @@
                                             </div>
                                         </div>
                                       </div>
-                                      <div class="row geo-ip-group border-light p-1 rounded-lg position-relative hidden rule-group">
+                                      <div class="row geo-ip-group border-light p-1 rounded-lg position-relative @if(!isset($rule_data[0])) hidden @endif  rule-group">
                                         <div class="col-md-4">
                                             <div class="row">
                                               <div class="col-md-4">
@@ -225,8 +226,8 @@
                                               </div>
                                               <div class="col-md-8">
                                                 <select class="form-control" id="geo-ip" name="geo-ip">
-                                                    <option value="1" selected>Accept only from</option>
-                                                    <option value="0">Reject from</option>
+                                                  <option value="1" selected>Accept only from</option>
+                                                  <option value="0">Reject from</option>
                                                 </select>
                                               </div>
                                             </div>
@@ -261,19 +262,19 @@
                                           </div>
                                         </div>
                                       </div>
-                                      <div class="form-group row border-light p-1 rounded-lg mt-2 proxy-group position-relative hidden rule-group">
+                                      <div class="form-group row border-light p-1 rounded-lg mt-2 proxy-group position-relative @if(!isset($rule_data[1])) hidden @endif rule-group">
                                         <div class="col-md-1">
                                           <span class="mt-1-2 d-inline-block">Proxy: </span>
                                         </div>
                                         <div class="col-md-8">
                                           <select class="form-control" id="proxy-action">
-                                            <option value="1" selected>Accept visitor only if proxy is detected</option>
-                                            <option value="0">Reject visitor is proxy is detected</option>
+                                              <option value="1" selected>Accept visitor only if proxy is detected</option>
+                                              <option value="0">Reject visitor is proxy is detected</option>
                                           </select>
                                         </div>
                                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
                                       </div>
-                                      <div class="form-group row referrer-group border-light p-1 rounded-lg position-relative hidden rule-group">
+                                      <div class="form-group row referrer-group border-light p-1 rounded-lg position-relative @if(!isset($rule_data[2])) hidden @endif rule-group">
                                           <div class="col-md-5">
                                             <div class="row">
                                               <div class="col-md-3">
@@ -311,7 +312,7 @@
                                           </div>
                                         </div>
                                       </div>
-                                      <div class="form-group row border-light p-1 rounded-lg mt-2 empty-referrer-group position-relative hidden rule-group">
+                                      <div class="form-group row border-light p-1 rounded-lg mt-2 empty-referrer-group position-relative @if(!isset($rule_data[3])) hidden @endif rule-group">
                                         <div class="col-md-2">
                                           <span class="mt-1-2 d-inline-block">Empty referrer: </span>
                                         </div>
@@ -323,7 +324,7 @@
                                         </div>
                                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="empty-referrer-group">REMOVE</button>
                                       </div>
-                                      <div class="form-group row device-type-group border-light p-1 rounded-lg position-relative hidden rule-group mt-2">
+                                      <div class="form-group row device-type-group border-light p-1 rounded-lg position-relative @if(!isset($rule_data[4])) hidden @endif rule-group mt-2">
                                         <div class="col-md-8">
                                           <div class="row">
                                             <div class="col-md-3">
@@ -370,8 +371,78 @@
 @endsection
 
 @section('page-script')
+@php
+    $country_list = []; $geo_ip_action = 1; $country_group = 0;
+    $proxy_action = 1;
+    $referrer_action = 1; $domain_type = 0; $domain_reg = 0; $domain_name = '';
+    $empty_referrer_action = 1;
+    $device_action = 1; $device_type = 0;
+    $blank = 'false'; $spoof = 'false'; $spoof_service = 0; $deep = 'false';
+    if (isset($rule_data[0])) {
+      $country_list = explode(',',$rule_data[0]->country_list);
+      $geo_ip_action = $rule_data[0]->action;
+      $country_group = $rule_data[0]->country_group;
+    }
+    if (isset($rule_data[1])) {
+      $proxy_action = $rule_data[1]->action;
+    }
+    if (isset($rule_data[2])) {
+      $referrer_action = $rule_data[2]->action;
+      $domain_type = $rule_data[2]->domain_type;
+      $domain_reg = $rule_data[2]->domain_reg;
+      $domain_name = $rule_data[2]->domain_name;
+    }
+    if (isset($rule_data[3])) {
+      $empty_referrer_action = $rule_data[3]->action;
+    }
+    if (isset($rule_data[4])) {
+      $device_action = $rule_data[4]->action;
+      $device_type = $rule_data[4]->device_type;
+    }
+    if (isset($advance_options)) {
+      $blank = $advance_options['blank'] ? 'true' : 'false';
+      $spoof = $advance_options['spoof'] ? 'true' : 'false';
+      $deep = $advance_options['deep'] ? 'true' : 'false';
+      $spoof_service = $advance_options['spoof_service'];
+    }
+    $rule_key = [];
+    foreach ($rule_data as $key => $value) {
+      if (isset($value)) array_push($rule_key, $key);
+    }
+  @endphp
   <script>
     const createURL = "{{route('redirects.create-new-custom-url')}}";
+    let active_rule = [];
+    active_rule = @php
+      echo json_encode($rule_key);
+    @endphp;
   </script>
   <script src="{{ asset(mix('js/scripts/custom-url.js')) }}"></script>
+
+  <script>
+    const country_list = @php
+    function get_tag($value) {
+        return $value;
+    }
+    echo json_encode(array_map("get_tag", $country_list));
+    @endphp;
+
+    $(function(){
+      $('#geo-ip').val({{$geo_ip_action}});
+      $("#country-list").val(country_list).change();
+      $('#country-group').val({{ $country_group }});
+      $('#proxy-action').val({{$proxy_action}});
+      $('#referrer-action').val({{$referrer_action}});
+      $('#domain-type').val({{$domain_type}});
+      $('#domain-reg').val({{$domain_reg}});
+      $('#domain-name').val('{{$domain_name}}');
+      $('#empty-referrer-action').val({{$empty_referrer_action}});
+      $('#device-action-list').val({{$device_action}});
+      $('#device-type-list').val({{$device_type}});
+      $('#blank-refer-switch').attr('checked',{{$blank}});
+      $('#spoof-refer-switch').attr('checked', {{$spoof}}).change();
+      $('#deep-link-switch').attr('checked', {{$deep}});
+      $('#spoof-select').val({{$spoof_service}});
+    })
+  </script>
 @endsection

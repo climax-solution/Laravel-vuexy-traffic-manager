@@ -3,6 +3,11 @@
 namespace App\Helpers;
 
 use Config;
+use App\Models\DeviceType;
+use App\Models\EmptyReferrer;
+use App\Models\GeoIp;
+use App\Models\Proxy;
+use App\Models\Referrer;
 
 class Helper
 {
@@ -119,5 +124,18 @@ class Helper
                 }
             }
         }
+    }
+
+    public static function removeRules($id) {
+      $Rules = [
+        GeoIp::class,
+        Proxy::class,
+        Referrer::class,
+        EmptyReferrer::class,
+        DeviceType::class
+      ];
+      foreach($Rules as $item) {
+        $item::where('item_id', $id)->delete();
+      }
     }
 }
