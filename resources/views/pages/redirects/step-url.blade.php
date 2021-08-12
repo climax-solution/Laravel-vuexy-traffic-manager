@@ -54,9 +54,8 @@
     <div class="col-md-12">
       <span>Create New Step URL Redirect Link.</span>
       <button type="button" class="btn btn-outline-dark round mr-1 mb-1 pull-right f-10">You are creating a Custom URL redirect</button>
-
     </div>
-
+    <input type="hidden" name="_id" value="{{$id}}">
 	</div>
   <section id="number-tabs">
     <div class="row">
@@ -117,8 +116,8 @@
                           <fieldset class="form-group">
                             <select class="form-control" id="pixel" name="pixel">
                               @foreach ($pixel as $key => $item)
-                              <option value="{{$key}}">{{ $item }}</option>
-                            @endforeach
+                                <option value="{{$key}}">{{ $item }}</option>
+                              @endforeach
                             </select>
                             <span class="xx-small">The pixel will be fired before the user is redirected to the Destination URL.</span>
                           </fieldset>
@@ -135,7 +134,7 @@
                           <span>Amazon Aff. ID: </span>
                         </div>
                         <div class="col-md-10">
-                          <input type="text" id="amazon_aff_id" class="form-control" name="amazon_aff_id">
+                          <input type="text" id="amazon_aff_id" class="form-control" name="amazon_aff_id" value="{{ $amazon_aff_id }}">
                         </div>
                       </div>
                       <div class="form-group row">
@@ -210,7 +209,7 @@
                               <span>Max Hits Day:</span>
                             </div>
                             <div class="col-md-5">
-                              <input type='number' class="form-control" id="max_hit_day" name="max_hit_day"/>
+                              <input type='number' class="form-control" id="max_hit_day" name="max_hit_day" value="{{ isset($url_data->max_hit_day) ? $url_data->max_hit_day : '' }}"/>
                             </div>
                           </div>
                           <div class="form-group row">
@@ -218,7 +217,7 @@
                               <span>Fallback URL:</span>
                             </div>
                             <div class="col-md-8">
-                              <input type="text" id="fallback_url" class="form-control" name="fallback_url">
+                              <input type="text" id="fallback_url" class="form-control" name="fallback_url" value="{{ isset($url_data->fallback_url) ? $url_data->fallback_url : '' }}">
                             </div>
                           </div>
                         </div>
@@ -250,7 +249,7 @@
                             </div>
                         </div>
                       </div>
-                      <div class="row geo-ip-group border-light p-1 rounded-lg position-relative hidden rule-group mb-1">
+                      <div class="row geo-ip-group border-light p-1 rounded-lg position-relative @if(!isset($rule_data[0])) hidden @endif rule-group mb-1">
                         <div class="col-md-4">
                             <div class="row">
                               <div class="col-md-4">
@@ -294,7 +293,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group row border-light p-1 rounded-lg mb-1 mt-1 proxy-group position-relative hidden rule-group ">
+                      <div class="form-group row border-light p-1 rounded-lg mb-1 mt-1 proxy-group position-relative @if(!isset($rule_data[1])) hidden @endif rule-group ">
                         <div class="col-md-1">
                           <span class="mt-1-2 d-inline-block">Proxy: </span>
                         </div>
@@ -306,7 +305,7 @@
                         </div>
                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
                       </div>
-                      <div class="form-group row referrer-group border-light mb-1 mt-1 p-1 rounded-lg position-relative hidden rule-group">
+                      <div class="form-group row referrer-group border-light mb-1 mt-1 p-1 rounded-lg position-relative @if(!isset($rule_data[2])) hidden @endif rule-group">
                           <div class="col-md-5">
                             <div class="row">
                               <div class="col-md-3">
@@ -344,7 +343,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-group row border-light p-1 rounded-lg  mb-1 mt-1 empty-referrer-group position-relative hidden rule-group">
+                      <div class="form-group row border-light p-1 rounded-lg  mb-1 mt-1 empty-referrer-group position-relative @if(!isset($rule_data[3])) hidden @endif rule-group">
                         <div class="col-md-2">
                           <span class="mt-1-2 d-inline-block">Empty referrer: </span>
                         </div>
@@ -356,7 +355,7 @@
                         </div>
                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="empty-referrer-group">REMOVE</button>
                       </div>
-                      <div class="form-group row device-type-group border-light mb-1 mt-1 p-1 rounded-lg position-relative hidden rule-group">
+                      <div class="form-group row device-type-group border-light mb-1 mt-1 p-1 rounded-lg position-relative @if(!isset($rule_data[4])) hidden @endif rule-group">
                         <div class="col-md-8">
                           <div class="row">
                             <div class="col-md-3">
@@ -498,6 +497,29 @@
                           <div class="col-md-2 d-md-block d-none"></div>
                         </div>
                         <div class="all-url-list-group">
+                          @foreach ($url_list as $item)
+                            <div class="form-group row target-item-group">
+                              <div class="col-md-2 col-6">
+                                <span class="keyword">{{$item->keyword}}</span>
+                              </div>
+                              <div class="col-md-2 col-6">
+                                <div class="form-group">
+                                  <span class="weight-or-max_hit">{{$rotation == '1' ? $item->weight : ($rotation == '3' ? $item->max_hit_day : '0')}}</span>
+                                </div>
+                              </div>
+                              <div class="col-md-6 col-9">
+                                <p class="preview-link text-break-all">{{$item->dest_url}}</p>
+                              </div>
+                              <div class="col-md-2 col-3 text-right">
+                                <a href="{{$item->dest_url}}" target="_blank">
+                                  <i class="fa fa-external-link fa-2x mr-1"></i>
+                                </a>
+                                <a href="#" class="target-item-remove">
+                                  <i class="fa fa-trash fa-2x"></i>
+                                </a>
+                              </div>
+                            </div>
+                          @endforeach
                         </div>
                       </div>
                     </div>
@@ -521,8 +543,52 @@
 @endsection
 
 @section('page-script')
+  @php
+    $country_list = []; $geo_ip_action = 1; $country_group = 0;
+    $proxy_action = 1; $tracking_url = isset($url_data->tracking_url) ? $url_data->tracking_url : 0;
+    $pixel = isset($url_data->pixel) ? $url_data->pixel : 0;
+    $campaign = isset($url_data->campaign) ? $url_data->campaign : 0;
+    $referrer_action = 1; $domain_type = 0; $domain_reg = 0; $domain_name = '';
+    $empty_referrer_action = 1;
+    $device_action = 1; $device_type = 0;
+    $blank = 'false'; $spoof = 'false'; $spoof_service = 0; $deep = 'false';
+    if (isset($rule_data[0])) {
+      $country_list = explode(',',$rule_data[0]->country_list);
+      $geo_ip_action = $rule_data[0]->action;
+      $country_group = $rule_data[0]->country_group;
+    }
+    if (isset($rule_data[1])) {
+      $proxy_action = $rule_data[1]->action;
+    }
+    if (isset($rule_data[2])) {
+      $referrer_action = $rule_data[2]->action;
+      $domain_type = $rule_data[2]->domain_type;
+      $domain_reg = $rule_data[2]->domain_reg;
+      $domain_name = $rule_data[2]->domain_name;
+    }
+    if (isset($rule_data[3])) {
+      $empty_referrer_action = $rule_data[3]->action;
+    }
+    if (isset($rule_data[4])) {
+      $device_action = $rule_data[4]->action;
+      $device_type = $rule_data[4]->device_type;
+    }
+    if (count($advance_options)) {
+      $blank = $advance_options['blank'] ? 'true' : 'false';
+      $spoof = $advance_options['spoof'] ? 'true' : 'false';
+      $deep = $advance_options['deep'] ? 'true' : 'false';
+      $spoof_service = $advance_options['spoof_service'];
+    }
+    $rule_key = [];
+    foreach ($rule_data as $key => $value) {
+      if (isset($value)) array_push($rule_key, $key);
+    }
+  @endphp
 <script>
   const createURL = "{{route('redirects.create-new-step-asin')}}";
+  let active_rule = @php
+    echo json_encode($rule_key);
+  @endphp;
 </script>
 <script src="{{asset(mix('js/scripts/step-url.js'))}}"></script>
 <script>
@@ -531,6 +597,36 @@
       const index = $('.target-item-remove').index($(this));
       $('.target-item-group').eq(index).remove();
     })
+  })
+</script>
+<script>
+  const country_list = @php
+  function get_tag($value) {
+      return $value;
+  }
+  echo json_encode(array_map("get_tag", $country_list));
+  @endphp;
+
+  $(function(){
+    $('#tracking_url').val({{$tracking_url}});
+    $('#pixel').val({{$pixel}});
+    $('#campaign').val({{$campaign}});
+    $('#geo-ip').val({{$geo_ip_action}});
+    $("#country-list").val(country_list).change();
+    $('#country-group').val({{ $country_group }});
+    $('#proxy-action').val({{$proxy_action}});
+    $('#referrer-action').val({{$referrer_action}});
+    $('#domain-type').val({{$domain_type}});
+    $('#domain-reg').val({{$domain_reg}});
+    $('#domain-name').val('{{$domain_name}}');
+    $('#empty-referrer-action').val({{$empty_referrer_action}});
+    $('#device-action-list').val({{$device_action}});
+    $('#device-type-list').val({{$device_type}});
+    $('#blank-refer-switch').attr('checked',{{$blank}});
+    $('#deep-link-switch').attr('checked', {{$deep}});
+    $('input[name="rotate_option"]').eq({{$rotation}}).attr('checked',true);
+    $('#spoof-refer-switch').attr('checked', {{$spoof}}).change();
+    $('#spoof-select').val({{!$spoof_service ? 0 : $spoof_service}});
   })
 </script>
 @endsection

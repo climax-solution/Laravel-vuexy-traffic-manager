@@ -444,9 +444,9 @@
       $('#device-action-list').val({{$device_action}});
       $('#device-type-list').val({{$device_type}});
       $('#blank-refer-switch').attr('checked',{{$blank}});
-      $('#spoof-refer-switch').attr('checked', {{$spoof}}).change();
       $('#deep-link-switch').attr('checked', {{$deep}});
-      $('#spoof-select').val({{$spoof_service}});
+      $('#spoof-refer-switch').attr('checked', {{$spoof}}).change();
+      $('#spoof-select').val({{!$spoof_service ? 0 : $spoof_service}});
     })
   </script>
 @endsection
