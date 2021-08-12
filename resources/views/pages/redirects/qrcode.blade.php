@@ -44,6 +44,7 @@
       <span>Edit Redirect Link.</span>
       <button type="button" class="btn btn-outline-dark round mr-1 mb-1 pull-right f-10">You are creating a Custom URL redirect</button>
     </div>
+    <input type="hidden" name="_id" value="{{$id}}"/>
     <div class="col-md-12">
       <div class="row match-height">
         <div class="col-md-12 col-12">
@@ -59,7 +60,7 @@
                                               <span>Link Name: </span>
                                             </div>
                                             <div class="col-md-10">
-                                                <input type="text" id="link_name" class="form-control" name="link_name">
+                                                <input type="text" id="link_name" class="form-control" name="link_name" value="{{ isset($url_data->link_name) ? $url_data->link_name : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -67,7 +68,7 @@
                                             <span>Destination URL: </span>
                                           </div>
                                           <div class="col-md-10">
-                                              <input type="text" id="dest_url" class="form-control" name="dest_url">
+                                              <input type="text" id="dest_url" class="form-control" name="dest_url" value="{{ isset($url_data->dest_url) ? $url_data->dest_url : '' }}">
                                           </div>
                                       </div>
                                       <div class="form-group row">
@@ -371,8 +372,20 @@
 @endsection
 
 @section('page-script')
+  @php
+    $tracking_url = isset($url_data->tracking_url) ? $url_data->tracking_url : 0;
+    $pixel = isset($url_data->pixel) ? $url_data->pixel : 0;
+    $campaign = isset($url_data->campaign) ? $url_data->campaign : 0;
+  @endphp
   <script>
     const createURL = "{{route('redirects.create-new-qr-code')}}";
   </script>
   <script src="{{ asset(mix('js/scripts/qr-code.js')) }}"></script>
+  <script>
+    $(function(){
+      $('#tracking_url').val({{$tracking_url}});
+      $('#pixel').val({{$pixel}});
+      $('#campaign').val({{$campaign}});
+    })
+  </script>
 @endsection

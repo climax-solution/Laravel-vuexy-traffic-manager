@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\CustomUrl;
 use App\Models\UrlRotator;
 use App\Models\DeviceType;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Monarobase\CountryList\CountryListFacade;
+use stdClass;
 
 class UrlRotatorController extends Controller {
 
@@ -27,18 +29,47 @@ class UrlRotatorController extends Controller {
       'countries'  =>  CountryListFacade::getList('en'),
       'country_group' => ['group 1', 'group 2']
     ];
+    $this->rule_list = [
+      GeoIp::class,
+      Proxy::class,
+      Referrer::class,
+      EmptyReferrer::class,
+      DeviceType::class
+    ];
   }
 
-  public function index() {
-    $links = Redirect::select('dest_url')->where('table_name', 'custom_url')->get();
-    $compactData = $this->compactData;
-    $compactData['links'] = $links;
+  public function index(Request $request) {
+    $links = Redirect::select('dest_url')->where('table_name', 'custom_urls')->get();
+    $compactData = $this->compactData;    $compactData['links'] = $links;    $id = $request->query('id');
+    $url_data = Redirect::where('id', $id)->where('table_name', 'url_rotator')->first();
+    $rule_data = [];  $url_list = [];   $advance_options = [];
+    $rotation = 0;
+    if ($url_data) {
+      $url_rotator = UrlRotator::where('id',$url_data->item_id)->first();
+      $Rule = $this->rule_list;
+      foreach($Rule as $key => $item) {
+        $rule_data[$key] = $item::where('item_id',$url_rotator->id)->where('table_name','url_rotator')->first();
+      }
+      $url_list = UrlRotatorList::where('parent_id',$url_rotator->id)->get();
+      $advance_options = json_decode($url_rotator->advance_options, true);
+      $rotation = $url_rotator->rotation_option;
+    }
+    $compactData['rule_data'] = $rule_data;
+    $compactData['url_data'] = !$url_data ? [] : $url_data;
+    $compactData['advance_options'] = $advance_options;
+    $compactData['rotation'] = $rotation;
+    $compactData['url_list'] = $url_list;
+    $compactData['id'] = $id;
     return view('/pages/redirects/url-rotator',$compactData);
   }
 
   public function createNewUrlRotator(Request $request) {
     $input = $request->except('_token');
     unset($input['addFile']);
+    $redirect = Redirect::where('id', $input['id'])->first();
+    if(isset($redirect->item_id)) Helper::removeRules($redirect->item_id);
+    unset($input['id']);
+    unset($input['url_list']);
     $block_item = ['link_name','tracking_url', 'dest_url','fallback_url', 'max_hit_day', 'campaign','pixel'];
     $redirectData = [];
     foreach($block_item as $item) {
@@ -48,15 +79,27 @@ class UrlRotatorController extends Controller {
       }
     }
     $data = $input;
+    if(isset($redirect->item_id)) $data['id'] = $redirect->item_id;
     $uuid = Str::random(7);
-    $res = UrlRotator::create($data);
+    if (!isset($data['id'])) $res = UrlRotator::create($data);
+    else {
+      UrlRotator::where('id', $data['id'])->update($data);
+      $res = new stdClass();
+      $res->id = $redirect->item_id;
+    }
     $addFile = json_decode($request->input('addFile'),true);
     $active_rule = json_decode($data['active_rule']);
     $redirectData['uuid'] = $uuid;
     $redirectData['item_id'] = $res->id;
     $redirectData['table_name'] = 'url_rotator';
     $redirectData['user_id'] = auth()->user()->id;
-    Redirect::create($redirectData);
+    if(!isset($redirect->item_id)) {
+      $redirectData['uuid'] = $uuid;
+      Redirect::create($redirectData);
+    }
+    else {
+      Redirect::where('id',$redirect->id)->update($redirectData);
+    }
     foreach($active_rule as $item) {
       $addFile[$item]['item_id'] = $res->id;
       $addFile[$item]['table_name'] = 'url_rotator';
@@ -96,13 +139,15 @@ class UrlRotatorController extends Controller {
           break;
       };
     }
-    $url_list = json_decode($input['url_list'],true);
+    $url_list = json_decode($request->url_list,true);
+    UrlRotatorList::where('parent_id', $res->id)->delete();
     foreach($url_list as $key => $url) {
       $url['parent_id'] = $res->id;
       $url['uuid'] = $key;
+      var_dump($url);
       UrlRotatorList::create($url);
     }
-    $url = env('APP_URL').'/r/'.$uuid;
+    $url = env('APP_URL').'/r/'.$redirectData['uuid'];
     return response()->json(['url' => $url]);
   }
 

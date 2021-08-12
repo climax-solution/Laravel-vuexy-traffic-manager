@@ -76,7 +76,7 @@
                               <span>Link Name: </span>
                             </div>
                             <div class="col-md-10">
-                                <input type="text" id="link_name" class="form-control" name="link_name">
+                                <input type="text" id="link_name" class="form-control" name="link_name" value="{{ isset($url_data->link_name) ? $url_data->link_name : '' }}">
                             </div>
                         </div>
                         <div class="form-group row">

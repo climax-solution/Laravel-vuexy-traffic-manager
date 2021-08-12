@@ -8,6 +8,7 @@ class UrlRotatorList extends Model
 {
   protected $fillable = [
     'id',
+    'uuid',
     'parent_id',
     'dest_url',
     'weight',

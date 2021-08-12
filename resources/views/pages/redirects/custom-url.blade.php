@@ -77,7 +77,7 @@
                                         </div>
                                         <div class="col-md-10">
                                           <fieldset class="form-group">
-                                            <select class="form-control" id="tracking_url" name="tracking_url" value="{{ isset($url_data->tracking_url) ? $url_data->tracking_url : '' }}">
+                                            <select class="form-control" id="tracking_url" name="tracking_url">
                                               @foreach ($track as $key => $item)
                                                 <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                                               @endforeach
@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="col-md-7">
                                           <fieldset class="form-group">
-                                            <select class="form-control" id="pixel" name="pixel" value="{{ isset($url_data->pixel) ? $url_data->pixel : '' }}">
+                                            <select class="form-control" id="pixel" name="pixel">
                                               @foreach ($pixel as $key => $item)
                                               <option value="{{$key}}">{{ $item }}</option>
                                             @endforeach
@@ -112,7 +112,7 @@
                                         </div>
                                         <div class="col-md-10">
                                           <fieldset class="form-group">
-                                            <select class="form-control" id="campaign" name="campaign" value="{{ isset($url_data->campaign) ? $url_data->campaign : '' }}">
+                                            <select class="form-control" id="campaign" name="campaign">
                                               @foreach ($campaign as $key => $item)
                                                 <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
                                               @endforeach
@@ -186,7 +186,7 @@
                                               <span>Fallback URL:</span>
                                             </div>
                                             <div class="col-md-8">
-                                              <input type="text" id="fallback_url" class="form-control" name="fallback_url"  value="{{isset($url_data->fallback_url) ? $url_data->fallback_url : ''}}">
+                                              <input type="text" id="fallback_url" class="form-control" name="fallback_url" value="{{isset($url_data->fallback_url) ? $url_data->fallback_url : ''}}">
                                             </div>
                                           </div>
                                         </div>
@@ -371,9 +371,11 @@
 @endsection
 
 @section('page-script')
-@php
+  @php
     $country_list = []; $geo_ip_action = 1; $country_group = 0;
-    $proxy_action = 1;
+    $proxy_action = 1; $tracking_url = isset($url_data->tracking_url) ? $url_data->tracking_url : 0;
+    $pixel = isset($url_data->pixel) ? $url_data->pixel : 0;
+    $campaign = isset($url_data->campaign) ? $url_data->campaign : 0;
     $referrer_action = 1; $domain_type = 0; $domain_reg = 0; $domain_name = '';
     $empty_referrer_action = 1;
     $device_action = 1; $device_type = 0;
@@ -399,7 +401,7 @@
       $device_action = $rule_data[4]->action;
       $device_type = $rule_data[4]->device_type;
     }
-    if (isset($advance_options)) {
+    if (count($advance_options)) {
       $blank = $advance_options['blank'] ? 'true' : 'false';
       $spoof = $advance_options['spoof'] ? 'true' : 'false';
       $deep = $advance_options['deep'] ? 'true' : 'false';
@@ -412,8 +414,7 @@
   @endphp
   <script>
     const createURL = "{{route('redirects.create-new-custom-url')}}";
-    let active_rule = [];
-    active_rule = @php
+    let active_rule = @php
       echo json_encode($rule_key);
     @endphp;
   </script>
@@ -428,6 +429,9 @@
     @endphp;
 
     $(function(){
+      $('#tracking_url').val({{$tracking_url}});
+      $('#pixel').val({{$pixel}});
+      $('#campaign').val({{$campaign}});
       $('#geo-ip').val({{$geo_ip_action}});
       $("#country-list").val(country_list).change();
       $('#country-group').val({{ $country_group }});

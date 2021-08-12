@@ -134,7 +134,7 @@ $(function(){
     // saveData.advance_options = JSON.stringify(advance_options);
     // saveData.spoof_service = spoof_sevice;
     saveData.campaign = $('#campaign').val();
-
+    saveData.id = $('input[name="_id"]').val();
     $.ajax({
       type: 'post',
       url: createURL,

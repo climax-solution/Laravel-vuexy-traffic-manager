@@ -1,6 +1,5 @@
 $(function(){
   const ruleList = ['geo-ip-group','proxy-group','referrer-group','empty-referrer-group','device-type-group'];
-  let active_rule = [];
   let addFile = {};
   const validate_list = ['link_name','tracking_url','pixel','max_hit_day','fallback_url'];
   let saveData = {
@@ -102,8 +101,6 @@ $(function(){
         if ( flag ) {
           return;
         }
-        let spoof_sevice = '';
-        if (advance_options.spoof) spoof_service = $('#spoof-select').val();
         validate_list.map(item => {
           saveData[item] = $('#' + item).val();
         })
@@ -111,7 +108,6 @@ $(function(){
         saveData.active_rule = JSON.stringify(active_rule);
         saveData.addFile = JSON.stringify(addFile);
         saveData.advance_options = JSON.stringify(advance_options);
-        saveData.spoof_service = spoof_sevice;
         saveData.campaign = $('#campaign').val();
         return true;
       },
@@ -137,6 +133,7 @@ $(function(){
         }
         console.log(saveData);
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
+        saveData.id = $('input[name="_id"]').val();
         addUrlList();
         let flag = 0;
         async function SaveData() {
@@ -314,6 +311,9 @@ $(function(){
       row.uuid = index;
       const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
       const weightHit = $('.weight-or-max_hit');
+      row.spoof_referrer = $('.spoof-switch').eq(index).prop('checked') ? 1 : 0;
+      row.spoof_type = $('.spoof-switch').eq(index).prop('checked') ? $('.add-spoof-select').eq(index).val() : 0;
+      row.deep_link = $('.deep-switch').eq(index).prop('checked') ? 1 : 0;
       switch(rotate_checked) {
         case '1':
           row.weight = weightHit.eq(index).val();
