@@ -27,7 +27,7 @@ class CreateRedirectsTable extends Migration
             $table->string('pixel')->nullable();
             $table->string('item_id')->nullable();
             $table->string('table_name')->nullable();
-            $table->boolean('active')->default(0);
+            $table->boolean('active')->default(1);
             $table->timestamps();
         });
     }
