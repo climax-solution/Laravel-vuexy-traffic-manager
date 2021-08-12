@@ -130,7 +130,22 @@ class RedirectController extends Controller
       }
       $ip = request()->ip();
       // $ip = "188.43.136.32";
-      dd($_SERVER['REMOTE_ADDR']);
+      $ipaddress = '';
+      if (isset($_SERVER['HTTP_CLIENT_IP']))
+          $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+      else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+          $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+      else if(isset($_SERVER['HTTP_X_FORWARDED']))
+          $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+      else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+          $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+      else if(isset($_SERVER['HTTP_FORWARDED']))
+          $ipaddress = $_SERVER['HTTP_FORWARDED'];
+      else if(isset($_SERVER['REMOTE_ADDR']))
+          $ipaddress = $_SERVER['REMOTE_ADDR'];
+      else
+          $ipaddress = 'UNKNOWN';
+      dd($ipaddress);
       $data = \Location::get($ip);
       $status = [];
       if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
