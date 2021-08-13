@@ -125,7 +125,7 @@ class RedirectController extends Controller
       }
 
       if ($redirect_src->table_name != 'qr_code' && $redirect_src->max_hit_day == $redirect_src->take_count) {
-        echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
+        return redirect()->to($redirect_src->fallback_url);
       }
       $ipaddress = '';
       if (isset($_SERVER['HTTP_CLIENT_IP']))
@@ -144,7 +144,7 @@ class RedirectController extends Controller
           $ipaddress = 'UNKNOWN';
       $data = \Location::get($ipaddress);
       $status = [];
-      dd($ipaddress);
+      // dd($ipaddress);
       if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
       if (is_object($data)) {
         $countryCode = $data->countryCode;
@@ -333,17 +333,17 @@ class RedirectController extends Controller
         }
         if ($redirect_src->table_name != 'qr_code') Redirect::where('id',$redirect_src->id)->update(['take_count' => $redirect_src->take_count]);
         if ($flag) {
-          echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
+          return redirect()->to($redirect_src->fallback_url);
         }
         else {
           if ($redirect_src->table_name != 'qr_code' && $redirect_src->table_name != 'custom_urls' ) {
             $Model::where('id',$src->id)->update(['active_position' => $src->active_position]);
           }
-          echo "<script> window.location.href = '".$redirect_src->dest_url."';</script>";
+          return redirect()->to($redirect_src->dest_url);
         }
       }
       else {
-        echo "<script> window.location.href = '".$redirect_src->fallback_url."';</script>";
+        return redirect()->to($redirect_src->fallback_url);
       }
     }
 
