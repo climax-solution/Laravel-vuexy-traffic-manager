@@ -144,6 +144,7 @@ class RedirectController extends Controller
           $ipaddress = 'UNKNOWN';
       $data = \Location::get($ipaddress);
       $status = [];
+      dd($ipaddress);
       if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
       if (is_object($data)) {
         $countryCode = $data->countryCode;
