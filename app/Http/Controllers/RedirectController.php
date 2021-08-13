@@ -144,7 +144,7 @@ class RedirectController extends Controller
       else
           $ipaddress = 'UNKNOWN';
       $data = \Location::get($ipaddress);
-      // dd($ipaddress);
+      // dd($data);
       if ($redirect_src->table_name != 'qr_code') {
         $active_rule = json_decode($src->active_rule, true);
         $redirect_src->take_count ++;
@@ -167,7 +167,7 @@ class RedirectController extends Controller
                     if ( $country_status != false ) $geoip = 1;
                     break;
                   case '1':
-                    if ( !$country_status ) $geoip = 1;
+                    if ( $country_status == false ) $geoip = 1;
                 }
                 $status[$item] = $geoip;
                 break;
