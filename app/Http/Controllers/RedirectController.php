@@ -81,6 +81,7 @@ class RedirectController extends Controller
       foreach($data as $key => $value) {
         $create[$key] = $value;
       }
+      $create['take_count'] = 0;
       $res = Redirect::create($create);
       return $res;
     }
@@ -144,7 +145,11 @@ class RedirectController extends Controller
           $ipaddress = 'UNKNOWN';
       $data = \Location::get($ipaddress);
       // dd($ipaddress);
-      if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
+      if ($redirect_src->table_name != 'qr_code') {
+        $active_rule = json_decode($src->active_rule, true);
+        $redirect_src->take_count ++;
+        Redirect::where('id',$redirect_src->id)->update(['take_count' => $redirect_src->take_count]);
+      }
       if (is_object($data)) {
         $status = [];
         $countryCode = $data->countryCode;
@@ -283,7 +288,6 @@ class RedirectController extends Controller
           }
         }
 
-        $redirect_src->take_count ++;
         $flag = 0;
         foreach ($status as $item) {
           if ($item) $flag = 1;
@@ -330,7 +334,6 @@ class RedirectController extends Controller
             $ReList::where(['parent_id' => $src->id, 'uuid' => $index])->update(['take_count' => $url_lists[$index]->take_count ]);
             break;
         }
-        if ($redirect_src->table_name != 'qr_code') Redirect::where('id',$redirect_src->id)->update(['take_count' => $redirect_src->take_count]);
         if ($flag) {
           return redirect()->to($redirect_src->fallback_url);
         }

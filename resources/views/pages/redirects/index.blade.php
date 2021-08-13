@@ -10,7 +10,7 @@
 				<div class="card-header d-flex align-items-start pb-0">
 					<div>
 						<h2 class="text-bold-700 mb-0 active-links">{{ $analysis['activeLinks'] }}</h2>
-						<p>Active Links</p>
+						<p class="small">Active Links</p>
 					</div>
 					<div class="avatar bg-rgba-primary p-50 m-0">
 						<div class="avatar-content">
@@ -25,7 +25,7 @@
 				<div class="card-header d-flex align-items-start pb-0">
 					<div>
 						<h2 class="text-bold-700 mb-0 total-redirect">{{ $analysis['totalRedirects'] }}</h2>
-						<p>Total Redirects</p>
+						<p class="small">Total Redirects</p>
 					</div>
 					<div class="avatar bg-rgba-success p-50 m-0">
 						<div class="avatar-content">
@@ -40,7 +40,7 @@
 				<div class="card-header d-flex align-items-start pb-0">
 					<div>
 						<h2 class="text-bold-700 mb-0">{{ $analysis['totalPixelsFired'] }}</h2>
-						<p>Total Pixels Fired</p>
+						<p class="small">Total Pixels Fired</p>
 					</div>
 					<div class="avatar bg-rgba-danger p-50 m-0">
 						<div class="avatar-content">
@@ -55,7 +55,7 @@
 				<div class="card-header d-flex align-items-start pb-0">
 					<div>
 						<h2 class="text-bold-700 mb-0">{{ $analysis['totalBlockedTraffic'] }}</h2>
-						<p>Total Blocked Traffic</p>
+						<p class="small">Total Blocked Traffic</p>
 					</div>
 					<div class="avatar bg-rgba-warning p-50 m-0">
 						<div class="avatar-content">
@@ -78,7 +78,8 @@
 						<th>ACTIVE</th>
 						<th>ORDER</th>
 						<th>MAX DAILY HITS</th>
-						<th>ACTION</th>
+						<th>HITS</th>
+						<th class="action-head">ACTION</th>
 					 </tr>
 				  </thead>
 				  <tbody>
@@ -100,6 +101,7 @@
 							</td>
 							<td>{{ $redirect->order }}</td>
 							<td>{{ $redirect->max_hit_day }}</td>
+							<td>{{ $redirect->take_count }}</td>
 							<td class="action-group">
                 <a class="copy-btn" data-index="{{$key}}"><i class="fa fa-copy text-em"></i></a>
                 <a href="{{ url($editURL) }}" class="edit-btn color-inherit" data-index="{{$key}}"><i class="feather icon-edit text-em"></i></a>
@@ -137,6 +139,10 @@
   }
   .color-inherit,.color-inherit:hover {
     color: inherit;
+  }
+  .action-head {
+    width: 90px !important;
+    min-width: 90px !important;
   }
 </style>
 @endsection
