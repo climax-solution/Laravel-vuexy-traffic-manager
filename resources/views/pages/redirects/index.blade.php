@@ -74,7 +74,8 @@
 				  <thead>
 					 <tr>
 						<th>ID</th>
-						<th>URL</th>
+						<th>TRACKING URL</th>
+						<th>DESTINATION URL</th>
 						<th>ACTIVE</th>
 						<th>ORDER</th>
 						<th>MAX DAILY HITS</th>
@@ -90,6 +91,7 @@
 					  <tr>
 							<td>{{ $redirect->id }}</td>
 							<td class="redirect-url">{{ env('APP_URL').'/r/'.$redirect->uuid }}</td>
+							<td>{{ $redirect->dest_url ? $redirect->dest_url : 'Multiple URLs' }}</td>
 						  <td>
 								<div class="custom-control custom-switch custom-switch-success switch-lg mr-2">
 									<input id="locked_{{ $redirect->id }}" class="custom-control-input active-switch" type="checkbox" {{ $redirect->active == 1 ? "checked" : "" }} value="{{$redirect->id}}">

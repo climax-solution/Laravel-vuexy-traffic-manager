@@ -54,6 +54,7 @@ $(function(){
         let row = table.row.add([
           res.id,
           APP_URL + '/r/' + res.uuid,
+          res.dest_url ? res.dest_url : 'Multiple URLs',
           active_switch,
           '',
           res.max_hit_day,
@@ -61,7 +62,7 @@ $(function(){
           action_btn
         ]);
         table.row(row).column(1).nodes().to$().addClass('redirect-url');
-        table.row(row).column(6).nodes().to$().addClass('action-group');
+        table.row(row).column(7).nodes().to$().addClass('action-group');
         table.row(row).draw(true);
         let total_redirect = Number($('.total-redirect').text());
         total_redirect ++;
