@@ -59,7 +59,7 @@ class StepUrlController extends Controller
     $compactData['rotation'] = $rotation;
     $compactData['amazon_aff_id'] = $amazon_aff_id;
     $compactData['url_list'] = $url_list;
-    $compactData['id'] = $id;
+    $compactData['id'] = !$url_data ? -1 : $id;
     return view('/pages/redirects/step-url',$compactData);
   }
 

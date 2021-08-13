@@ -53,7 +53,7 @@ class CustomUrlController extends Controller
     $compactData['rule_data'] = $rule_data;
     $compactData['url_data'] = !$url_data ? [] : $url_data;
     $compactData['advance_options'] = $advance_options;
-    $compactData['id'] = $id;
+    $compactData['id'] = !$url_data ? -1 : $id;
     return view('/pages/redirects/custom-url', $compactData);
   }
 

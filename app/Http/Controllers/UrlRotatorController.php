@@ -59,7 +59,7 @@ class UrlRotatorController extends Controller {
     $compactData['advance_options'] = $advance_options;
     $compactData['rotation'] = $rotation;
     $compactData['url_list'] = $url_list;
-    $compactData['id'] = $id;
+    $compactData['id'] = !$url_data ? -1 : $id;
     return view('/pages/redirects/url-rotator',$compactData);
   }
 

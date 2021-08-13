@@ -28,7 +28,7 @@ class QrCodeController extends Controller
     $url_data = Redirect::where('id', $id)->where('table_name', 'qr_code')->first();
     $compactData = $this->compactData;
     $compactData['url_data'] = !$url_data ? [] : $url_data;
-    $compactData['id'] = $id;
+    $compactData['id'] = !$url_data ? -1 : $id;
     return view('/pages/redirects/qrcode', $compactData);
   }
 
