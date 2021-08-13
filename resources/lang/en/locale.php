@@ -5,6 +5,13 @@ return [
     "TrafficManager" => "Traffic Manager",
     "RedirectLinks" => "Redirect Links",
     "CreateNewRedirect" => "Create New Redirect",
+    "CreateNewRedirects" => [
+      "custom_url" => "You are creating a Custom URL redirect",
+      "step_url" => "You are creating a Step URL redirect",
+      "qr_code" => "You are creating a Qr Code redirect",
+      "url_rotator" => "You are creating a URL Rotator redirect",
+      "keyword" => "You are creating a Keyword Rotator redirect"
+    ],
     "Campaigns" => "Campaigns",
     "CreateNewCampaign" => "Create New Campaign",
     "Schemas" => "Schemas",

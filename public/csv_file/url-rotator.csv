@@ -1,0 +1,3 @@
+dest_url,weight_hit,spoof_checked,spoof_service,deep_checked
+https://freelancer.com,0,0,1,0
+https://guru.com,0,1,0,1

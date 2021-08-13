@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', trans('locale.CreateNewRedirect'))
+@section('title', trans('locale.CreateNewRedirects.custom_url'))
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
@@ -41,8 +41,7 @@
 @section('content')
 	<div class="row">
     <div class="col-md-12">
-      <span>Edit Redirect Link.</span>
-      <button type="button" class="btn btn-outline-dark round mr-1 mb-1 pull-right f-10">You are creating a Custom URL redirect</button>
+
     </div>
     <input type="hidden" name="_id" value="{{$id}}"/>
     <div class="col-md-12">

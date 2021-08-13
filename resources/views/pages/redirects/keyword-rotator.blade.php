@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', trans('locale.CreateNewRedirect'))
+@section('title', trans('locale.CreateNewRedirects.keyword'))
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
@@ -52,8 +52,7 @@
 @section('content')
 	<div class="row">
     <div class="col-md-12">
-      <span>Edit Redirect Link.</span>
-      <button type="button" class="btn btn-outline-dark round mr-1 mb-1 pull-right f-10">You are creating a Custom URL redirect</button>
+
     </div>
     <input type="hidden" name="_id" value="{{$id}}"/>
 	</div>
@@ -403,7 +402,7 @@
                                 <input type="file" name="csv-file" accept=".csv" class="d-none" id="csv-file"/>
                               </div>
                               <div class="col-md-12 text-md-right text-center">
-                                <a href="#">Download Sample File</a>
+                                <a href="{{asset('csv_file/sample.csv')}}" download>Download Sample File</a>
                               </div>
                             </div>
                           </div>
