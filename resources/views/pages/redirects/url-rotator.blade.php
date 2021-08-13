@@ -198,8 +198,8 @@
                               </div>
                               <div class="col-md-8">
                                 <select class="form-control" id="geo-ip" name="geo-ip">
-                                    <option value="0" selected>Accept only from</option>
-                                    <option value="1">Reject from</option>
+                                    <option value="1" selected>Accept only from</option>
+                                    <option value="0">Reject from</option>
                                 </select>
                               </div>
                             </div>
@@ -240,8 +240,8 @@
                         </div>
                         <div class="col-md-8">
                           <select class="form-control" id="proxy-action" name="proxy-action">
-                            <option value="0" selected>Accept visitor only if proxy is detected</option>
-                            <option value="1">Reject visitor is proxy is detected</option>
+                            <option value="1" selected>Accept visitor only if proxy is detected</option>
+                            <option value="0">Reject visitor is proxy is detected</option>
                           </select>
                         </div>
                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
@@ -254,8 +254,8 @@
                               </div>
                               <div class="col-md-8">
                                 <select class="form-control" id="referrer-action" name="referrer-actioon">
-                                  <option value="0" selected>Accept only</option>
-                                  <option value="1">Reject</option>
+                                  <option value="1" selected>Accept only</option>
+                                  <option value="0">Reject</option>
                                 </select>
                               </div>
                             </div>
@@ -290,8 +290,8 @@
                         </div>
                         <div class="col-md-8">
                           <select class="form-control" id="empty-referrer-action" name="empty-referrer-action">
-                            <option value="0" selected>Accept visitor only with empty referrer</option>
-                            <option value="1">Reject visitor with empty referrer</option>
+                            <option value="1" selected>Accept visitor only with empty referrer</option>
+                            <option value="0">Reject visitor with empty referrer</option>
                           </select>
                         </div>
                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="empty-referrer-group">REMOVE</button>
@@ -304,8 +304,8 @@
                             </div>
                             <div class="col-md-5">
                               <select class="form-control" id="device-action-list" name="device-action-list">
-                                <option value="0" selected>Accept only from</option>
-                                <option value="1">Reject from</option>
+                                <option value="1" selected>Accept only from</option>
+                                <option value="0">Reject from</option>
                               </select>
                             </div>
                             <div class="col-md-4">

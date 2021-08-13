@@ -12,6 +12,7 @@ class GeoIp extends Model
       'item_id',
       'country_list',
       'country_group',
+      'action',
       'status'
     ];
 }

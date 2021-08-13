@@ -143,7 +143,6 @@ class RedirectController extends Controller
       else
           $ipaddress = 'UNKNOWN';
       $data = \Location::get($ipaddress);
-      $status = [];
       // dd($ipaddress);
       if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
       if (is_object($data)) {
@@ -261,10 +260,10 @@ class RedirectController extends Controller
                   case '0':
                     switch($row->device) {
                       case '0':
-                        if ($agent->isMobile()) $device = 1;
+                        if ($agent->isDesktop()) $device = 1;
                         break;
                       case '1':
-                        if ($agent->isDesktop()) $device = 1;
+                        if ($agent->isMobile()) $device = 1;
                     }
                     break;
                   case '1':
@@ -277,7 +276,7 @@ class RedirectController extends Controller
                     }
                     break;
                 }
-                $status[$device] = $device;
+                $status[$item] = $device;
                 break;
             }
           }
@@ -326,7 +325,6 @@ class RedirectController extends Controller
                 break;
 
             }
-
             $redirect_src->dest_url = $url_lists[$index]->dest_url;
             $ReList::where(['parent_id' => $src->id, 'uuid' => $index])->update(['take_count' => $url_lists[$index]->take_count ]);
             break;

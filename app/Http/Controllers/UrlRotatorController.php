@@ -89,7 +89,6 @@ class UrlRotatorController extends Controller {
     }
     $addFile = json_decode($request->input('addFile'),true);
     $active_rule = json_decode($data['active_rule']);
-    $redirectData['uuid'] = $uuid;
     $redirectData['item_id'] = $res->id;
     $redirectData['table_name'] = 'url_rotator';
     $redirectData['user_id'] = auth()->user()->id;
