@@ -288,7 +288,6 @@ class RedirectController extends Controller
         foreach ($status as $item) {
           if ($item) $flag = 1;
         }
-        dd();
         switch($redirect_src->table_name) {
           case 'custom_urls':
             break;
