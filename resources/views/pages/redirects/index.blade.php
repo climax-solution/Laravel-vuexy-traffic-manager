@@ -146,6 +146,17 @@
     width: 90px !important;
     min-width: 90px !important;
   }
+  @media screen and (max-width: 768px) {
+    div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+      justify-content: center;
+    }
+    .table th:nth-child(6) {
+      min-width: 120px;
+    }
+  }
+  #tblRedirects_wrapper .row:nth-child(2){
+    overflow-x: auto;
+  }
 </style>
 @endsection
 @section('vendor-script')
