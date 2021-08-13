@@ -39,7 +39,7 @@ class UrlRotatorController extends Controller {
   }
 
   public function index(Request $request) {
-    $links = Redirect::select('dest_url')->where('table_name', 'custom_urls')->get();
+    $links = Redirect::distinct()->select('dest_url')->where('table_name', 'custom_urls')->get();
     $compactData = $this->compactData;    $compactData['links'] = $links;    $id = $request->query('id');
     $url_data = Redirect::where('id', $id)->where('table_name', 'url_rotator')->first();
     $rule_data = [];  $url_list = [];   $advance_options = [];
