@@ -146,6 +146,7 @@ class RedirectController extends Controller
       // dd($ipaddress);
       if ($redirect_src->table_name != 'qr_code') $active_rule = json_decode($src->active_rule, true);
       if (is_object($data)) {
+        $status = [];
         $countryCode = $data->countryCode;
         if ($redirect_src->table_name != 'qr_code') {
           foreach($active_rule as $item) {
@@ -287,6 +288,7 @@ class RedirectController extends Controller
         foreach ($status as $item) {
           if ($item) $flag = 1;
         }
+        dd();
         switch($redirect_src->table_name) {
           case 'custom_urls':
             break;
