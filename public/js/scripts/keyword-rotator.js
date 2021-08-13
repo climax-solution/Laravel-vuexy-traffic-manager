@@ -153,19 +153,35 @@ $(function(){
             url: createURL,
             data: saveData,
             success:function(res) {
-              Swal.fire({
-                title: "Keyword Rotator URL successfully created.",
-                html : "<p>Your Unique URL is</p><p>"+res.url+"</p>",
-                type: "success",
-                confirmButtonClass: 'btn btn-primary',
-                buttonsStyling: false,
-                confirmButtonText: `RETURN TO DASHBOARD`,
-                allowOutsideClick:false
-              }).then((res) => {
-                if (res.value) {
-                  window.location.href = '/redirects';
-                }
-              })
+              if($('input[name="_id"]').val() == -1) {
+                Swal.fire({
+                  title: "Keyword Rotator URL successfully created.",
+                  html : "<p>Your Unique URL is</p><p>"+res.url+"</p>",
+                  type: "success",
+                  confirmButtonClass: 'btn btn-primary',
+                  buttonsStyling: false,
+                  confirmButtonText: `RETURN TO DASHBOARD`,
+                  allowOutsideClick:false
+                }).then((res) => {
+                  if (res.value) {
+                    window.location.href = '/redirects';
+                  }
+                })
+              }
+              else {
+                Swal.fire({
+                  title: "Keyword Rotator URL successfully updated.",
+                  type: "success",
+                  confirmButtonClass: 'btn btn-primary',
+                  buttonsStyling: false,
+                  confirmButtonText: `RETURN TO DASHBOARD`,
+                  allowOutsideClick:false
+                }).then((res) => {
+                  if (res.value) {
+                    window.location.href = '/redirects';
+                  }
+                })
+              }
               flag = 1;
             }
           })

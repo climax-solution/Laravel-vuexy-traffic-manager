@@ -142,19 +142,36 @@ $(function(){
       success:(res) => {
         // console.log(res);
         if (res.status) toastr.success('Created','Success');
-        Swal.fire({
-          title: "Qr Code successfully created.",
-          html : "<img src='"+res.file+"' class='w-50'>",
-          type: "success",
-          confirmButtonClass: 'btn btn-primary',
-          buttonsStyling: false,
-          confirmButtonText: `RETURN TO DASHBOARD`,
-          allowOutsideClick:false
-        }).then((res) => {
-          if (res.value) {
-            window.location.href = '/redirects';
-          }
-        })
+        if($('input[name="_id"]').val() == -1) {
+          Swal.fire({
+            title: "Qr Code successfully created.",
+            html : "<img src='"+res.file+"' class='w-50'>",
+            type: "success",
+            confirmButtonClass: 'btn btn-primary',
+            buttonsStyling: false,
+            confirmButtonText: `RETURN TO DASHBOARD`,
+            allowOutsideClick:false
+          }).then((res) => {
+            if (res.value) {
+              window.location.href = '/redirects';
+            }
+          })
+        }
+        else {
+          Swal.fire({
+            title: "Qr Code successfully updated.",
+            html : "<img src='"+res.file+"' class='w-50'>",
+            type: "success",
+            confirmButtonClass: 'btn btn-primary',
+            buttonsStyling: false,
+            confirmButtonText: `RETURN TO DASHBOARD`,
+            allowOutsideClick:false
+          }).then((res) => {
+            if (res.value) {
+              window.location.href = '/redirects';
+            }
+          })
+        }
       },
       error: () => {
         toastr.error('Created Error!','Error');
