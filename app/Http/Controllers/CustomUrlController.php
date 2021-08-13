@@ -90,6 +90,7 @@ class CustomUrlController extends Controller
       Redirect::create($redirectData);
     }
     else {
+      $redirectData['uuid'] = $redirect->uuid;
       Redirect::where('id',$redirect->id)->update($redirectData);
     }
     foreach($active_rule as $item) {
