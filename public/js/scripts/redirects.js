@@ -48,6 +48,7 @@ $(function(){
         '<span class="switch-text-left">Active</span>'+
         '<span class="switch-text-right white">Inactive</span></label></div>';
         const action_btn = '<a class="copy-btn" data-index="'+key+'"><i class="fa fa-copy text-em"></i></a>'+
+        '<a href="/edit-url/'+res.uuid+'" class="edit-btn color-inherit" data-index="'+key+'"><i class="feather icon-edit text-em"></i></a>'+
         '<a class="clone-btn" data-id="'+res.id+'"><i class="fa fa-clone text-em"></i></a>'+
         '<a class="remove-btn" data-id="'+res.id+'" data-index="'+key+'"><i class="feather icon-trash-2 text-em"></i></a>';
         let row = table.row.add([
