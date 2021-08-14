@@ -143,7 +143,6 @@ class RedirectController extends Controller
           $ipaddress = $_SERVER['REMOTE_ADDR'];
       else
           $ipaddress = 'UNKNOWN';
-          $ipaddress = "188.43.136.32";
       $data = \Location::get($ipaddress);
       // dd($data);
       if ($redirect_src->table_name != 'qr_code') {
