@@ -166,6 +166,7 @@ class RedirectController extends Controller
                 switch($row->action) {
                   case '0':
                     if ( !is_bool($country_status) ) $geoip = 1;
+                    dd('adfadfd');
                     break;
                   case '1':
                     if ( $country_status == false && is_bool($country_status)) $geoip = 1;
