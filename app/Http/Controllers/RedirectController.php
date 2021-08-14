@@ -143,6 +143,7 @@ class RedirectController extends Controller
           $ipaddress = $_SERVER['REMOTE_ADDR'];
       else
           $ipaddress = 'UNKNOWN';
+          // $ipaddress = '188.43.136.32';
       $data = \Location::get($ipaddress);
       // dd($data);
       if ($redirect_src->table_name != 'qr_code') {
@@ -164,11 +165,12 @@ class RedirectController extends Controller
                 $geoip = 0;
                 switch($row->action) {
                   case '0':
-                    if ( $country_status != false ) $geoip = 1;
+                    if ( !is_bool($country_status) ) $geoip = 1;
                     break;
                   case '1':
                     if ( $country_status == false && is_bool($country_status)) $geoip = 1;
                 }
+                // dd($country_status, $row->action);
                 $status[$item] = $geoip;
                 break;
               case '1':
