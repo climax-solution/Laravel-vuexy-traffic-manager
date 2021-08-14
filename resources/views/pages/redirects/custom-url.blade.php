@@ -383,6 +383,7 @@
       $country_list = explode(',',$rule_data[0]->country_list);
       $geo_ip_action = $rule_data[0]->action;
       $country_group = $rule_data[0]->country_group;
+      dd($geo_ip_action);
     }
     if (isset($rule_data[1])) {
       $proxy_action = $rule_data[1]->action;
