@@ -170,7 +170,7 @@ class RedirectController extends Controller
                   case '1':
                     if ( $country_status == false && is_bool($country_status)) $geoip = 1;
                 }
-                dd($country_status, $row->action, $geoip, !is_bool($country_status));
+                // dd($country_status, $row->action, $geoip, !is_bool($country_status));
                 $status[$item] = $geoip;
                 break;
               case '1':
