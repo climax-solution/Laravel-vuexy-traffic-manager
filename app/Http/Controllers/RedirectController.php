@@ -169,6 +169,7 @@ class RedirectController extends Controller
                   case '1':
                     if ( $country_status == false ) $geoip = 1;
                 }
+                dd($country_status);
                 $status[$item] = $geoip;
                 break;
               case '1':
