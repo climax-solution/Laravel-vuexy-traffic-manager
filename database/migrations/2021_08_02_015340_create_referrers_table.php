@@ -15,8 +15,8 @@ class CreateReferrersTable extends Migration
     {
         Schema::create('referrers', function (Blueprint $table) {
             $table->id();
-            $table->boolean('action')->nullable();
-            $table->boolean('domain_type')->nullable();
+            $table->enum('action',['0','1'])->default(0);
+            $table->enum('domain_type',['0','1'])->default(0);
             $table->enum('domain_reg',[0,1])->default(0);
             $table->string('domain_name')->nullable();
             $table->string('table_name')->nullable();

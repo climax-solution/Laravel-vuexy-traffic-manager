@@ -15,7 +15,7 @@ class CreateDeviceTypesTable extends Migration
     {
         Schema::create('device_types', function (Blueprint $table) {
             $table->id();
-            $table->boolean('action')->default(0);
+            $table->enum('action',['0','1'])->default(0);
             $table->boolean('device')->default(0);
             $table->string('table_name')->nullable();
             $table->string('item_id')->nullable();

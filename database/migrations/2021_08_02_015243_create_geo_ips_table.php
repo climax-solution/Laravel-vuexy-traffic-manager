@@ -19,7 +19,7 @@ class CreateGeoIpsTable extends Migration
             $table->string('item_id')->nullable();
             $table->text('country_list')->nullable();
             $table->text('country_group')->nullable();
-            $table->boolean('action')->default(0);
+            $table->enum('action',['0','1'])->default('0');
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ class CreateEmptyReferrersTable extends Migration
     {
         Schema::create('empty_referrers', function (Blueprint $table) {
             $table->id();
-            $table->boolean('action')->nullable();
+            $table->enum('action',['0','1'])->default(0);
             $table->string('table_name')->nullable();
             $table->string('item_id')->nullable();
             $table->timestamps();

@@ -16,7 +16,7 @@ class CreateCustomUrlsTable extends Migration
         Schema::create('custom_urls', function (Blueprint $table) {
             $table->id();
             $table->json('advance_options')->nullable();
-            $table->boolean('spoof_service')->nullable();
+            $table->enum('spoof_service',['0','1'])->nullable();
             $table->string('active_rule')->nullable();
             $table->timestamps();
         });
