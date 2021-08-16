@@ -570,7 +570,7 @@
     }
     if (isset($rule_data[4])) {
       $device_action = $rule_data[4]->action;
-      $device_type = $rule_data[4]->device_type;
+      $device_type = $rule_data[4]->device;
     }
     if (count($advance_options)) {
       $blank = $advance_options['blank'] ? 'true' : 'false';
