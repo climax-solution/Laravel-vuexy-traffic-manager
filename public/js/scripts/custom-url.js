@@ -1,4 +1,5 @@
 $(function(){
+
   const ruleList = ['geo-ip-group','proxy-group','referrer-group','empty-referrer-group','device-type-group'];
   let addFile = {};
   const validate_list = ['link_name','dest_url','tracking_url','pixel','max_hit_day','fallback_url'];
@@ -15,6 +16,13 @@ $(function(){
     const SpoofSelect = $('#spoof-select');
     if ($(this).prop('checked')) SpoofSelect.removeClass('hidden');
     else SpoofSelect.addClass('hidden');
+  })
+  $('#country-group').change(function(){
+    const NewList = ($(this).val()).split(',');
+    let CountryList = $('#country-list').val();
+    CountryList = [...CountryList, ...NewList];
+    CountryList = [...new Set(CountryList)];
+    $('#country-list').val(CountryList).change();
   })
   $('#rule-box-toggle').click(()=> {
     const rule = $('#active_rule').val();
