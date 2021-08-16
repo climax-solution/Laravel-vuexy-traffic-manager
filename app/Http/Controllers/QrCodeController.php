@@ -8,19 +8,15 @@ use Illuminate\Http\Request;
 use Monarobase\CountryList\CountryListFacade;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\ErrorCorrectionLevel;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
 class QrCodeController extends Controller
 {
   public function __construct()
   {
-    $this->compactData = [
-      'track' => ['Convomat Default', 'convomat List'],
-      'pixel' => ['Select Pixel', 'Pixel item'],
-      'campaign' => ['Campaign 1', 'Campaign 2'],
-      'countries'  =>  CountryListFacade::getList('en'),
-      'country_group' => ['group 1', 'group 2']
-    ];
+    $this->compactData = config('constants');
+    $this->compactData['countries'] = CountryListFacade::getList('en');
   }
 
   public function index(Request $request) {

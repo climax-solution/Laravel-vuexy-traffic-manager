@@ -22,13 +22,8 @@ class UrlRotatorController extends Controller {
 
   public function __construct()
   {
-    $this->compactData = [
-      'track' => ['Convomat Default', 'convomat List'],
-      'pixel' => ['Select Pixel', 'Pixel item'],
-      'campaign' => ['Campaign 1', 'Campaign 2'],
-      'countries'  =>  CountryListFacade::getList('en'),
-      'country_group' => ['group 1', 'group 2']
-    ];
+    $this->compactData = config('constants');
+    $this->compactData['countries'] = CountryListFacade::getList('en');
     $this->rule_list = [
       GeoIp::class,
       Proxy::class,
