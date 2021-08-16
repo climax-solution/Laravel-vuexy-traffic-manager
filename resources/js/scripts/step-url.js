@@ -263,6 +263,13 @@ $(function(){
     if ($(this).prop('checked')) SpoofSelect.removeClass('hidden');
     else SpoofSelect.addClass('hidden');
   })
+  $('#country-group').change(function(){
+    const NewList = ($(this).val()).split(',');
+    let CountryList = $('#country-list').val();
+    CountryList = [...CountryList, ...NewList];
+    CountryList = [...new Set(CountryList)];
+    $('#country-list').val(CountryList).change();
+  })
 
   $('input[name="rotate_option"]').change(function(){
     switch($(this).val()) {

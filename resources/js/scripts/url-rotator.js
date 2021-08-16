@@ -5,7 +5,14 @@ $(function(){
   let saveData = {
     '_token': $('meta[name="csrf-token"]').attr('content')
   };
-    $(".number-tab-steps").steps({
+  $('#country-group').change(function(){
+    const NewList = ($(this).val()).split(',');
+    let CountryList = $('#country-list').val();
+    CountryList = [...CountryList, ...NewList];
+    CountryList = [...new Set(CountryList)];
+    $('#country-list').val(CountryList).change();
+  })
+  $(".number-tab-steps").steps({
       headerTag: "h6",
       bodyTag: "fieldset",
       transitionEffect: "fade",

@@ -254,7 +254,7 @@
                                             <div class="col-md-9">
                                               <select class="form-control" id="country-group" name="country-group">
                                                 @foreach ($country_group as $key => $item)
-                                                  <option value="{{$key}}" @if(!$key) {{'selected'}} @endif>{{ $item }}</option>
+                                                  <option value="{{$item['list']}}" @if(!$key) {{'selected'}} @endif>{{ $item['group_name']}}</option>
                                                 @endforeach
                                               </select>
                                             </div>
