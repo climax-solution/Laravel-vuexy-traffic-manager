@@ -49,7 +49,7 @@ class RedirectController extends Controller
       // echo $score; die();
       $agent = new Agent;
       // dd($agent);
-      return redirect()->to('com.amazon.mobile.shopping.web://amazon.com');
+      return redirect()->away('com.amazon.mobile.shopping.web://amazon.com');
         $pageConfigs = $this->pageConfigs;
         $id = auth()->user()->id;
         $redirects = Redirect::where('user_id', $id)->get();
