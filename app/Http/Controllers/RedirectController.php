@@ -48,21 +48,20 @@ class RedirectController extends Controller
       // $score = file_get_contents($query);
       // echo $score; die();
       $agent = new Agent;
-      // dd($agent);
-      return redirect()->away('com.amazon.mobile.shopping.web://amazon.com');
-        $pageConfigs = $this->pageConfigs;
-        $id = auth()->user()->id;
-        $redirects = Redirect::where('user_id', $id)->get();
-        $activeLink = Redirect::where('active', 1)->where('user_id', $id)->count();
-        $analysis = [
-            'activeLinks' => $activeLink,
-            'totalRedirects' => count($redirects),
-            'totalPixelsFired' => 8,
-            'totalBlockedTraffic' => 8
-        ];
-        return view('/pages/redirects/index',
-            compact('pageConfigs', 'analysis', 'redirects')
-        );
+      dd(redirect()->away('com.amazon.mobile.shopping.web://amazon.com'));
+      $pageConfigs = $this->pageConfigs;
+      $id = auth()->user()->id;
+      $redirects = Redirect::where('user_id', $id)->get();
+      $activeLink = Redirect::where('active', 1)->where('user_id', $id)->count();
+      $analysis = [
+          'activeLinks' => $activeLink,
+          'totalRedirects' => count($redirects),
+          'totalPixelsFired' => 8,
+          'totalBlockedTraffic' => 8
+      ];
+      return view('/pages/redirects/index',
+          compact('pageConfigs', 'analysis', 'redirects')
+      );
     }
     public function create()
     {
