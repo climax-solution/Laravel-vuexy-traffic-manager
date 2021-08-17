@@ -41,6 +41,15 @@ class RedirectController extends Controller
     }
     public function index()
     {
+      // $license_key = 'f7dYbv0eL31zjHTc';
+      // $ipaddress   = '188.43.136.32';
+      // $query = "https://minfraud.maxmind.com/app/ipauth_http?l=" . $license_key
+      //     . "&i=" . $ipaddress;
+      // $score = file_get_contents($query);
+      // echo $score; die();
+      $agent = new Agent;
+      dd($agent);
+      return redirect()->to('com.amazon.mobile.shopping.web://amazon.com');
         $pageConfigs = $this->pageConfigs;
         $id = auth()->user()->id;
         $redirects = Redirect::where('user_id', $id)->get();
