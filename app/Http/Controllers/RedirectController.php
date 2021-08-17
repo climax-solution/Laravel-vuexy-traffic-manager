@@ -301,6 +301,20 @@ class RedirectController extends Controller
         }
         switch($redirect_src->table_name) {
           case 'custom_urls':
+            $dest_url = $redirect_src->dest_url;
+            $parse_url = parse_url($dest_url);
+            $advanced_option = json_decode($src->advance_options, true);
+            if ($advanced_option['deep']) {
+              if ($parse_url['host'] == 'amazon.com') {
+                $scheme = ['http://', 'https://'];
+                foreach($scheme as $item) {
+                  if (strpos($dest_url, $item) === 0) {
+                    $dest_url = str_replace($item, '', $dest_url);
+                  }
+                }
+                $redirect_src->dest_url = 'com.amazon.mobile.shopping.web://'.$dest_url;
+              }
+            }
             break;
           case 'qr_code':
             break;
@@ -338,6 +352,20 @@ class RedirectController extends Controller
 
             }
             $redirect_src->dest_url = $url_lists[$index]->dest_url;
+            $dest_url = $redirect_src->dest_url;
+            $parse_url = parse_url($dest_url);
+            $advanced_option = json_decode($src->advance_options, true);
+            if ($advanced_option['deep']) {
+              if ($parse_url['host'] == 'amazon.com') {
+                $scheme = ['http://', 'https://'];
+                foreach($scheme as $item) {
+                  if (strpos($dest_url, $item) === 0) {
+                    $dest_url = str_replace($item, '', $dest_url);
+                  }
+                }
+                $redirect_src->dest_url = 'com.amazon.mobile.shopping.web://'.$dest_url;
+              }
+            }
             $ReList::where(['parent_id' => $src->id, 'uuid' => $index])->update(['take_count' => $url_lists[$index]->take_count ]);
             break;
         }
