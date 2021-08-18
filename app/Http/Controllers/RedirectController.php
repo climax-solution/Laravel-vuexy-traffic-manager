@@ -137,6 +137,7 @@ class RedirectController extends Controller
           if (!isset($referrer)) return abort(404);
           break;
       }
+      dd($blank_referrer);
       if ($redirect_src->table_name != 'qr_code' && !$src) {
         return abort(404);
       }
