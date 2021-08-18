@@ -214,15 +214,15 @@ class RedirectController extends Controller
                       case '0':
                         switch($row->domain_reg) {
                           case '0':
-                            if ($redirect_src->dest_url != $domain) $refer = 1;
+                            if ($referrer != $domain) $refer = 1;
                             break;
                           case '1':
-                            if ($redirect_src->dest_url == $domain) $refer = 1;
+                            if ($referrer == $domain) $refer = 1;
                             break;
                         }
                         break;
                       case '1':
-                        $parse_domain = parse_url($redirect_src->dest_url);
+                        $parse_domain = parse_url($referrer);
                         switch($row->domain_reg) {
                           case '0':
                             if ($parse_domain == $domain) $refer = 1;
@@ -239,15 +239,15 @@ class RedirectController extends Controller
                         case '0':
                           switch($row->domain_reg) {
                             case '0':
-                              if ($redirect_src->dest_url == $domain) $refer = 1;
+                              if ($referrer == $domain) $refer = 1;
                               break;
                             case '1':
-                              if ($redirect_src->dest_url != $domain) $refer = 1;
+                              if ($referrer != $domain) $refer = 1;
                               break;
                           }
                           break;
                         case '1':
-                          $parse_domain = parse_url($redirect_src->dest_url);
+                          $parse_domain = parse_url($referrer);
                           switch($row->domain_reg) {
                             case '0':
                               if ($parse_domain == parse_url($domain)) $refer = 1;
@@ -267,10 +267,10 @@ class RedirectController extends Controller
                 $empty = 0;
                 switch($row->action) {
                   case '0':
-                    if (!isset($_SERVER['HTTP_REFERER'])) $empty = 1;
+                    if (!isset($referrer)) $empty = 1;
                     break;
                   case '1':
-                    if (isset($_SERVER['HTTP_REFERER'])) $empty = 1;
+                    if (isset($referrer)) $empty = 1;
                     break;
                 }
                 $status[$item] = $empty;
