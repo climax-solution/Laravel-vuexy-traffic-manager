@@ -98,16 +98,11 @@ class RedirectController extends Controller
     }
 
     public function redirectTracking(Request $request) {
-      dump(request()->headers);
-      dump($request->ip());
-      dump($this->isFromTrustedProxy());
-      dd($_SERVER);
       $Model = '';
       $ReList = StepUrlList::class;
       $id = $request->id;
       $redirect_src = Redirect::where('uuid', $id)->first();
-      $referrer = request()->headers->get('referer');
-      if (!isset($redirect_src->active) || isset($redirect_src->active) && !$redirect_src->active || !isset($referrer)) {
+      if (!isset($redirect_src->active) || isset($redirect_src->active) && !$redirect_src->active ) {
         return abort(404);
       }
       $src = '';
@@ -131,6 +126,17 @@ class RedirectController extends Controller
           break;
       };
       $src = $Model::where('id',$redirect_src->item_id)->first();
+      $advanced_option = json_decode($src->advance_options, true);
+      $blank_referrer = $advanced_option['blank'];
+      $referrer = request()->headers->get('referer');
+      switch($blank_referrer) {
+        case 0:
+          if (isset($referrer)) return abort(404);
+          break;
+        case 1:
+          if (!isset($referrer)) return abort(404);
+          break;
+      }
       if ($redirect_src->table_name != 'qr_code' && !$src) {
         return abort(404);
       }
@@ -307,7 +313,6 @@ class RedirectController extends Controller
           case 'custom_urls':
             $dest_url = $redirect_src->dest_url;
             $parse_url = parse_url($dest_url);
-            $advanced_option = json_decode($src->advance_options, true);
             if ($advanced_option['deep']) {
               if ($parse_url['host'] == 'amazon.com') {
                 $scheme = ['http://', 'https://'];
