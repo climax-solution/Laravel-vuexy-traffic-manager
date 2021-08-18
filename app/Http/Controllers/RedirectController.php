@@ -129,9 +129,6 @@ class RedirectController extends Controller
       $advanced_option = json_decode($src->advance_options, true);
       $blank_referrer = $advanced_option['blank'];
       $referrer = request()->headers->get('referer');
-      dump($blank_referrer);
-      dump($referrer);
-      die();
       switch($blank_referrer) {
         case 0:
           if (isset($referrer)) return abort(404);
