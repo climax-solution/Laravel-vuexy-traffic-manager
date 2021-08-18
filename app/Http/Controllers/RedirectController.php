@@ -99,7 +99,7 @@ class RedirectController extends Controller
 
     public function redirectTracking(Request $request) {
       dump(request()->headers);
-      dump(Request::ip());
+      dump($request->ip());
       dump($this->isFromTrustedProxy());
       dd($_SERVER);
       $Model = '';
