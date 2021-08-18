@@ -22,6 +22,7 @@ class CreateKeywordRotatorListsTable extends Migration
             $table->integer('weight')->default(0);
             $table->integer('max_hit_day')->default(0);
             $table->integer('take_count')->default(0);
+            $table->string('request_id')->nullable();
             $table->timestamps();
         });
     }

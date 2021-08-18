@@ -18,6 +18,7 @@ class CreateCustomUrlsTable extends Migration
             $table->json('advance_options')->nullable();
             $table->enum('spoof_service',['0','1'])->nullable();
             $table->string('active_rule')->nullable();
+            $table->string('request_id')->nullable();
             $table->timestamps();
         });
     }
