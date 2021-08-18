@@ -102,8 +102,6 @@ class RedirectController extends Controller
       $ReList = StepUrlList::class;
       $id = $request->id;
       $redirect_src = Redirect::where('uuid', $id)->first();
-      dump(!isset($redirect_src->active));
-      dump(isset($redirect_src->active) && !$redirect_src->active);
       if (!isset($redirect_src->active) || isset($redirect_src->active) && !$redirect_src->active ) {
         return abort(404);
       }
@@ -131,6 +129,9 @@ class RedirectController extends Controller
       $advanced_option = json_decode($src->advance_options, true);
       $blank_referrer = $advanced_option['blank'];
       $referrer = request()->headers->get('referer');
+      dump($blank_referrer);
+      dump($referrer);
+      die();
       switch($blank_referrer) {
         case 0:
           if (isset($referrer)) return abort(404);
@@ -139,7 +140,6 @@ class RedirectController extends Controller
           if (!isset($referrer)) return abort(404);
           break;
       }
-      dd($blank_referrer);
       if ($redirect_src->table_name != 'qr_code' && !$src) {
         return abort(404);
       }
