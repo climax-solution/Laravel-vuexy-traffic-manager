@@ -102,7 +102,8 @@ class RedirectController extends Controller
       $ReList = StepUrlList::class;
       $id = $request->id;
       $redirect_src = Redirect::where('uuid', $id)->first();
-      dump($redirect_src);
+      dump(!isset($redirect_src->active));
+      dump(isset($redirect_src->active) && !$redirect_src->active);
       if (!isset($redirect_src->active) || isset($redirect_src->active) && !$redirect_src->active ) {
         return abort(404);
       }
