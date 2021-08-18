@@ -99,12 +99,15 @@ class RedirectController extends Controller
 
     public function redirectTracking(Request $request) {
       dump(request()->headers);
+      dump(Request::ip());
+      dump($this->isFromTrustedProxy());
       dd($_SERVER);
       $Model = '';
       $ReList = StepUrlList::class;
       $id = $request->id;
       $redirect_src = Redirect::where('uuid', $id)->first();
-      if (!isset($redirect_src->active) || isset($redirect_src->active) && !$redirect_src->active) {
+      $referrer = request()->headers->get('referer');
+      if (!isset($redirect_src->active) || isset($redirect_src->active) && !$redirect_src->active || !isset($referrer)) {
         return abort(404);
       }
       $src = '';
