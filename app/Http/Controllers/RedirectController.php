@@ -98,7 +98,8 @@ class RedirectController extends Controller
     }
 
     public function redirectTracking(Request $request) {
-      // dd($_SERVER);
+      dump(request()->headers);
+      dd($_SERVER);
       $Model = '';
       $ReList = StepUrlList::class;
       $id = $request->id;
