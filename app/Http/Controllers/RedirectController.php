@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\StepUrl;
 use App\Models\CustomUrl;
 use App\Models\DeviceType;
@@ -17,10 +18,12 @@ use App\Models\Referrer;
 use App\Models\StepUrlList;
 use App\Models\UrlRotator;
 use App\Models\UrlRotatorList;
+use GuzzleHttp\Client;
 use Monarobase\CountryList\CountryListFacade;
 use Illuminate\Support\Str;
 use IP2ProxyLaravel;
 use Jenssegers\Agent\Agent;
+use MaxMind\Db\Reader;
 
 class RedirectController extends Controller
 {
@@ -158,17 +161,19 @@ class RedirectController extends Controller
       else if(isset($_SERVER['REMOTE_ADDR']))
           $ipaddress = $_SERVER['REMOTE_ADDR'];
       else
-          $ipaddress = 'UNKNOWN';
-      $data = \Location::get($ipaddress);
-      // dd($data);
+          $ipaddress = '0.0.0.0';
+          $ipaddress = '188.43.136.32';
+      $reader = new Reader(storage_path('check-ip/city/GeoIP2-City.mmdb'));
+      $data = $reader->get($ipaddress);
       if ($redirect_src->table_name != 'qr_code') {
         $active_rule = json_decode($src->active_rule, true);
         $redirect_src->take_count ++;
         Redirect::where('id',$redirect_src->id)->update(['take_count' => $redirect_src->take_count]);
       }
-      if (is_object($data)) {
+      // dd($data, $ipaddress);
+      if (is_array($data)) {
         $status = [];
-        $countryCode = $data->countryCode;
+        $countryCode = $data['country']['iso_code'];
         if ($redirect_src->table_name != 'qr_code') {
           foreach($active_rule as $item) {
             $status[$item] = 0;
@@ -190,15 +195,14 @@ class RedirectController extends Controller
                 break;
               case '1':
                 $row = Proxy::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
-                $check = new \IP2Proxy\Database(base_path('vendor/ip2location/ip2proxy-php/data/PX10.SAMPLE.BIN'), \IP2PROXY\Database::FILE_IO);
-                $res = $check->lookup($ipaddress, \IP2PROXY\Database::ALL);
+                $res = $this->checkProxy($ipaddress);
                 $proxy = 0;
                 switch($row->action) {
                   case '0':
-                    if ($res['isProxy']) $proxy = 1;
+                    if ($res) $proxy = 1;
                     break;
                   case '1':
-                    if (!$res['isProxy']) $proxy = 1;
+                    if (!$res) $proxy = 1;
                     break;
                 }
                 $status[$item] = $proxy;
@@ -207,7 +211,6 @@ class RedirectController extends Controller
                 $row = Referrer::where(['item_id' => $src->id, 'table_name' => $redirect_src->table_name])->first();
                 $domain = $row->domain_name;
                 $refer = 0;
-                $REFERRER = ($_SERVER);
                 switch($row->action) {
                   case '0':
                     switch($row->domain_type) {
@@ -313,8 +316,8 @@ class RedirectController extends Controller
           case 'custom_urls':
             $dest_url = $redirect_src->dest_url;
             $parse_url = parse_url($dest_url);
-            if ($advanced_option['deep']) {
-              if ($parse_url['host'] == 'amazon.com') {
+            if ($advanced_option['deep'] && !$advanced_option['spoof']) {
+              if (strpos($parse_url['host'], 'amazon.com') > -1) {
                 $scheme = ['http://', 'https://'];
                 foreach($scheme as $item) {
                   if (strpos($dest_url, $item) === 0) {
@@ -323,6 +326,9 @@ class RedirectController extends Controller
                 }
                 $redirect_src->dest_url = 'com.amazon.mobile.shopping.web://'.$dest_url;
               }
+            }
+            if ($advanced_option['spoof']) {
+              $redirect_src->dest_url = Helper::getGooglUrl($src->request_id);
             }
             break;
           case 'qr_code':
@@ -364,8 +370,8 @@ class RedirectController extends Controller
             $dest_url = $redirect_src->dest_url;
             $parse_url = parse_url($dest_url);
             $advanced_option = json_decode($src->advance_options, true);
-            if ($advanced_option['deep']) {
-              if ($parse_url['host'] == 'amazon.com') {
+            if ($advanced_option['deep']  && !$advanced_option['spoof']) {
+              if (strpos($parse_url['host'], 'amazon.com') > -1) {
                 $scheme = ['http://', 'https://'];
                 foreach($scheme as $item) {
                   if (strpos($dest_url, $item) === 0) {
@@ -374,6 +380,9 @@ class RedirectController extends Controller
                 }
                 $redirect_src->dest_url = 'com.amazon.mobile.shopping.web://'.$dest_url;
               }
+            }
+            if ($advanced_option['spoof']) {
+              $redirect_src->dest_url = Helper::getGooglUrl($src->request_id);
             }
             $ReList::where(['parent_id' => $src->id, 'uuid' => $index])->update(['take_count' => $url_lists[$index]->take_count ]);
             break;
@@ -423,6 +432,35 @@ class RedirectController extends Controller
         case 'keyword_rotator':
           return redirect('/redirects/keyword-rotator?id='.$row->id);
           break;
+      }
+    }
+
+    public function checkProxy($ip) {
+      $dnsbl_lookup = [
+        "dnsbl-1.uceprotect.net",
+        "dnsbl-2.uceprotect.net",
+        "dnsbl-3.uceprotect.net",
+        "dnsbl.dronebl.org",
+        "dnsbl.sorbs.net",
+        "zen.spamhaus.org",
+        "bl.spamcop.net",
+        "list.dsbl.org"
+      ];
+
+      $listed = 0;
+      if ($ip) {
+          $reverse_ip = implode(".", array_reverse(explode(".", $ip)));
+          foreach ($dnsbl_lookup as $host) {
+              if (checkdnsrr($reverse_ip . "." . $host . ".", "A")) {
+                  $listed = 1;
+              }
+          }
+      }
+
+      if (empty($listed)) {
+          return false;
+      } else {
+          return true;
       }
     }
 }
