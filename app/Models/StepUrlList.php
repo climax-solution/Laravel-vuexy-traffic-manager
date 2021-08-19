@@ -13,6 +13,7 @@ class StepUrlList extends Model
       'keyword',
       'weight',
       'max_hit_day',
-      'take_count'
+      'take_count',
+      'request_id'
     ];
 }

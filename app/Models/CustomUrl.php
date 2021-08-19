@@ -10,6 +10,7 @@ class CustomUrl extends Model
     protected $fillable = [
       'id',
       'advance_options',
-      'active_rule'
+      'active_rule',
+      'request_id'
     ];
 }

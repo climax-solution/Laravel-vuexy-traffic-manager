@@ -16,5 +16,6 @@ class UrlRotatorList extends Model
     'spoof_referrer',
     'spoof_type',
     'deep_link',
+    'request_id'
   ];
 }
