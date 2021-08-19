@@ -100,8 +100,7 @@ class StepUrlController extends Controller
     if (!isset($data['id'])) $res = StepUrl::create($data);
     else {
       StepUrl::where('id', $data['id'])->update($data);
-      $res = new stdClass();
-      $res->id = $redirect->item_id;
+      $res = StepUrl::where('id', $data['id'])->first();
     }
     $table_name = 'step_url';
     $addFile = json_decode($request->input('addFile'),true);
@@ -161,6 +160,11 @@ class StepUrlController extends Controller
     foreach($url_list as $key => $url) {
       $url['parent_id'] = $res->id;
       $url['uuid'] = $key;
+      $advance_options = json_decode($res->advance_options, true);
+      $dest_url = $url['dest_url'];
+      if ($advance_options['spoof'] == 1 && $res->spoof_service == '0') {
+        $url['request_id'] = Helper::createGoogleSpoof($dest_url);
+      }
       StepUrlList::create($url);
     }
     $url = env('APP_URL').'/r/'.$uuid;
