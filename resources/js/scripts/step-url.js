@@ -260,8 +260,18 @@ $(function(){
 
   $('#spoof-refer-switch').change(function() {
     const SpoofSelect = $('#spoof-select');
-    if ($(this).prop('checked')) SpoofSelect.removeClass('hidden');
-    else SpoofSelect.addClass('hidden');
+    const checked = $(this).prop('checked');
+    if ($(this).prop('checked')) {
+      SpoofSelect.removeClass('hidden');
+    }
+    else {
+      SpoofSelect.addClass('hidden');
+    }
+    $('#deep-link-switch').attr('disabled', checked);
+  })
+  $('#deep-link-switch').change(function(){
+    const checked = $(this).prop('checked');
+    $('#spoof-refer-switch').attr('disabled', checked);
   })
   $('#country-group').change(function(){
     const NewList = ($(this).val()).split(',');

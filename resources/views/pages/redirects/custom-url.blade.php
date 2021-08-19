@@ -153,7 +153,7 @@
                                                 <div class="col-md-8 col-sm-6 col-6">
                                                   <select class="form-control hidden" id="spoof-select" name="spoof-select">
                                                     <option value="0" selected>Google</option>
-                                                    <option value="1">Twitter</option>
+                                                    <!-- <option value="1">Twitter</option> -->
                                                   </select>
                                                 </div>
                                               </div>

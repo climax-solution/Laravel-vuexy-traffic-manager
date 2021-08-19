@@ -451,7 +451,7 @@
                                       <div class="col-md-8 col-sm-6 col-6">
                                         <select class="form-control form-control-sm add-spoof-select @if(!isset($item->spoof_referrer) || isset($item->spoof_referrer) && !$item->spoof_referrer)hidden @endif">
                                           <option value="0">Google</option>
-                                          <option value="1">Twitter</option>
+                                          <!-- <option value="1">Twitter</option> -->
                                         </select>
                                       </div>
                                     </div>
@@ -501,7 +501,7 @@
                                     <div class="col-md-8 col-sm-6 col-6">
                                       <select class="form-control form-control-sm hidden" id="add-spoof-select" name="add-spoof-select">
                                         <option value="0" selected>Google</option>
-                                        <option value="1">Twitter</option>
+                                        <!-- <option value="1">Twitter</option> -->
                                       </select>
                                     </div>
                                   </div>
