@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\CustomUrl;
 use App\Models\DeviceType;
 use App\Models\EmptyReferrer;
@@ -12,7 +13,6 @@ use Illuminate\Http\Request;
 use App\Models\Redirect;
 use Monarobase\CountryList\CountryListFacade;
 use Illuminate\Support\Str;
-use Helper;
 use stdClass;
 
 class CustomUrlController extends Controller
@@ -67,6 +67,11 @@ class CustomUrlController extends Controller
       }
     }
     $data = $input;
+    $advance_options = json_decode($data['advance_options'], true);
+    $dest_url = $redirectData['dest_url'];
+    if ($advance_options['spoof'] == 1 && $data['spoof_service'] == '0') {
+      $data['request_id'] = Helper::createGoogleSpoof($dest_url);
+    }
     if(isset($redirect->item_id)) $data['id'] = $redirect->item_id;
     $uuid = Str::random(7);
     if (!isset($data['id'])) $res = CustomUrl::create($data);
