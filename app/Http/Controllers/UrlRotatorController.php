@@ -140,6 +140,10 @@ class UrlRotatorController extends Controller {
     foreach($url_list as $key => $url) {
       $url['parent_id'] = $res->id;
       $url['uuid'] = $key;
+      $dest_url = $url['dest_url'];
+      if ($url['spoof_referrer'] == 1 && $url['spoof_type'] == '0') {
+        $url['request_id'] = Helper::createGoogleSpoof($dest_url);
+      }
       UrlRotatorList::create($url);
     }
     $url = env('APP_URL').'/r/'.$redirectData['uuid'];
