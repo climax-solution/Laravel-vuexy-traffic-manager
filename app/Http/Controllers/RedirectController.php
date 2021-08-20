@@ -157,7 +157,7 @@ class RedirectController extends Controller
       else
           $ipaddress = '0.0.0.0';
           $ipaddress = '188.43.136.32';
-      $reader = new Reader(public_path('check-ip/city/GeoIP2-City.mmdb'));
+      $reader = new Reader(basic_path('check-ip/city/GeoIP2-City.mmdb'));
       $data = $reader->get($ipaddress);
       if ($redirect_src->table_name != 'qr_code') {
         $active_rule = json_decode($src->active_rule, true);
