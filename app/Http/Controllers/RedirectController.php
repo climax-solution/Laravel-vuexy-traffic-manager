@@ -60,7 +60,7 @@ class RedirectController extends Controller
     }
     public function create()
     {
-      $json = file_get_contents(storage_path('create-new-redirect-list.json'));
+      $json = file_get_contents(public_path('create-new-redirect-list.json'));
       $objs = json_decode($json,true);
         return view('/pages/redirects/create', [
             'pageConfigs' => $this->pageConfigs,
@@ -157,7 +157,7 @@ class RedirectController extends Controller
       else
           $ipaddress = '0.0.0.0';
           $ipaddress = '188.43.136.32';
-      $reader = new Reader(storage_path('check-ip/city/GeoIP2-City.mmdb'));
+      $reader = new Reader(public_path('check-ip/city/GeoIP2-City.mmdb'));
       $data = $reader->get($ipaddress);
       if ($redirect_src->table_name != 'qr_code') {
         $active_rule = json_decode($src->active_rule, true);
