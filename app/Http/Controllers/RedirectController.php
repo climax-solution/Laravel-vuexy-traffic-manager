@@ -95,8 +95,7 @@ class RedirectController extends Controller
     }
 
     public function redirectTracking(Request $request) {
-      dump(base_path());
-      dump(file_get_contents(public_path('check-ip/city/COPYRIGHT.txt')));
+      dump(new Reader());
       die();
       $Model = '';
       $ReList = StepUrlList::class;
@@ -159,7 +158,7 @@ class RedirectController extends Controller
           $ipaddress = $_SERVER['REMOTE_ADDR'];
       else
           $ipaddress = '0.0.0.0';
-      $reader = new Reader(base_path('public/check-ip/city/GeoIP2-City.mmdb'));
+      $reader = new Reader(public_path('check-ip/city/GeoIP2-City.mmdb'));
       $data = $reader->get($ipaddress);
       if ($redirect_src->table_name != 'qr_code') {
         $active_rule = json_decode($src->active_rule, true);
