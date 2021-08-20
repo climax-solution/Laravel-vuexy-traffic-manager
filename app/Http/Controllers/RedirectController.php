@@ -96,7 +96,7 @@ class RedirectController extends Controller
 
     public function redirectTracking(Request $request) {
       dump(base_path());
-      dump(public_path());
+      dump(file_get_contents(public_path('check-ip/city/COPYRIGHT.txt')));
       die();
       $Model = '';
       $ReList = StepUrlList::class;
