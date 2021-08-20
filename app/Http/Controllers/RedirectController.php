@@ -95,7 +95,7 @@ class RedirectController extends Controller
     }
 
     public function redirectTracking(Request $request) {
-      dump(new Reader(public_path('check-ip/city/GeoIP2-City.mmdb')));
+      dump(filesize(public_path('check-ip/city/GeoIP2-City.mmdb')));
       die();
       $Model = '';
       $ReList = StepUrlList::class;
