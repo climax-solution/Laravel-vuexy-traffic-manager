@@ -145,7 +145,7 @@ $(function(){
         if($('input[name="_id"]').val() == -1) {
           Swal.fire({
             title: "Qr Code successfully created.",
-            html : "<img src='"+res.file+"' class='w-50'>",
+            html : "<img src='"+res.file+"' class='w-50'><a href="+res.file+" class='qr-code-download' download></a>",
             type: "success",
             confirmButtonClass: 'btn btn-primary',
             buttonsStyling: false,
@@ -153,6 +153,8 @@ $(function(){
             allowOutsideClick:false
           }).then((res) => {
             if (res.value) {
+              $('.qr-code-download')[0].click();
+              $('.qr-code-download').remove();
               window.location.href = '/redirects';
             }
           })
@@ -160,7 +162,7 @@ $(function(){
         else {
           Swal.fire({
             title: "Qr Code successfully updated.",
-            html : "<img src='"+res.file+"' class='w-50'>",
+            html : "<img src='"+res.file+"' class='w-50'><a href="+res.file+" class='qr-code-download' download></a>",
             type: "success",
             confirmButtonClass: 'btn btn-primary',
             buttonsStyling: false,
@@ -168,6 +170,8 @@ $(function(){
             allowOutsideClick:false
           }).then((res) => {
             if (res.value) {
+              $('.qr-code-download')[0].click();
+              $('.qr-code-download').remove();
               window.location.href = '/redirects';
             }
           })

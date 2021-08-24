@@ -51,12 +51,20 @@ $(function(){
         '<a href="/edit-url/'+res.uuid+'" class="edit-btn color-inherit" data-index="'+key+'"><i class="feather icon-edit text-em"></i></a>'+
         '<a class="clone-btn" data-id="'+res.id+'"><i class="fa fa-clone text-em"></i></a>'+
         '<a class="remove-btn" data-id="'+res.id+'" data-index="'+key+'"><i class="feather icon-trash-2 text-em"></i></a>';
+        const link_type = {
+          'custom_urls' : 'Custom URL',
+          'url_rotator' : 'URL Rotator',
+          'qr_code' : 'QR Code',
+          'step_url' : '2-Step URL',
+          'keyword_rotator' : 'Kwd Rotator',
+        }
         let row = table.row.add([
           res.id,
+          (res.link_name).length > 25 ? (res.link_name).substring(0, 22) + '...' : res.link_name,
           APP_URL + '/r/' + res.uuid,
           res.dest_url ? res.dest_url : 'Multiple URLs',
+          link_type[res.table_name],
           active_switch,
-          '',
           res.max_hit_day,
           res.take_count,
           action_btn

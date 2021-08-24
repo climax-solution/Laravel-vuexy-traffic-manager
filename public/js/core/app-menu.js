@@ -1261,29 +1261,29 @@ window.addEventListener('resize', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\js\core\app-menu.js */"./resources/js/core/app-menu.js");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\plugins\tour\tour.scss */"./resources/sass/plugins/tour/tour.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\themes\dark-layout.scss */"./resources/sass/themes/dark-layout.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\themes\semi-dark-layout.scss */"./resources/sass/themes/semi-dark-layout.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\pages\authentication.scss */"./resources/sass/pages/authentication.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\pages\card-analytics.scss */"./resources/sass/pages/card-analytics.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\pages\dashboard-analytics.scss */"./resources/sass/pages/dashboard-analytics.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\core\colors\palette-gradient.scss */"./resources/sass/core/colors/palette-gradient.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\core\colors\palette-noui.scss */"./resources/sass/core/colors/palette-noui.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\core\colors\palette-variables.scss */"./resources/sass/core/colors/palette-variables.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\core\menu\menu-types\horizontal-menu.scss */"./resources/sass/core/menu/menu-types/horizontal-menu.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\core\menu\menu-types\vertical-menu.scss */"./resources/sass/core/menu/menu-types/vertical-menu.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\core\menu\menu-types\vertical-overlay-menu.scss */"./resources/sass/core/menu/menu-types/vertical-overlay-menu.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\core\mixins\alert.scss */"./resources/sass/core/mixins/alert.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\core\mixins\hex2rgb.scss */"./resources/sass/core/mixins/hex2rgb.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\core\mixins\main-menu-mixin.scss */"./resources/sass/core/mixins/main-menu-mixin.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\core\mixins\transitions.scss */"./resources/sass/core/mixins/transitions.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\bootstrap.scss */"./resources/sass/bootstrap.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\bootstrap-extended.scss */"./resources/sass/bootstrap-extended.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\colors.scss */"./resources/sass/colors.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\components.scss */"./resources/sass/components.scss");
-__webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\custom-rtl.scss */"./resources/sass/custom-rtl.scss");
-module.exports = __webpack_require__(/*! D:\NOW\traffic_manager\resources\sass\custom-laravel.scss */"./resources/sass/custom-laravel.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\js\core\app-menu.js */"./resources/js/core/app-menu.js");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\plugins\tour\tour.scss */"./resources/sass/plugins/tour/tour.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\themes\dark-layout.scss */"./resources/sass/themes/dark-layout.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\themes\semi-dark-layout.scss */"./resources/sass/themes/semi-dark-layout.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\pages\authentication.scss */"./resources/sass/pages/authentication.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\pages\card-analytics.scss */"./resources/sass/pages/card-analytics.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\pages\dashboard-analytics.scss */"./resources/sass/pages/dashboard-analytics.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\core\colors\palette-gradient.scss */"./resources/sass/core/colors/palette-gradient.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\core\colors\palette-noui.scss */"./resources/sass/core/colors/palette-noui.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\core\colors\palette-variables.scss */"./resources/sass/core/colors/palette-variables.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\core\menu\menu-types\horizontal-menu.scss */"./resources/sass/core/menu/menu-types/horizontal-menu.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\core\menu\menu-types\vertical-menu.scss */"./resources/sass/core/menu/menu-types/vertical-menu.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\core\menu\menu-types\vertical-overlay-menu.scss */"./resources/sass/core/menu/menu-types/vertical-overlay-menu.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\core\mixins\alert.scss */"./resources/sass/core/mixins/alert.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\core\mixins\hex2rgb.scss */"./resources/sass/core/mixins/hex2rgb.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\core\mixins\main-menu-mixin.scss */"./resources/sass/core/mixins/main-menu-mixin.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\core\mixins\transitions.scss */"./resources/sass/core/mixins/transitions.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\bootstrap.scss */"./resources/sass/bootstrap.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\bootstrap-extended.scss */"./resources/sass/bootstrap-extended.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\colors.scss */"./resources/sass/colors.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\components.scss */"./resources/sass/components.scss");
+__webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\custom-rtl.scss */"./resources/sass/custom-rtl.scss");
+module.exports = __webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\sass\custom-laravel.scss */"./resources/sass/custom-laravel.scss");
 
 
 /***/ })

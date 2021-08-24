@@ -5,13 +5,7 @@ $(function(){
   let saveData = {
     '_token': $('meta[name="csrf-token"]').attr('content')
   };
-  $('#country-group').change(function(){
-    const NewList = ($(this).val()).split(',');
-    let CountryList = $('#country-list').val();
-    CountryList = [...CountryList, ...NewList];
-    CountryList = [...new Set(CountryList)];
-    $('#country-list').val(CountryList).change();
-  })
+
   $(".number-tab-steps").steps({
       headerTag: "h6",
       bodyTag: "fieldset",
@@ -63,7 +57,6 @@ $(function(){
               for (let i = 1; i < country_list.length; i ++) list += ',' + country_list[i];
               row = {
                 country_list: list,
-                country_group: Number($('#country-group').val()),
                 action: $('#geo-ip').val()
               };
               break;
@@ -130,6 +123,10 @@ $(function(){
             })
             if ( !sumHit ) {
               toastr.warning('Total value is wrong!','Warning');
+              return false;
+            }
+            if ( sumHit > 100 ) {
+              toastr.warning('Total value is equal or less than 100!','Warning');
               return false;
             }
             break;
@@ -209,7 +206,13 @@ $(function(){
   $('#active_rule').change((e)=> {
     if ($(this).val() == '') e.preventDefault();
   })
-
+  $('#country-group').change(function(){
+    const NewList = ($(this).val()).split(',');
+    let CountryList = $('#country-list').val();
+    CountryList = [...CountryList, ...NewList];
+    CountryList = [...new Set(CountryList)];
+    $('#country-list').val(CountryList).change();
+  })
   $('.remove-btn').click(function() {
     const group = $(this).attr('data-group');
     $('.' + group).addClass('hidden');
@@ -223,7 +226,65 @@ $(function(){
     if ($(this).val() == 1) {
       $('#url-add-btn').removeClass('hidden');
     }
-    else $('#url-add-btn').addClass('hidden');
+    else {
+      $('#url-add-btn').addClass('hidden');
+      $.ajax({
+        type: 'post',
+        url: '/get-custom-url',
+        data: {
+          _token: $('input[name="_token"]').val()
+        },
+        success:function(res) {
+          let html = '';
+          res.map((item, index) => {
+            html += '<div class="form-group row target-item-group" data-index="'+index+'">'+
+              '<div class="col-md-4 col-8">'+
+                '<span class="dest-url-link">'+item.dest_url+'</span>'+
+              '</div>'+
+              '<div class="col-md-2 col-4">'+
+                '<div class="form-group">'+
+                  '<input type="number" class="form-control form-control-sm weight-or-max_hit">'+
+                '</div>'+
+              '</div>'+
+              '<div class="col-md-2">'+
+                  '<div class="form-group row">'+
+                    '<div class="col-md-12">'+
+                      '<div class="row">'+
+                        '<div class="col-md-4 col-6">'+
+                          '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+                            '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+index+'">'+
+                            '<label class="custom-control-label" for="spoof-switch'+index+'"></label>'+
+                          '</div>'+
+                        '</div>'+
+                        '<div class="col-md-8 col-6">'+
+                          '<select class="form-control form-control-sm add-spoof-select hidden">'+
+                            '<option value="0">Google</option>'+
+                          '</select>'+
+                        '</div>'+
+                      '</div>'+
+                    '</div>'+
+                  '</div>'+
+              '</div>'+
+              '<div class="col-md-2 col-6">'+
+                '<div class="form-group row">'+
+                  '<div class="col-md-12">'+
+                    '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+                      '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+index+'">'+
+                      '<label class="custom-control-label" for="deep-switch'+index+'"></label>'+
+                    '</div>'+
+                  '</div>'+
+                '</div>'+
+              '</div>'+
+              '<div class="col-md-2 col-6 text-right">'+
+                '<a href="'+item.dest_url+'"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+                '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
+              '</div>'+
+            '</div>'
+          })
+          $('.all-url-list-group').html(html);
+        }
+      })
+    }
   })
   $('#url-add-btn').click(function() {
     $('.new-url-group').removeClass('hidden');
@@ -240,6 +301,12 @@ $(function(){
   $('body').on('change', '.deep-switch', function() {
     const index = $('.deep-switch').index($(this));
     const checked = $(this).prop('checked');
+    const dest_url = $('.dest-url-link').text();
+    const res = getDomain(dest_url);
+    if (!res) {
+      $(this).prop('checked', false)
+      return;
+    }
     $('.add-spoof-select').eq(index).addClass('hidden');
     $('.spoof-switch').eq(index).attr('disabled', checked);
   })
@@ -262,6 +329,12 @@ $(function(){
   })
   $('#add-deep-switch').change(function(){
     const checked = $(this).prop('checked');
+    const dest_url = $('#target-url').val();
+    const res = getDomain(dest_url);
+    if (!res) {
+      $(this).prop('checked', false)
+      return;
+    }
     $('#add-spoof-switch').attr('disabled', checked);
   })
   $('#new-url-add-btn').click(function(){
@@ -302,7 +375,7 @@ $(function(){
                 '<div class="row">'+
                   '<div class="col-md-4 col-6">'+
                     '<div class="custom-control custom-switch custom-switch-success mr-2">'+
-                      '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+$('.target-item-group').length+'" '+(!spoof_checked ? 'disabled' : 'checked')+'>'+
+                      '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+$('.target-item-group').length+'" '+(deep_checked ? 'disabled' : 'checked')+'>'+
                       '<label class="custom-control-label" for="spoof-switch'+$('.target-item-group').length+'"></label>'+
                     '</div>'+
                   '</div>'+
@@ -319,7 +392,7 @@ $(function(){
           '<div class="form-group row">'+
             '<div class="col-md-12">'+
               '<div class="custom-control custom-switch custom-switch-success mr-2">'+
-                '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+$('.target-item-group').length+'" '+(!deep_checked ? 'disabled' : 'checked')+'>'+
+                '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+$('.target-item-group').length+'" '+(spoof_checked ? 'disabled' : 'checked')+'>'+
                 '<label class="custom-control-label" for="deep-switch'+$('.target-item-group').length+'"></label>'+
               '</div>'+
             '</div>'+
@@ -334,8 +407,8 @@ $(function(){
     addUrlList();
     $('#target-url').val('');
     $('#weight-or-max_hit').val('');
-    $('#add-spoof-switch').prop({'checked': false});
-    $('#add-deep-switch').prop({'checked': false});
+    $('#add-spoof-switch').prop({'checked': false, 'disabled': false});
+    $('#add-deep-switch').prop({'checked': false, 'disabled': false});
     $('#add-spoof-select').val(0).toggleClass('hidden');
   })
   function addUrlList () {
@@ -397,7 +470,7 @@ $(function(){
                     '<div class="row">'+
                       '<div class="col-md-4 col-6">'+
                         '<div class="custom-control custom-switch custom-switch-success mr-2">'+
-                          '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+index+'" '+(!item.spoof_checked ? '' : 'checked')+'>'+
+                          '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+index+'" '+(item.deep_checked ? 'disabled' : 'checked')+'>'+
                           '<label class="custom-control-label" for="spoof-switch'+index+'"></label>'+
                         '</div>'+
                       '</div>'+
@@ -414,7 +487,7 @@ $(function(){
               '<div class="form-group row">'+
                 '<div class="col-md-12">'+
                   '<div class="custom-control custom-switch custom-switch-success mr-2">'+
-                    '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+index+'" '+(!item.deep_checked ? '' : 'checked')+'>'+
+                    '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+index+'" '+(item.spoof_checked ? 'disabled' : 'checked')+'>'+
                     '<label class="custom-control-label" for="deep-switch'+index+'"></label>'+
                   '</div>'+
                 '</div>'+

@@ -23,7 +23,13 @@ $(function(){
     }
     $('#deep-link-switch').attr('disabled', checked);
   })
-  $('#deep-link-switch').change(function(){
+  $('#deep-link-switch').change(function(e){
+    const dest_url = $('#dest_url').val();
+    const res = getDomain(dest_url);
+    if (!res) {
+      $(this).prop({'checked': false});
+      return;
+    }
     const checked = $(this).prop('checked');
     $('#spoof-refer-switch').attr('disabled', checked);
   })
