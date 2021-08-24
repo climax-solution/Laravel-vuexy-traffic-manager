@@ -171,7 +171,7 @@
                           </div>
                           <div class="form-group row">
                             <div class="col-md-5">
-                              <span>Spoof Referrer: </span>
+                              <span>Spoof Referrer<i class="feather icon-help-circle spoof-referrer-help"></i> </span>
                             </div>
                             <div class="col-md-7">
                               <div class="row">
@@ -192,7 +192,7 @@
                           </div>
                           <div class="form-group row">
                             <div class="col-md-5">
-                              <span>Deep Link: </span>
+                              <span>Deep Link<i class="feather icon-help-circle deep-link-help"></i> </span>
                             </div>
                             <div class="col-md-7">
                               <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
@@ -234,7 +234,7 @@
                                 <select class="form-control" id="active_rule" name="active_rule">
                                   <option value="">ADD NEW RULE</option>
                                   <option value="geo-ip-group" data-index="0">GeoIP</option>
-                                  <option value="proxy-group" data-index="1">Proxy</option>
+                                  <option value="proxy-group" data-index="1">Bots & SPAM</option>
                                   <option value="referrer-group" data-index="2">Referrer</option>
                                   <option value="empty-referrer-group" data-index="3">Empty referrer</option>
                                   <option value="device-type-group" data-index="4">Device Type</option>
@@ -294,13 +294,13 @@
                         </div>
                       </div>
                       <div class="form-group row border-light p-1 rounded-lg mb-1 mt-1 proxy-group position-relative @if(!isset($rule_data[1])) hidden @endif rule-group ">
-                        <div class="col-md-1">
-                          <span class="mt-1-2 d-inline-block">Proxy: </span>
+                        <div class="col-md-2">
+                          <span class="mt-1-2 d-inline-block">Bots & SPAM: </span>
                         </div>
                         <div class="col-md-8">
                           <select class="form-control" id="proxy-action" name="proxy-action">
-                            <option value="1" selected>Accept visitor only if proxy is detected</option>
-                            <option value="0">Reject visitor is proxy is detected</option>
+                            <option value="1" selected>Accept visitors only if bot or SPAM IP is detected</option>
+                            <option value="0">Reject visitor if bot or SPAM IP is detected</option>
                           </select>
                         </div>
                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
@@ -456,7 +456,29 @@
                               <div class="col-md-4">
                                 <label for="market-place">Market Place <i class="feather icon-info"></i></label>
                                 <select class="form-control" id="market-place" name="market-place">
-                                  @foreach ($countries as $key => $country)
+                                  @php
+                                    $market_place = [
+                                      'com' => 'United States',
+                                      'ca' => 'Canada',
+                                      'com.mx' => 'Mexico',
+                                      'co.uk' => 'United Kingdom',
+                                      'de' => 'Germany',
+                                      'fr' => 'France',
+                                      'it' => 'Italy',
+                                      'es' => 'Spain',
+                                      'nl' => 'Netherlands',
+                                      'se' => 'Sweden',
+                                      'pl' => 'Poland',
+                                      'jp' => 'Japan',
+                                      'sg' => 'Singapore',
+                                      'ae' => 'United Arab Emirates',
+                                      'com.br' => 'Brazil',
+                                      'com.au' => 'Austrailia',
+                                      'in' => 'India',
+                                      'sa' => 'Saudi Arabia'
+                                    ];
+                                  @endphp
+                                  @foreach ($market_place as $key => $country)
                                     <option value="{{ strtolower($key) }}">{{$country}}</option>
                                   @endforeach
                                 </select>
@@ -467,7 +489,7 @@
                                 <label for="keyword">Keyword <i class="feather icon-info"></i></label>
                                 <input type="text" class="form-control" id="keyword" name="keyword">
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-3 weight-max_hit-group hidden">
                                 <label for="weight-or-max_hit">Weight/Max Hits <i class="feather icon-info"></i></label>
                                 <input type="number" class="form-control" id="weight-or-max_hit" name="weight-or-max_hit">
                               </div>
@@ -625,6 +647,7 @@
     $('#blank-refer-switch').attr('checked',{{$blank}});
     $('#deep-link-switch').attr('checked', {{$deep}});
     $('input[name="rotate_option"]').eq({{$rotation}}).attr('checked',true);
+    $('input[name="rotate_option"]').change();
     $('#spoof-refer-switch').attr('checked', {{$spoof}}).change();
     $('#spoof-select').val({{!$spoof_service ? 0 : $spoof_service}});
   })

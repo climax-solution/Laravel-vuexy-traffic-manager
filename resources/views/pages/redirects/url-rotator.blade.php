@@ -175,7 +175,7 @@
                                 <select class="form-control" id="active_rule" name="active_rule">
                                   <option value="">ADD NEW RULE</option>
                                   <option value="geo-ip-group" data-index="0">GeoIP</option>
-                                  <option value="proxy-group" data-index="1">Proxy</option>
+                                  <option value="proxy-group" data-index="1">Bots & SPAM</option>
                                   <option value="referrer-group" data-index="2">Referrer</option>
                                   <option value="empty-referrer-group" data-index="3">Empty referrer</option>
                                   <option value="device-type-group" data-index="4">Device Type</option>
@@ -235,13 +235,13 @@
                         </div>
                       </div>
                       <div class="form-group row border-light p-1 rounded-lg mb-1 mt-1 proxy-group position-relative @if(!isset($rule_data[1])) hidden @endif rule-group ">
-                        <div class="col-md-1">
-                          <span class="mt-1-2 d-inline-block">Proxy: </span>
+                        <div class="col-md-2">
+                          <span class="mt-1-2 d-inline-block">Bots & SPAM: </span>
                         </div>
                         <div class="col-md-8">
                           <select class="form-control" id="proxy-action" name="proxy-action">
-                            <option value="1" selected>Accept visitor only if proxy is detected</option>
-                            <option value="0">Reject visitor is proxy is detected</option>
+                            <option value="1" selected>Accept visitors only if bot or SPAM IP is detected</option>
+                            <option value="0">Reject visitor if bot or SPAM IP is detected</option>
                           </select>
                         </div>
                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
@@ -375,12 +375,12 @@
                             <div class="form-group row">
                               <div class="col-md-8 col-sm-9 col-8">
                                 <select class="form-control" id="dest_url">
-                                  <option value="0">Select from list of redirect links</option>
                                   <option value="1">Enter New</option>
+                                  <option value="0">Select from list of redirect links</option>
                                 </select>
                               </div>
                               <div class="col-md-4 col-sm-3 col-4">
-                                <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small hidden" id="url-add-btn">ADD</button>
+                                <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small" id="url-add-btn">ADD</button>
                               </div>
                             </div>
                           </div>
@@ -407,15 +407,12 @@
                             <span class="weight-hit hidden weight-text">Weight</span>
                             <span class="weight-hit hidden max-hit-text">Max Hits</span>
                           </div>
-                          <div class="col-md-2 d-md-block d-none"><span>Spoof Referrer</span></div>
-                          <div class="col-md-2 d-md-block d-none"><span>Deep Link</span></div>
+                          <div class="col-md-2 d-md-block d-none"><span>Spoof Referrer<i class="feather icon-help-circle spoof-referrer-help"></i> </span></div>
+                          <div class="col-md-2 d-md-block d-none"><span>Deep Link<i class="feather icon-help-circle deep-link-help"></i></span></div>
                           <div class="col-md-2 d-md-block d-none"></div>
                         </div>
                         <div class="all-url-list-group">
-                        @php
-                          if (count($url_list)) $links = $url_list;
-                        @endphp
-                        @foreach ($links as $key => $item)
+                        @foreach ($url_list as $key => $item)
                           <div class="form-group row target-item-group" data-index="{{$key}}">
                             <div class="col-md-4 col-8">
                               <span class="dest-url-link">{{$item->dest_url}}</span>
@@ -451,7 +448,6 @@
                                       <div class="col-md-8 col-sm-6 col-6">
                                         <select class="form-control form-control-sm add-spoof-select @if(!isset($item->spoof_referrer) || isset($item->spoof_referrer) && !$item->spoof_referrer)hidden @endif">
                                           <option value="0">Google</option>
-                                          <!-- <option value="1">Twitter</option> -->
                                         </select>
                                       </div>
                                     </div>
@@ -469,7 +465,7 @@
                               </div>
                             </div>
                             <div class="col-md-2 col-6 text-right">
-                              <a href="#"><i class="fa fa-external-link fa-2x mr-1"></i></a>
+                              <a href="{{ $item->dest_url}}" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>
                               <a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>
                             </div>
                           </div>
@@ -481,14 +477,15 @@
                             <hr>
                           </div>
                           <div class="col-md-4 col-6">
-                            <input type="text" class="form-control form-control-sm" id="target-url" name="target-url" placeholder="Input redirect url.">
+                            <input type="text" class="form-control form-control-sm mt-2" id="target-url" name="target-url" placeholder="Input redirect url.">
                           </div>
                           <div class="col-md-2 col-6">
                             <div class="form-group">
-                              <input type="number" class="form-control form-control-sm" id="weight-or-max_hit" name="weight-or-max_hit">
+                              <input type="number" class="form-control form-control-sm mt-2" id="weight-or-max_hit" name="weight-or-max_hit" placeholder="Weight">
                             </div>
                           </div>
                           <div class="col-md-2">
+                              <span>Spoof Referrer</span>
                               <div class="form-group row">
                                 <div class="col-md-12">
                                   <div class="row">
@@ -509,6 +506,7 @@
                               </div>
                           </div>
                           <div class="col-md-2 col-6">
+                            <span>Deep Link</span>
                             <div class="form-group row">
                               <div class="col-md-12">
                                 <div class="custom-control custom-switch custom-switch-success mr-2">

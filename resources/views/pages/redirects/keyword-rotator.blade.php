@@ -5,6 +5,7 @@
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/dragula.min.css')) }}">
 
   <link rel="stylesheet" href="{{ asset(mix('css/plugins/forms/wizard.css')) }}">
 
@@ -15,11 +16,18 @@
     .error {
       color: #ea5455 !important;
     }
+    .hide-weight .target-item-group .d-table:nth-child(2){
+      display: none !important;
+    }
+    .hide-weight .target-item-group {
+      justify-content: space-evenly;
+    }
   </style>
 @endsection
 
 @section('page-style')
 <link rel="stylesheet" href="{{ asset(mix('css/plugins/toastr.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('css/plugins/extensions/drag-and-drop.css')) }}">
 
   <style>
     .xx-small {
@@ -83,6 +91,7 @@
                           </div>
                           <div class="col-md-10">
                               <input type="text" id="dest_url" class="form-control" name="dest_url" value="{{ isset($url_data->dest_url) ? $url_data->dest_url : '' }}">
+                              <span class="text-mute xx-small">(eg. https://www.amazon.com/s?k={keyword}&ref=nb_sb_noss_2)</span>
                           </div>
                       </div>
                       <div class="form-group row">
@@ -141,7 +150,7 @@
                           </div>
                           <div class="form-group row col-md-12 col-sm-6 col-5">
                             <div class="col-md-5">
-                              <span>Deep Link: </span>
+                              <span>Deep Link<i class="feather icon-help-circle deep-link-help"></i> </span>
                             </div>
                             <div class="col-md-7">
                               <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
@@ -183,7 +192,7 @@
                                 <select class="form-control" id="active_rule" name="active_rule">
                                   <option value="">ADD NEW RULE</option>
                                   <option value="geo-ip-group" data-index="0">GeoIP</option>
-                                  <option value="proxy-group" data-index="1">Proxy</option>
+                                  <option value="proxy-group" data-index="1">Bots & SPAM</option>
                                   <option value="referrer-group" data-index="2">Referrer</option>
                                   <option value="empty-referrer-group" data-index="3">Empty referrer</option>
                                   <option value="device-type-group" data-index="4">Device Type</option>
@@ -243,13 +252,13 @@
                         </div>
                       </div>
                       <div class="form-group row border-light p-1 rounded-lg mb-1 mt-1 proxy-group position-relative @if(!isset($rule_data[1])) hidden @endif rule-group ">
-                        <div class="col-md-1">
-                          <span class="mt-1-2 d-inline-block">Proxy: </span>
+                        <div class="col-md-2">
+                          <span class="mt-1-2 d-inline-block">Bots & SPAM: </span>
                         </div>
                         <div class="col-md-8">
                           <select class="form-control" id="proxy-action" name="proxy-action">
-                            <option value="1" selected>Accept visitor only if proxy is detected</option>
-                            <option value="0">Reject visitor is proxy is detected</option>
+                            <option value="1" selected>Accept visitors only if bot or SPAM IP is detected</option>
+                            <option value="0">Reject visitor if bot or SPAM IP is detected</option>
                           </select>
                         </div>
                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
@@ -384,7 +393,7 @@
                                 <label>Key word</label>
                                 <input type="text" class="form-control" id="keyword" name="keyword">
                               </div>
-                              <div class="col-md-4 mt-md-0 mt-1">
+                              <div class="col-md-4 mt-md-0 weight-max-hit mt-1">
                                 <label class="weight-label hidden">Weight</label>
                                 <label class="max_hit-label hidden">Max Hits</label>
                                 <label></label>
@@ -413,9 +422,9 @@
                         <span class="font-bold">Target Keywords<i class="feather icon-info"></i></span>
                         <hr>
                       </div>
-                      <div class="target-keywords-group mb-4">
+                      <div class="target-keywords-group mb-4" id="target-keywords-group">
                         @foreach ($url_list as $item)
-                          <div class="form-group row target-item-group">
+                          <div class="form-group row target-item-group list-group-item d-flex">
                             <div class="col-md-2 col-6 d-table">
                               <input type="text" class="keyword d-table-cell align-middle form-control" value="{{$item->keyword}}">
                             </div>
@@ -454,6 +463,7 @@
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/jquery.steps.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/extensions/dragula.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
 
 @endsection
@@ -522,6 +532,7 @@
   @endphp;
 
   $(function(){
+    dragula([document.getElementById('target-keywords-group')]);
     $('#tracking_url').val({{$tracking_url}});
     $('#pixel').val({{$pixel}});
     $('#campaign').val({{$campaign}});
@@ -539,6 +550,7 @@
     $('#blank-refer-switch').attr('checked',{{$blank}});
     $('#deep-link-switch').attr('checked', {{$deep}});
     $('input[name="rotate_option"]').eq({{$rotation}}).attr('checked',true);
+    $('input[name="rotate_option"]').change();.change();
   })
 </script>
 @endsection

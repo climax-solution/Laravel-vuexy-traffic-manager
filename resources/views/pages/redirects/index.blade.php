@@ -74,11 +74,12 @@
 				  <thead>
 					 <tr>
 						<th>ID</th>
+            <th style="min-width: 150px;">LINK NAME</th>
 						<th>TRACKING URL</th>
 						<th>DESTINATION URL</th>
+						<th style="min-width: 80px;">TYPE</th>
 						<th>ACTIVE</th>
-						<th>ORDER</th>
-						<th>MAX DAILY HITS</th>
+						<th style="min-width: 110px;">MAX DAILY HITS</th>
 						<th>HITS</th>
 						<th class="action-head">ACTION</th>
 					 </tr>
@@ -87,12 +88,23 @@
 					  @foreach ($redirects as $key => $redirect)
             @php
               $editURL = '/edit-url/'.$redirect->uuid;
+              $link_name = $redirect->link_name;
+              $link_name = strlen($link_name) > 25 ? Str::substr($link_name, 0, 22).'...' : $link_name;
+              $type = [
+                'custom_urls' => 'Custom URL',
+                'url_rotator' => 'URL Rotator',
+                'qr_code' => 'QR Code',
+                'step_url' => '2-Step URL',
+                'keyword_rotator' => 'Kwd Rotator',
+              ];
             @endphp
 					  <tr>
 							<td>{{ $redirect->id }}</td>
+              <td>{{ $link_name }}</td>
 							<td class="redirect-url">{{ env('APP_URL').'/r/'.$redirect->uuid }}</td>
 							<td>{{ $redirect->dest_url ? $redirect->dest_url : 'Multiple URLs' }}</td>
-						  <td>
+						  <td>{{ $type[$redirect->table_name] }}</td>
+              <td>
 								<div class="custom-control custom-switch custom-switch-success switch-lg mr-2">
 									<input id="locked_{{ $redirect->id }}" class="custom-control-input active-switch" type="checkbox" {{ $redirect->active == 1 ? "checked" : "" }} value="{{$redirect->id}}">
 									<label class="custom-control-label" for="locked_{{ $redirect->id }}">
@@ -101,7 +113,6 @@
 									</label>
 								</div>
 							</td>
-							<td>{{ $redirect->order }}</td>
 							<td>{{ $redirect->max_hit_day }}</td>
 							<td>{{ $redirect->take_count }}</td>
 							<td class="action-group">

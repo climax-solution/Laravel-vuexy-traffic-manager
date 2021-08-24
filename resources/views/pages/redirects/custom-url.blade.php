@@ -140,7 +140,7 @@
                                           </div>
                                           <div class="form-group row">
                                             <div class="col-md-5">
-                                              <span>Spoof Referrer: </span>
+                                              <span>Spoof Referrer<i class="feather icon-help-circle spoof-referrer-help"></i> </span>
                                             </div>
                                             <div class="col-md-7">
                                               <div class="row">
@@ -161,7 +161,7 @@
                                           </div>
                                           <div class="form-group row">
                                             <div class="col-md-5">
-                                              <span>Deep Link: </span>
+                                              <span>Deep Link<i class="feather icon-help-circle deep-link-help"></i></span>
                                             </div>
                                             <div class="col-md-7">
                                               <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
@@ -203,7 +203,7 @@
                                                 <select class="form-control" id="active_rule" name="active_rule">
                                                   <option value="">ADD NEW RULE</option>
                                                   <option value="geo-ip-group" data-index="0">GeoIP</option>
-                                                  <option value="proxy-group" data-index="1">Proxy</option>
+                                                  <option value="proxy-group" data-index="1">Bots & SPAM</option>
                                                   <option value="referrer-group" data-index="2">Referrer</option>
                                                   <option value="empty-referrer-group" data-index="3">Empty referrer</option>
                                                   <option value="device-type-group" data-index="4">Device Type</option>
@@ -263,13 +263,13 @@
                                         </div>
                                       </div>
                                       <div class="form-group row border-light p-1 rounded-lg mt-2 proxy-group position-relative @if(!isset($rule_data[1])) hidden @endif rule-group">
-                                        <div class="col-md-1">
-                                          <span class="mt-1-2 d-inline-block">Proxy: </span>
+                                        <div class="col-md-2">
+                                          <span class="mt-1-2 d-inline-block">Bots & SPAM: </span>
                                         </div>
                                         <div class="col-md-8">
                                           <select class="form-control" id="proxy-action">
-                                              <option value="1" selected>Accept visitor only if proxy is detected</option>
-                                              <option value="0">Reject visitor is proxy is detected</option>
+                                              <option value="1" selected>Accept visitors only if bot or SPAM IP is detected</option>
+                                              <option value="0">Reject visitor if bot or SPAM IP is detected</option>
                                           </select>
                                         </div>
                                           <button type="button" class="btn btn-danger btn-sm waves-effect waves-light xx-small position-absolute right-2-p top-1-2 remove-btn" data-group="proxy-group">REMOVE</button>
