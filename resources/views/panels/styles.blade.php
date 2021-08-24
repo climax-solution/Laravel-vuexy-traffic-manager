@@ -51,4 +51,7 @@ $configData = Helper::applClasses();
   .custom-switch.switch-lg .custom-control-label::before {
     background-color: #ea5455;
   }
+  .target-item-group {
+    justify-content: space-between;
+  }
 </style>
