@@ -13,6 +13,7 @@ use App\Models\Redirect;
 use App\Models\Referrer;
 use App\Models\UrlRotatorList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Monarobase\CountryList\CountryListFacade;
@@ -34,8 +35,7 @@ class UrlRotatorController extends Controller {
   }
 
   public function index(Request $request) {
-    $links = Redirect::distinct()->select('dest_url')->where('table_name', 'custom_urls')->get();
-    $compactData = $this->compactData;    $compactData['links'] = $links;    $id = $request->query('id');
+    $compactData = $this->compactData;   $id = $request->query('id');
     $url_data = Redirect::where('id', $id)->where('table_name', 'url_rotator')->first();
     $rule_data = [];  $url_list = [];   $advance_options = [];
     $rotation = 0;
@@ -169,5 +169,11 @@ class UrlRotatorController extends Controller {
     }
     unlink(public_path('/csv_file/'.$name));
     return response()->json($data);
+  }
+
+  public function getCustomUrl(Request $request) {
+    $id = auth()->user()->id;
+    $res = Redirect::distinct()->select('dest_url')->where('user_id', $id)->where('table_name', 'custom_urls')->get();
+    return response()->json($res);
   }
 }

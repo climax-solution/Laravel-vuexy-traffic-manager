@@ -126,14 +126,14 @@ class RedirectController extends Controller
       $advanced_option = json_decode($src->advance_options, true);
       $blank_referrer = $advanced_option['blank'];
       $referrer = request()->headers->get('referer');
-      switch($blank_referrer) {
-        case 0:
-          if (!isset($referrer)) return abort(404);
-          break;
-        case 1:
-          if (isset($referrer)) return abort(404);
-          break;
-      }
+      // switch($blank_referrer) {
+      //   case 0:
+      //     if (!isset($referrer)) return abort(404);
+      //     break;
+      //   case 1:
+      //     if (isset($referrer)) return abort(404);
+      //     break;
+      // }
       if ($redirect_src->table_name != 'qr_code' && !$src) {
         return abort(404);
       }
@@ -160,10 +160,9 @@ class RedirectController extends Controller
       $data = $reader->get($ipaddress);
       if ($redirect_src->table_name != 'qr_code') {
         $active_rule = json_decode($src->active_rule, true);
-        $redirect_src->take_count ++;
-        Redirect::where('id',$redirect_src->id)->update(['take_count' => $redirect_src->take_count]);
       }
       // dd($data, $ipaddress);
+      // dd($data);
       if (is_array($data)) {
         $status = [];
         $countryCode = $data['country']['iso_code'];
@@ -320,7 +319,7 @@ class RedirectController extends Controller
                 $redirect_src->dest_url = 'com.amazon.mobile.shopping.web://'.$dest_url;
               }
             }
-            if ($advanced_option['spoof']) {
+            if (isset($advanced_option['spoof']) && $advanced_option['spoof']) {
               $redirect_src->dest_url = Helper::getGooglUrl($src->request_id);
             }
             break;
@@ -363,7 +362,7 @@ class RedirectController extends Controller
             $dest_url = $redirect_src->dest_url;
             $parse_url = parse_url($dest_url);
             $advanced_option = json_decode($src->advance_options, true);
-            if ($advanced_option['deep']  && !$advanced_option['spoof']) {
+            if ($advanced_option['deep']) {
               if (strpos($parse_url['host'], 'amazon.com') > -1) {
                 $scheme = ['http://', 'https://'];
                 foreach($scheme as $item) {
@@ -374,7 +373,7 @@ class RedirectController extends Controller
                 $redirect_src->dest_url = 'com.amazon.mobile.shopping.web://'.$dest_url;
               }
             }
-            if ($advanced_option['spoof']) {
+            if (isset($advanced_option['spoof']) && $advanced_option['spoof']) {
               $redirect_src->dest_url = Helper::getGooglUrl($src->request_id);
             }
             $ReList::where(['parent_id' => $src->id, 'uuid' => $index])->update(['take_count' => $url_lists[$index]->take_count ]);
@@ -387,6 +386,8 @@ class RedirectController extends Controller
           if ($redirect_src->table_name != 'qr_code' && $redirect_src->table_name != 'custom_urls' ) {
             $Model::where('id',$src->id)->update(['active_position' => $src->active_position]);
           }
+          $redirect_src->take_count ++;
+          Redirect::where('id',$redirect_src->id)->update(['take_count' => $redirect_src->take_count]);
           return redirect()->to($redirect_src->dest_url);
         }
       }
