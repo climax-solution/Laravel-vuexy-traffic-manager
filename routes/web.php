@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth','locked']], function () {
 
   Route::post('/get-csv-data','UrlRotatorController@getCsvData');
   Route::post('/get-csv-data-step-asin','StepUrlController@getCsvData');
+  Route::post('/get-custom-url', 'UrlRotatorController@getCustomUrl');
 });
 Route::get('/r/{id}','RedirectController@redirectTracking')->name('redirects.redirect-to');
 
