@@ -29,9 +29,6 @@ $(function(){
             max_hit_day: {
               required: true
             },
-            amazon_aff_id: {
-              required: true
-            },
             fallback_url:{
               required: true,
               url: true
@@ -147,6 +144,17 @@ $(function(){
         const itemList = $('.target-item-group');
         if (!itemList.length) {
           toastr.warning('No existing rows');
+          return false;
+        }
+        let sum = 0;
+        $('.weight-or-max_hit').each(function() {
+          if ($(this).text == '') {
+            return false;
+          }
+          sum += Number($(this).text());
+        })
+        if (sum > 100) {
+          toastr.warning('Total value is equal or less than 100!','Warning');
           return false;
         }
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
@@ -286,11 +294,16 @@ $(function(){
       case '1':
         $('.weight-hit').addClass('hidden');
         $('.weight-text').removeClass('hidden');
+        $('.weight-max_hit-group').removeClass('hidden');
         break;
       case '3':
           $('.weight-hit').addClass('hidden');
           $('.max-hit-text').removeClass('hidden');
+          $('.weight-max_hit-group').removeClass('hidden');
           break;
+      default:
+        $('.weight-max_hit-group').addClass('hidden');
+        break;
     }
   })
   $('#add-spoof-switch').change(function() {
@@ -305,12 +318,6 @@ $(function(){
       },
       'keyword': {
         required: true
-      },
-      'weight-or-max_hit': {
-        required: true
-      },
-      'custom-parameter': {
-        required: true
       }
     };
     if ($('#link_type').val() == '4') rule_option = {...rule_option, ...{brand:{required: true}}};
@@ -323,23 +330,23 @@ $(function(){
     }
     const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
     const market = $('#market-place').val();
-    const keyword = $('#keyword').val();
-    let preview_link = 'https://www.amazon.com' + (market ? '.' + market: '') + '/s?k=' + keyword + '&rh=p_78%3A' + $('#asin').val() + '&' + $('#custom-parameter').val();
+    let keyword = $('#keyword').val(); keyword = keyword.replaceAll(' ', '+');
+    let preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_78%3A' + $('#asin').val() + '&' + $('#custom-parameter').val();
     switch($('#link_type').val()) {
       case '1':
-        preview_link = 'https://www.amazon.com' + (market ? '.' + market: '') + '/s?k=' + keyword + '&me=' + $('#asin').val() + '&ref=nb_sb_noss&' + $('#custom-parameter').val();
+        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&me=' + $('#asin').val() + '&ref=nb_sb_noss&' + $('#custom-parameter').val();
         step_text = 'STOREFRONT 2-STEP URL';
         break;
       case '2':
-        preview_link = 'https://www.amazon.com' + (market ? '.' + market: '') + '/s?k=' + keyword + '&hidden-keywords=' + $('#asin').val() + '&ref=nb_sb_noss_1&' + $('#custom-parameter').val();
+        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&hidden-keywords=' + $('#asin').val() + '&ref=nb_sb_noss_1&' + $('#custom-parameter').val();
         step_text = 'HIDDEN KEYWORD 2-STEP URL';
         break;
       case '3':
-        preview_link = 'https://www.amazon.com' + (market ? '.' + market: '') + '/dp/' + $('#asin').val();
+        preview_link = 'https://www.amazon.' + market + '/dp/' + $('#asin').val();
         step_text = 'PRODUCT PAGE FROM SEARCH RESULTS';
         break;
       case '4':
-        preview_link = 'https://www.amazon.com' + (market ? '.' + market: '') + '/s?k=' + keyword + '&rh=p_4%3A123%2Cp_78%3A' + $('#asin').val() + '&ref=nb_sb_noss_2&' + $('#custom-parameter').val();
+        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_4%3A123%2Cp_78%3A' + $('#asin').val() + '&ref=nb_sb_noss_2&' + $('#custom-parameter').val();
         step_text = 'BRAND 2-STEP URL';
         break;
     }

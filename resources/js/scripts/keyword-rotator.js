@@ -5,13 +5,6 @@ $(function(){
   let saveData = {
     '_token': $('meta[name="csrf-token"]').attr('content')
   };
-  $('#country-group').change(function(){
-    const NewList = ($(this).val()).split(',');
-    let CountryList = $('#country-list').val();
-    CountryList = [...CountryList, ...NewList];
-    CountryList = [...new Set(CountryList)];
-    $('#country-list').val(CountryList).change();
-  })
   $(".number-tab-steps").steps({
       headerTag: "h6",
       bodyTag: "fieldset",
@@ -142,6 +135,10 @@ $(function(){
               toastr.warning('Total value is wrong!','Warning');
               return false;
             }
+            if (sumHit > 100) {
+              toastr.warning('Total value must be equal or less than 100!');
+              return false;
+            }
             break;
         }
         if (!weightHit.length) {
@@ -207,6 +204,13 @@ $(function(){
   });
   $('input.select2-search__field').attr({'name' : 'country-select-input'});
 
+  $('#country-group').change(function(){
+    const NewList = ($(this).val()).split(',');
+    let CountryList = $('#country-list').val();
+    CountryList = [...CountryList, ...NewList];
+    CountryList = [...new Set(CountryList)];
+    $('#country-list').val(CountryList).change();
+  })
   $('#rule-box-toggle').click(()=> {
     const rule = $('#active_rule').val();
     if (rule) {
@@ -248,11 +252,12 @@ $(function(){
       return;
     }
     const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
-    const keyword = $('#keyword').val();
+    let keyword = $('#keyword').val();
     const dest_url = $('#dest_url').val();
     // const st_k = dest_url.indexOf('{'); const en_k = dest_url.indexOf('}');
-    let preview_link = dest_url.replace('{keyword}',keyword);
-    let html ='<div class="form-group row target-item-group">'+
+    keyword = keyword.replaceAll(' ', '+');
+    let preview_link = dest_url.replaceAll('{keyword}',keyword);
+    let html ='<div class="form-group row target-item-group list-group-item d-flex">'+
         '<div class="col-md-2 col-6 d-table">'+
         '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+keyword+'">'+
         '</div>'+
@@ -308,14 +313,21 @@ $(function(){
       case '1':
         $('.weight-label').removeClass('hidden');
         $('.max_hit-label').addClass('hidden');
+        $('#target-keywords-group').removeClass('hide-weight');
+        $('.weight-max-hit').removeClass('hidden');
+
         break;
       case '3':
           $('.weight-label').addClass('hidden');
           $('.max_hit-label').removeClass('hidden');
+          $('#target-keywords-group').removeClass('hide-weight');
+          $('.weight-max-hit').removeClass('hidden');
           break;
       default:
         $('.weight-label').addClass('hidden');
         $('.max_hit-label').addClass('hidden');
+        $('#target-keywords-group').addClass('hide-weight');
+        $('.weight-max-hit').addClass('hidden');
         break;
     }
   })
@@ -339,7 +351,7 @@ $(function(){
         let html = '';
         const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
         res.map((item, index) => {
-          html += '<div class="form-group row target-item-group">'+
+          html += '<div class="form-group row target-item-group list-group-item d-flex">'+
           '<div class="col-md-2 col-6 d-table">'+
             '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+item.keyword+'">'+
           '</div>'+
@@ -362,5 +374,14 @@ $(function(){
       }
     })
     $(this).prop('type','text').prop('type','file');
+  })
+
+  $('#deep-link-switch').change(function() {
+    const dest_url = $('#dest_url').val();
+    const res = getDomain(dest_url);
+    if (!res) {
+      $(this).prop({'checked': false});
+      return;
+    }
   })
 })
