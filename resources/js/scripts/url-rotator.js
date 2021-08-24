@@ -235,7 +235,53 @@ $(function(){
           _token: $('input[name="_token"]').val()
         },
         success:function(res) {
-
+          let html = '';
+          res.map((item, index) => {
+            html += '<div class="form-group row target-item-group" data-index="'+index+'">'+
+              '<div class="col-md-4 col-8">'+
+                '<span class="dest-url-link">'+item.dest_url+'</span>'+
+              '</div>'+
+              '<div class="col-md-2 col-4">'+
+                '<div class="form-group">'+
+                  '<input type="number" class="form-control form-control-sm weight-or-max_hit">'+
+                '</div>'+
+              '</div>'+
+              '<div class="col-md-2">'+
+                  '<div class="form-group row">'+
+                    '<div class="col-md-12">'+
+                      '<div class="row">'+
+                        '<div class="col-md-4 col-6">'+
+                          '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+                            '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+index+'">'+
+                            '<label class="custom-control-label" for="spoof-switch'+index+'"></label>'+
+                          '</div>'+
+                        '</div>'+
+                        '<div class="col-md-8 col-6">'+
+                          '<select class="form-control form-control-sm add-spoof-select hidden">'+
+                            '<option value="0">Google</option>'+
+                          '</select>'+
+                        '</div>'+
+                      '</div>'+
+                    '</div>'+
+                  '</div>'+
+              '</div>'+
+              '<div class="col-md-2 col-6">'+
+                '<div class="form-group row">'+
+                  '<div class="col-md-12">'+
+                    '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+                      '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+index+'">'+
+                      '<label class="custom-control-label" for="deep-switch'+index+'"></label>'+
+                    '</div>'+
+                  '</div>'+
+                '</div>'+
+              '</div>'+
+              '<div class="col-md-2 col-6 text-right">'+
+                '<a href="'+item.dest_url+'"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+                '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
+              '</div>'+
+            '</div>'
+          })
+          $('.all-url-list-group').html(html);
         }
       })
     }
