@@ -58,19 +58,21 @@ $(function(){
           'step_url' : '2-Step URL',
           'keyword_rotator' : 'Kwd Rotator',
         }
+        const img = res.qr_code_img ? '<img src="' + res.qr_code_img + '" class="w-100"/>' : '';
         let row = table.row.add([
           res.id,
           (res.link_name).length > 25 ? (res.link_name).substring(0, 22) + '...' : res.link_name,
           APP_URL + '/r/' + res.uuid,
           res.dest_url ? res.dest_url : 'Multiple URLs',
           link_type[res.table_name],
+          img,
           active_switch,
           res.max_hit_day,
           res.take_count,
           action_btn
         ]);
         table.row(row).column(1).nodes().to$().addClass('redirect-url');
-        table.row(row).column(7).nodes().to$().addClass('action-group');
+        table.row(row).column(9).nodes().to$().addClass('action-group');
         table.row(row).draw(true);
         let total_redirect = Number($('.total-redirect').text());
         total_redirect ++;

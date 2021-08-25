@@ -28,7 +28,7 @@ $(function(){
 
     let flag = 0;
     let saveData = {
-      '_token': $('meta[name="csrf-token"]').attr('content')
+      '_token': $('meta[name="csrf-token"]').attr('content'),
     };
     jQuery.validator.setDefaults({
       debug: true,
@@ -135,6 +135,14 @@ $(function(){
     // saveData.spoof_service = spoof_service;
     saveData.campaign = $('#campaign').val();
     saveData.id = $('input[name="_id"]').val();
+    const foreColor = $('input[name="fore-color"]').val();
+    const backColor = $('input[name="back-color"]').val();
+    if (foreColor == backColor) {
+      toastr.warning("Foreground color mustn't be same with Background color!", "Warning");
+      return ;
+    }
+    saveData['fore-color'] = foreColor;
+    saveData['back-color'] = backColor;
     $.ajax({
       type: 'post',
       url: createURL,

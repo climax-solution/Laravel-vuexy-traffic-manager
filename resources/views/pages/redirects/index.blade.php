@@ -78,6 +78,7 @@
 						<th>TRACKING URL</th>
 						<th>DESTINATION URL</th>
 						<th style="min-width: 80px;">TYPE</th>
+            <th style="max-width: 100px;">QR CODE</th>
 						<th>ACTIVE</th>
 						<th style="min-width: 110px;">MAX DAILY HITS</th>
 						<th>HITS</th>
@@ -104,6 +105,11 @@
 							<td class="redirect-url">{{ env('APP_URL').'/r/'.$redirect->uuid }}</td>
 							<td>{{ $redirect->dest_url ? $redirect->dest_url : 'Multiple URLs' }}</td>
 						  <td>{{ $type[$redirect->table_name] }}</td>
+              <td>
+                @if(is_file(public_path($redirect->qr_code_img)))
+                  <img src="{{asset($redirect->qr_code_img)}}" class="w-100">
+                @endif
+              </td>
               <td>
 								<div class="custom-control custom-switch custom-switch-success switch-lg mr-2">
 									<input id="locked_{{ $redirect->id }}" class="custom-control-input active-switch" type="checkbox" {{ $redirect->active == 1 ? "checked" : "" }} value="{{$redirect->id}}">

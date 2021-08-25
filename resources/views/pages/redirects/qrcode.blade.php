@@ -119,6 +119,26 @@
                                           </fieldset>
                                         </div>
                                       </div>
+                                      <div class="form-group row">
+                                        <div class="col-md-2">
+                                          <span>Foreground Color: </span>
+                                        </div>
+                                        <div class="col-md-10">
+                                          <fieldset class="form-group">
+                                            <input type="color" class="form-control" name="fore-color">
+                                          </fieldset>
+                                        </div>
+                                      </div>
+                                      <div class="form-group row">
+                                        <div class="col-md-2">
+                                          <span>Background Color: </span>
+                                        </div>
+                                        <div class="col-md-10">
+                                          <fieldset class="form-group">
+                                            <input type="color" class="form-control" name="back-color" value="#ffffff">
+                                          </fieldset>
+                                        </div>
+                                      </div>
                                       <!--
                                       <div class="form-group">
                                         <span class="font-bold">Advanced Options</span>
