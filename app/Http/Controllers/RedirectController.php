@@ -48,6 +48,13 @@ class RedirectController extends Controller
       $id = auth()->user()->id;
       $redirects = Redirect::where('user_id', $id)->get();
       $activeLink = Redirect::where('active', 1)->where('user_id', $id)->count();
+      foreach($redirects as $item) {
+        $item->qr_code_img = '';
+        if ($item->table_name == 'qr_code') {
+          $row = QrCode::where('id',$item->item_id)->select('img_path')->first();
+          $item->qr_code_img = $row->img_path;
+        }
+      }
       $analysis = [
           'activeLinks' => $activeLink,
           'totalRedirects' => count($redirects),
@@ -86,6 +93,11 @@ class RedirectController extends Controller
       }
       $create['take_count'] = 0;
       $res = Redirect::create($create);
+      $res->qr_code_img = '';
+      if ($res->table_name == 'qr_code') {
+        $row = QrCode::where('id', $res->item_id)->first();
+        $res->qr_code_img = $row->img_path;
+      }
       return $res;
     }
 

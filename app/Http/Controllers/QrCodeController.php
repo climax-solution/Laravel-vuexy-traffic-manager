@@ -33,14 +33,17 @@ class QrCodeController extends Controller
     $input['uuid'] = Str::random(7);
     $redirect = Redirect::where('id', $input['id'])->first();
     unset($input['id']);
+    $fore = $this->convertRGB($input['fore-color']);
+    $back = $this->convertRGB($input['back-color']);
+    unset($input['fore-color']); unset($input['back-color']);
     $qrCode = new QrCode(env('APP_URL').'/r/'.$input['uuid']);
     $qrCode->setSize(400);
     $qrCode->setMargin(10);
     $qrCode->setWriterByName('png');
     $qrCode->setEncoding('UTF-8');
     $qrCode->setErrorCorrectionLevel(ErrorCorrectionLevel::HIGH());
-    $qrCode->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0]);
-    $qrCode->setBackgroundColor(['r' => 255, 'g' => 255, 'b' => 255, 'a' => 0]);
+    $qrCode->setForegroundColor(['r' => $fore[0], 'g' => $fore[1], 'b' => $fore[2], 'a' => 1]);
+    $qrCode->setBackgroundColor(['r' => $back[0], 'g' => $back[1], 'b' => $back[2], 'a' => 0.5]);
     $qrCode->setValidateResult(false);
     $qrCode->setRoundBlockSize(true);
     $qrCode->setWriterOptions(['exclude_xml_declaration' => true]);
@@ -52,7 +55,7 @@ class QrCodeController extends Controller
     ];
     if (isset($redirect)) {
       $old_qr = ModelsQrCode::where('id', $redirect->item_id)->first();
-      unlink(public_path('/'.$old_qr->img_path));
+      if (file_exists(public_path('/'.$old_qr->img_path))) unlink(public_path('/'.$old_qr->img_path));
       ModelsQrCode::where('id', $redirect->item_id)->delete();
     }
     $new = ModelsQrCode::create($data);
@@ -64,5 +67,18 @@ class QrCodeController extends Controller
       Redirect::where('id', $redirect->id)->update($input);
     }
     return response()->json(['file' => asset($file_name) ]);
+  }
+
+  public function convertRGB($hexValue) {
+    $arrayRGB = [];
+    $hexValue = str_replace("#", "", $hexValue);
+    $split_hex_color = str_split($hexValue, 2);
+    $rgb1 = hexdec($split_hex_color[0]);
+    $rgb2 = hexdec($split_hex_color[1]);
+    $rgb3 = hexdec($split_hex_color[2]);
+
+    array_push($arrayRGB, $rgb1, $rgb2, $rgb3);
+
+    return $arrayRGB;
   }
 }
