@@ -153,36 +153,20 @@ $(function(){
         if($('input[name="_id"]').val() == -1) {
           Swal.fire({
             title: "Qr Code successfully created.",
-            html : "<img src='"+res.file+"' class='w-50'><a href="+res.file+" class='qr-code-download' download></a>",
+            html : "<img src='"+res.file+"' class='w-50'><div><a class='btn btn-success' href="+res.file+" download>Download</a><a class='btn btn-primary ml-sm-1' href='/redirects'>RETURN TO DASHBOARD</a></div>",
             type: "success",
-            confirmButtonClass: 'btn btn-primary',
-            buttonsStyling: false,
-            confirmButtonText: `RETURN TO DASHBOARD`,
-            allowOutsideClick:false
-          }).then((res) => {
-            if (res.value) {
-              $('.qr-code-download')[0].click();
-              $('.qr-code-download').remove();
-              window.location.href = '/redirects';
-            }
-          })
+            showCancelButton: false,
+            showConfirmButton: false,
+          });
         }
         else {
           Swal.fire({
             title: "Qr Code successfully updated.",
-            html : "<img src='"+res.file+"' class='w-50'><a href="+res.file+" class='qr-code-download' download></a>",
+            html : "<img src='"+res.file+"' class='w-50'><div><a class='btn btn-success' href="+res.file+" download>Download</a><a class='btn btn-primary ml-sm-1' href='/redirects'>RETURN TO DASHBOARD</a></div>",
             type: "success",
-            confirmButtonClass: 'btn btn-primary',
-            buttonsStyling: false,
-            confirmButtonText: `RETURN TO DASHBOARD`,
-            allowOutsideClick:false
-          }).then((res) => {
-            if (res.value) {
-              $('.qr-code-download')[0].click();
-              $('.qr-code-download').remove();
-              window.location.href = '/redirects';
-            }
-          })
+            showCancelButton: false,
+            showConfirmButton: false,
+          });
         }
       },
       error: () => {
