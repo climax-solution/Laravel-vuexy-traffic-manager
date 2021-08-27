@@ -78,7 +78,7 @@
 						<th>TRACKING URL</th>
 						<th>DESTINATION URL</th>
 						<th style="min-width: 80px;">TYPE</th>
-            <th style="max-width: 100px;">QR CODE</th>
+            <th style="min-width: 60px; max-width: 60px;">QR CODE</th>
 						<th>ACTIVE</th>
 						<th style="min-width: 110px;">MAX DAILY HITS</th>
 						<th>HITS</th>
@@ -121,11 +121,13 @@
 							</td>
 							<td>{{ $redirect->max_hit_day }}</td>
 							<td>{{ $redirect->take_count }}</td>
-							<td class="action-group">
-                <a class="copy-btn" data-index="{{$key}}"><i class="fa fa-copy text-em"></i></a>
-                <a href="{{ url($editURL) }}" class="edit-btn color-inherit" data-index="{{$key}}"><i class="feather icon-edit text-em"></i></a>
-                <a class="clone-btn" data-id="{{$redirect->id}}"><i class="fa fa-clone text-em"></i></a>
-                <a class="remove-btn" data-id="{{$redirect->id}}" data-index="{{$key}}"><i class="feather icon-trash-2 text-em"></i></a>
+							<td>
+                <div class="action-group">
+                  <a class="copy-btn" data-index="{{$key}}"><i class="fa fa-copy text-em"></i></a>
+                  <a href="{{ url($editURL) }}" class="edit-btn color-inherit" data-index="{{$key}}"><i class="feather icon-edit text-em"></i></a>
+                  <a class="clone-btn" data-id="{{$redirect->id}}"><i class="fa fa-clone text-em"></i></a>
+                  <a class="remove-btn" data-id="{{$redirect->id}}" data-index="{{$key}}"><i class="feather icon-trash-2 text-em"></i></a>
+                </div>
               </td>
 					  </tr>
 					  @endforeach

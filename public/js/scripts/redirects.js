@@ -47,10 +47,10 @@ $(function(){
         '<label class="custom-control-label" for="locked_'+res.id+'">'+
         '<span class="switch-text-left">Active</span>'+
         '<span class="switch-text-right white">Inactive</span></label></div>';
-        const action_btn = '<a class="copy-btn" data-index="'+key+'"><i class="fa fa-copy text-em"></i></a>'+
+        const action_btn = '<div class="action-group"><a class="copy-btn" data-index="'+key+'"><i class="fa fa-copy text-em"></i></a>'+
         '<a href="/edit-url/'+res.uuid+'" class="edit-btn color-inherit" data-index="'+key+'"><i class="feather icon-edit text-em"></i></a>'+
         '<a class="clone-btn" data-id="'+res.id+'"><i class="fa fa-clone text-em"></i></a>'+
-        '<a class="remove-btn" data-id="'+res.id+'" data-index="'+key+'"><i class="feather icon-trash-2 text-em"></i></a>';
+        '<a class="remove-btn" data-id="'+res.id+'" data-index="'+key+'"><i class="feather icon-trash-2 text-em"></i></a></div>';
         const link_type = {
           'custom_urls' : 'Custom URL',
           'url_rotator' : 'URL Rotator',
@@ -72,7 +72,6 @@ $(function(){
           action_btn
         ]);
         table.row(row).column(1).nodes().to$().addClass('redirect-url');
-        table.row(row).column(9).nodes().to$().addClass('action-group');
         table.row(row).draw(true);
         let total_redirect = Number($('.total-redirect').text());
         total_redirect ++;
