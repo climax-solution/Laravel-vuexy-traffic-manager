@@ -154,7 +154,7 @@ $(function(){
           sum += Number($(this).text());
         })
         if (sum > 100) {
-          toastr.warning('Total value is equal or less than 100!','Warning');
+          toastr.warning('Total value must be 100!','Warning');
           return false;
         }
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();

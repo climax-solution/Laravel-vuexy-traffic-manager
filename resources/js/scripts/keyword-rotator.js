@@ -131,12 +131,8 @@ $(function(){
             weightHit.each(function(){
               sumHit += Number($(this).val());
             })
-            if ( !sumHit ) {
-              toastr.warning('Total value is wrong!','Warning');
-              return false;
-            }
-            if (sumHit > 100) {
-              toastr.warning('Total value must be equal or less than 100!');
+            if (sumHit != 100) {
+              toastr.warning('Total value must be 100!');
               return false;
             }
             break;

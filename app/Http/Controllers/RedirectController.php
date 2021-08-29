@@ -174,7 +174,6 @@ class RedirectController extends Controller
         $active_rule = json_decode($src->active_rule, true);
       }
       // dd($data, $ipaddress);
-      // dd($data);
       if (is_array($data)) {
         $status = [];
         $countryCode = $data['country']['iso_code'];
@@ -404,7 +403,7 @@ class RedirectController extends Controller
         }
       }
       else {
-        return redirect()->to($redirect_src->fallback_url);
+        return abort(404);
       }
     }
 

@@ -125,8 +125,8 @@ $(function(){
               toastr.warning('Total value is wrong!','Warning');
               return false;
             }
-            if ( sumHit > 100 ) {
-              toastr.warning('Total value is equal or less than 100!','Warning');
+            if ( sumHit != 100 ) {
+              toastr.warning('Total value must be 100!','Warning');
               return false;
             }
             break;
@@ -135,7 +135,7 @@ $(function(){
           toastr.warning('No exist rows!','Warning');
           return false;
         }
-        console.log(saveData);
+
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
         saveData.id = $('input[name="_id"]').val();
         addUrlList();
@@ -276,12 +276,13 @@ $(function(){
                 '</div>'+
               '</div>'+
               '<div class="col-md-2 col-6 text-right">'+
+                '<a class="handle"><i class="fa fa-arrows fa-2x mr-1 "></i></a>'+
                 '<a href="'+item.dest_url+'"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
                 '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
               '</div>'+
             '</div>'
           })
-          $('.all-url-list-group').html(html);
+          if (html) $('.all-url-list-group').html(html);
         }
       })
     }
@@ -301,7 +302,7 @@ $(function(){
   $('body').on('change', '.deep-switch', function() {
     const index = $('.deep-switch').index($(this));
     const checked = $(this).prop('checked');
-    const dest_url = $('.dest-url-link').text();
+    const dest_url = $('.dest-url-link').eq(index).text();
     const res = getDomain(dest_url);
     if (!res) {
       $(this).prop('checked', false)
@@ -315,11 +316,20 @@ $(function(){
       case '1':
         $('.weight-hit').addClass('hidden');
         $('.weight-text').removeClass('hidden');
+        $('#weight-or-max_hit').show();
+        $('.all-url-list-group').removeClass('hide-weight');
         break;
       case '3':
-          $('.weight-hit').addClass('hidden');
-          $('.max-hit-text').removeClass('hidden');
-          break;
+        $('#weight-or-max_hit').show();
+        $('.weight-hit').addClass('hidden');
+        $('.max-hit-text').removeClass('hidden');
+        $('.all-url-list-group').removeClass('hide-weight');
+        break;
+      default:
+        $('.weight-hit').addClass('hidden');
+        $('.max-hit-text').addClass('hidden');
+        $('#weight-or-max_hit').hide();
+        $('.all-url-list-group').addClass('hide-weight');
     }
   })
   $('#add-spoof-switch').change(function() {
@@ -348,9 +358,6 @@ $(function(){
         'target-url': {
           required: true,
           url: true
-        },
-        'weight-or-max_hit': {
-          required: true
         }
       }
     });
@@ -375,7 +382,7 @@ $(function(){
                 '<div class="row">'+
                   '<div class="col-md-4 col-6">'+
                     '<div class="custom-control custom-switch custom-switch-success mr-2">'+
-                      '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+$('.target-item-group').length+'" '+(deep_checked ? 'disabled' : 'checked')+'>'+
+                      '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+$('.target-item-group').length+'" '+(spoof_checked ? 'checked' : '')+'>'+
                       '<label class="custom-control-label" for="spoof-switch'+$('.target-item-group').length+'"></label>'+
                     '</div>'+
                   '</div>'+
@@ -392,7 +399,7 @@ $(function(){
           '<div class="form-group row">'+
             '<div class="col-md-12">'+
               '<div class="custom-control custom-switch custom-switch-success mr-2">'+
-                '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+$('.target-item-group').length+'" '+(spoof_checked ? 'disabled' : 'checked')+'>'+
+                '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+$('.target-item-group').length+'" '+(deep_checked ? 'checked' : '')+'>'+
                 '<label class="custom-control-label" for="deep-switch'+$('.target-item-group').length+'"></label>'+
               '</div>'+
             '</div>'+
@@ -409,7 +416,7 @@ $(function(){
     $('#weight-or-max_hit').val('');
     $('#add-spoof-switch').prop({'checked': false, 'disabled': false});
     $('#add-deep-switch').prop({'checked': false, 'disabled': false});
-    $('#add-spoof-select').val(0).toggleClass('hidden');
+    $('#add-spoof-select').val(0).addClass('hidden');
   })
   function addUrlList () {
     const url_list = [];

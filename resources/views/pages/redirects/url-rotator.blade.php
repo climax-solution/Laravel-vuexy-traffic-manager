@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('css/plugins/forms/wizard.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/dragula.min.css')) }}">
 
   <style>
     ul {
@@ -19,6 +20,7 @@
 
 @section('page-style')
 <link rel="stylesheet" href="{{ asset(mix('css/plugins/toastr.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('css/plugins/extensions/drag-and-drop.css')) }}">
 
   <style>
     .xx-small {
@@ -41,6 +43,9 @@
     }
     .top-1-2 {
       top: 0.5rem !important
+    }
+    .hide-weight .weight-or-max_hit {
+      display: none;
     }
   </style>
 @endsection
@@ -411,9 +416,9 @@
                           <div class="col-md-2 d-md-block d-none"><span>Deep Link<i class="feather icon-help-circle deep-link-help"></i></span></div>
                           <div class="col-md-2 d-md-block d-none"></div>
                         </div>
-                        <div class="all-url-list-group">
+                        <div class="all-url-list-group" id="all-url-list-group">
                         @foreach ($url_list as $key => $item)
-                          <div class="form-group row target-item-group" data-index="{{$key}}">
+                          <div class="form-group row target-item-group list-group-item" data-index="{{$key}}">
                             <div class="col-md-4 col-8">
                               <span class="dest-url-link">{{$item->dest_url}}</span>
                             </div>
@@ -539,6 +544,7 @@
 <script src="{{ asset(mix('vendors/js/extensions/jquery.steps.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/extensions/dragula.min.js')) }}"></script>
 
 @endsection
 
@@ -605,6 +611,11 @@
   @endphp;
 
   $(function(){
+    dragula([document.getElementById("all-url-list-group"), document.getElementById("handle-list-2")], {
+      moves: function (el, container, handle) {
+        return handle.classList.contains('handle');
+      }
+    });
     $('#tracking_url').val({{$tracking_url}});
     $('#pixel').val({{$pixel}});
     $('#campaign').val({{$campaign}});
@@ -620,6 +631,8 @@
     $('#device-action-list').val({{$device_action}});
     $('#device-type-list').val({{$device_type}});
     $('#blank-refer-switch').attr('checked',{{$blank}});
+    $('input[name="rotate_option"]').eq({{$rotation}}).attr('checked',true).change();
+
   })
 </script>
 @endsection

@@ -549,8 +549,7 @@
     $('#device-type-list').val({{$device_type}});
     $('#blank-refer-switch').attr('checked',{{$blank}});
     $('#deep-link-switch').attr('checked', {{$deep}});
-    $('input[name="rotate_option"]').eq({{$rotation}}).attr('checked',true);
-    $('input[name="rotate_option"]').change();.change();
+    $('input[name="rotate_option"]').eq({{$rotation}}).attr('checked',true).change();
   })
 </script>
 @endsection
