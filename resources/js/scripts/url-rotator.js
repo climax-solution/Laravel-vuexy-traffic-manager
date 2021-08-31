@@ -448,7 +448,7 @@ $(function(){
       row.deep_link = $('.deep-switch').eq(index).prop('checked') ? 1 : 0;
       switch(rotate_checked) {
         case '1':
-          total_weight += weightHit.eq(index).val();
+          total_weight += Number(weightHit.eq(index).val());
           row.weight = weightHit.eq(index).val();
           break;
         case '3':
@@ -457,18 +457,22 @@ $(function(){
       }
       url_list.push(row);
     })
-    if (DestUrls.length) {
+    if (DestUrls.length && $('input[name="rotate_option"]').val() == '1') {
       $('.realtime-weight').removeClass('hidden');
       $('.weight-value').text(total_weight);
     }
     saveData.url_list = JSON.stringify(url_list);
   }
-  $('.weight-or-max_hit').change(function() {
-    const value = $(this).val();
-    const rotate = $('input[name="rotate_option"]').val();
+  $('body').on('input','.weight-or-max_hit',function() {
+    const rotate = $("input[type='radio'][name='rotate_option']:checked").val();
     switch(rotate) {
       case '1':
-        total_weight += value;
+        total_weight = 0;
+        $('.weight-or-max_hit').each(function() {
+          const value = $(this).val();
+          total_weight += Number(value);
+        })
+        $('.realtime-weight').removeClass('hidden');
         $('.weight-value').text(total_weight);
         if (total_weight < 100) {
           $('.total-weight').removeClass('text-success').removeClass('text-danger');
