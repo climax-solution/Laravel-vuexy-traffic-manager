@@ -49,12 +49,14 @@ class UrlRotatorController extends Controller {
       $advance_options = json_decode($url_rotator->advance_options, true);
       $rotation = $url_rotator->rotation_option;
     }
+    $user_id = auth()->user()->id;
     $compactData['rule_data'] = $rule_data;
     $compactData['url_data'] = !$url_data ? [] : $url_data;
     $compactData['advance_options'] = $advance_options;
     $compactData['rotation'] = $rotation;
     $compactData['url_list'] = $url_list;
     $compactData['id'] = !$url_data ? -1 : $id;
+    $compactData['custom_url_num'] = Redirect::where('user_id', $user_id)->where('table_name','custom_urls')->count();
     return view('/pages/redirects/url-rotator',$compactData);
   }
 

@@ -384,7 +384,7 @@
                               <div class="col-md-8 col-sm-9 col-8">
                                 <select class="form-control" id="dest_url">
                                   <option value="1">Enter New</option>
-                                  <option value="0">Select from list of redirect links</option>
+                                  @if($custom_url_num) <option value="0">Select from list of redirect links</option> @endif
                                 </select>
                               </div>
                               <div class="col-md-4 col-sm-3 col-4">
@@ -600,10 +600,7 @@
 <script src="{{asset(mix('js/scripts/url-rotator.js'))}}"></script>
 <script>
   $(function(){
-    $('body').on('click','.target-item-remove',function(){
-      const index = $('.target-item-remove').index($(this));
-      $('.target-item-group').eq(index).remove();
-    })
+
   })
 </script>
 <script>
