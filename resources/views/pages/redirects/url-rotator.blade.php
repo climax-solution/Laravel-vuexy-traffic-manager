@@ -15,6 +15,9 @@
     .error {
       color: #ea5455 !important;
     }
+    .hidden-handle .handle{
+      display: none;
+    }
   </style>
 @endsection
 
@@ -416,7 +419,7 @@
                           <div class="col-md-2 d-md-block d-none"><span>Deep Link<i class="feather icon-help-circle deep-link-help"></i></span></div>
                           <div class="col-md-2 d-md-block d-none"></div>
                         </div>
-                        <div class="all-url-list-group" id="all-url-list-group">
+                        <ul class="all-url-list-group list-group" id="all-url-list-group">
                         @foreach ($url_list as $key => $item)
                           <div class="form-group row target-item-group list-group-item" data-index="{{$key}}">
                             <div class="col-md-4 col-8">
@@ -475,7 +478,8 @@
                             </div>
                           </div>
                         @endforeach
-                        </div>
+                        </ul>
+                        <span class="realtime-weight">Total Weight: <span class="weight-value"></span></span>
                         <form class="hidden form-group row new-url-group">
                           <div class="col-md-12">
                             <h4>Add New Url</h4>
@@ -521,8 +525,8 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-2 col-6">
-                            <a id="new-url-add-btn"><i class="fa fa-save fa-2x"></i></a>
+                          <div class="col-md-2 col-6 d-flex" style="align-items: center; justify-content: space-evenly;">
+                            <button class="btn btn-primary btn-sm" id="new-url-add-btn">Save</button>
                             <a id="addgroup-hide-btn"><i class="fa fa-trash fa-2x"></i></a>
                           </div>
                         </form>
@@ -611,7 +615,7 @@
   @endphp;
 
   $(function(){
-    dragula([document.getElementById("all-url-list-group"), document.getElementById("handle-list-2")], {
+    dragula([document.getElementById("all-url-list-group")], {
       moves: function (el, container, handle) {
         return handle.classList.contains('handle');
       }

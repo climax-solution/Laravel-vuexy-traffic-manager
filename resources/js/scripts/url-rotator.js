@@ -5,6 +5,7 @@ $(function(){
   let saveData = {
     '_token': $('meta[name="csrf-token"]').attr('content')
   };
+  let total_weight = total_hits = 0;
 
   $(".number-tab-steps").steps({
       headerTag: "h6",
@@ -276,7 +277,7 @@ $(function(){
                 '</div>'+
               '</div>'+
               '<div class="col-md-2 col-6 text-right">'+
-                '<a class="handle"><i class="fa fa-arrows fa-2x mr-1 "></i></a>'+
+                '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
                 '<a href="'+item.dest_url+'"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
                 '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
               '</div>'+
@@ -331,6 +332,19 @@ $(function(){
         $('#weight-or-max_hit').hide();
         $('.all-url-list-group').addClass('hide-weight');
     }
+    switch($(this).val()) {
+      case '1':
+        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden');
+        break;
+      case '2':
+        $('.all-url-list-group').removeClass('hidden-handle');
+        break;
+      default:
+        $('.all-url-list-group').addClass('hidden-handle');
+        $('.realtime-weight').addClass('hidden');
+        total_weight = 0;
+        break;
+    }
   })
   $('#add-spoof-switch').change(function() {
     $('#add-spoof-select').toggleClass('hidden');
@@ -367,7 +381,7 @@ $(function(){
     }
     const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
     const data_index = !$('.target-item-group:last-child').length ? 0 : Number($('.target-item-group:last-child').attr('data-index')) + 1;
-    var html ='<div class="form-group row target-item-group"  data-index="'+data_index+'">'+
+    var html = '<div class="form-group row target-item-group"  data-index="'+data_index+'">'+
         '<div class="col-md-4 col-8">'+
           '<span class="dest-url-link">'+targetUrl+'</span>'+
         '</div>'+
@@ -406,10 +420,11 @@ $(function(){
           '</div>'+
         '</div>'+
         '<div class="col-md-2 col-6 text-right">'+
-          '<a href="'+targetUrl+'"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
-          '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
+          '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
+          '<a href="'+targetUrl+'" class="fa fa-external-link fa-2x mr-1"></a>'+
+          '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
         '</div>'+
-      '</div>' ;
+      '</div>';
     $('.all-url-list-group').html($('.all-url-list-group').html() + html);
     addUrlList();
     $('#target-url').val('');
@@ -421,6 +436,7 @@ $(function(){
   function addUrlList () {
     const url_list = [];
     const DestUrls = $('.dest-url-link');
+    total_weight = 0;
     DestUrls.each(function(index) {
       let row = {};
       row.dest_url = $(this).text();
@@ -432,6 +448,7 @@ $(function(){
       row.deep_link = $('.deep-switch').eq(index).prop('checked') ? 1 : 0;
       switch(rotate_checked) {
         case '1':
+          total_weight += weightHit.eq(index).val();
           row.weight = weightHit.eq(index).val();
           break;
         case '3':
@@ -440,9 +457,31 @@ $(function(){
       }
       url_list.push(row);
     })
+    if (DestUrls.length) {
+      $('.realtime-weight').removeClass('hidden');
+      $('.weight-value').text(total_weight);
+    }
     saveData.url_list = JSON.stringify(url_list);
   }
-
+  $('.weight-or-max_hit').change(function() {
+    const value = $(this).val();
+    const rotate = $('input[name="rotate_option"]').val();
+    switch(rotate) {
+      case '1':
+        total_weight += value;
+        $('.weight-value').text(total_weight);
+        if (total_weight < 100) {
+          $('.total-weight').removeClass('text-success').removeClass('text-danger');
+        }
+        else if (total_weight > 100) {
+          $('.total-weight').addClass('text-success').removeClass('text-danger');
+        }
+        else {
+          $('.total-weight').removeClass('text-success').addClass('text-danger');
+        }
+        break;
+    }
+  })
   $('#upload-btn').click(function(){
     $('#csv-file').click();
   })
@@ -501,8 +540,9 @@ $(function(){
               '</div>'+
             '</div>'+
             '<div class="col-md-2 col-6 text-right">'+
-              '<a href="'+item.dest_url+'"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
-              '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
+              '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
+              '<a href="'+item.dest_url+'" class="fa fa-external-link fa-2x mr-1"></a>'+
+              '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
             '</div>'+
           '</div>'
         })
@@ -511,5 +551,6 @@ $(function(){
       }
     })
     $(this).prop('type','text').prop('type','file');
+
   })
 })
