@@ -557,4 +557,11 @@ $(function(){
     $(this).prop('type','text').prop('type','file');
 
   })
+  $('body').on('click','.target-item-remove',function(){
+    const index = $('.target-item-remove').index($(this));
+    $('.target-item-group').eq(index).remove();
+    if (!$('.target-item-group').length) {
+      $('.realtime-weight').addClass('hidden');
+    }
+  })
 })
