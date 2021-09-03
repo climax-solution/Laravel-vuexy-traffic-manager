@@ -365,7 +365,7 @@ $(function(){
             '</div>'+
           '</div>'+
         '</div>'+
-        '<div class="col-md-2 col-6 text-right">'+
+        '<div class="col-md-2 col-6  justify-content-end d-flex">'+
           '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
           '<a href="'+targetUrl+'" class="fa fa-external-link fa-2x mr-1"></a>'+
           '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
@@ -420,7 +420,7 @@ $(function(){
             '</div>'+
           '</div>'+
         '</div>'+
-        '<div class="col-md-2 col-6 text-right">'+
+        '<div class="col-md-2 col-6  justify-content-end d-flex">'+
           '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
           '<a href="'+url+'" class="fa fa-external-link fa-2x mr-1"></a>'+
           '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
@@ -539,7 +539,7 @@ $(function(){
                 '</div>'+
               '</div>'+
             '</div>'+
-            '<div class="col-md-2 col-6 text-right">'+
+            '<div class="col-md-2 col-6  justify-content-end d-flex">'+
               '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
               '<a href="'+item.dest_url+'" class="fa fa-external-link fa-2x mr-1"></a>'+
               '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+

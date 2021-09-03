@@ -385,7 +385,7 @@
                                 <select class="form-control" id="dest_url">
                                   <option value="1">Enter New</option>
                                   @foreach ($custom_urls as $item)
-                                    <option value="{{env('APP_URL')}}{{$item->uuid}}">{{$item->link_name}}</option>
+                                    <option value="{{env('APP_URL')}}/r/{{$item->uuid}}">{{$item->link_name}}</option>
                                   @endforeach
                                 </select>
                               </div>
@@ -470,11 +470,11 @@
                           </div>
                           <div class="col-md-2 d-md-block d-none"><span>Spoof Referrer<i class="feather icon-help-circle spoof-referrer-help"></i> </span></div>
                           <div class="col-md-2 d-md-block d-none"><span>Deep Link<i class="feather icon-help-circle deep-link-help"></i></span></div>
-                          <div class="col-md-2 d-md-block d-none">Action</div>
+                          <div class="col-md-2 d-md-block d-none text-right">Action</div>
                         </div>
                         <ul class="all-url-list-group list-group" id="all-url-list-group">
                         @foreach ($url_list as $key => $item)
-                          <div class="form-group row target-item-group list-group-item" data-index="{{$key}}">
+                          <div class="form-group row target-item-group" data-index="{{$key}}">
                             <div class="col-md-4 col-8">
                               <span class="dest-url-link">{{$item->dest_url}}</span>
                             </div>
@@ -525,7 +525,8 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-2 col-6 text-right">
+                            <div class="col-md-2 col-6 justify-content-end d-flex">
+                              <a class="handle fa fa-arrows fa-2x mr-1"></a>
                               <a href="{{ $item->dest_url}}" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>
                               <a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>
                             </div>

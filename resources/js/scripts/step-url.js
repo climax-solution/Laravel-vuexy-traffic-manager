@@ -331,14 +331,15 @@ $(function(){
     const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
     const market = $('#market-place').val();
     let keyword = $('#keyword').val(); keyword = keyword.replaceAll(' ', '+');
-    let preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_78%3A' + $('#asin').val() + '&' + $('#custom-parameter').val();
+    let custom_parameter =  $('#custom-parameter').val();
+    let preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_78%3A' + $('#asin').val() + `${custom_parameter ? '&' + custom_parameter : ''}`;
     switch($('#link_type').val()) {
       case '1':
-        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&me=' + $('#asin').val() + '&ref=nb_sb_noss&' + $('#custom-parameter').val();
+        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&me=' + $('#asin').val() + '&ref=nb_sb_noss' + `${custom_parameter ? '&' + custom_parameter : ''}`;
         step_text = 'STOREFRONT 2-STEP URL';
         break;
       case '2':
-        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&hidden-keywords=' + $('#asin').val() + '&ref=nb_sb_noss_1&' + $('#custom-parameter').val();
+        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&hidden-keywords=' + $('#asin').val() + '&ref=nb_sb_noss_1' + `${custom_parameter ? '&' + custom_parameter : ''}`;
         step_text = 'HIDDEN KEYWORD 2-STEP URL';
         break;
       case '3':
@@ -346,7 +347,7 @@ $(function(){
         step_text = 'PRODUCT PAGE FROM SEARCH RESULTS';
         break;
       case '4':
-        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_4%3A123%2Cp_78%3A' + $('#asin').val() + '&ref=nb_sb_noss_2&' + $('#custom-parameter').val();
+        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_4%3A123%2Cp_78%3A' + $('#asin').val() + '&ref=nb_sb_noss_2' + `${custom_parameter ? '&' + custom_parameter : ''}`;
         step_text = 'BRAND 2-STEP URL';
         break;
     }

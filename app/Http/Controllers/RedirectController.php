@@ -373,7 +373,7 @@ class RedirectController extends Controller
             $dest_url = $redirect_src->dest_url;
             $parse_url = parse_url($dest_url);
             $advanced_option = json_decode($src->advance_options, true);
-            if ($advanced_option['deep']) {
+            if (isset($advanced_option['deep']) && $advanced_option['deep']) {
               if (strpos($parse_url['host'], 'amazon.com') > -1) {
                 $scheme = ['http://', 'https://'];
                 foreach($scheme as $item) {
