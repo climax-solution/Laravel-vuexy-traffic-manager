@@ -280,6 +280,7 @@ $(function(){
     switch($(this).val()) {
       case '1':
         if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden');
+        $('.all-url-list-group').addClass('hidden-handle');
         break;
       case '2':
         $('.all-url-list-group').removeClass('hidden-handle');
@@ -390,8 +391,35 @@ $(function(){
             '<input type="number" class="form-control form-control-sm weight-or-max_hit">'+
           '</div>'+
         '</div>'+
-        '<div class="col-md-2"></div>'+
-        '<div class="col-md-2 col-6"></div>'+
+        '<div class="col-md-2">'+
+          '<div class="form-group row">'+
+            '<div class="col-md-12">'+
+              '<div class="row">'+
+                '<div class="col-md-4 col-6">'+
+                  '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+                    '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+data_index+'" disabled>'+
+                    '<label class="custom-control-label" for="spoof-switch'+data_index+'"></label>'+
+                  '</div>'+
+                '</div>'+
+                '<div class="col-md-8 col-6">'+
+                  '<select class="form-control form-control-sm add-spoof-select hidden">'+
+                    '<option value="0">Google</option>'+
+                  '</select>'+
+                '</div>'+
+              '</div>'+
+            '</div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="col-md-2 col-6">'+
+          '<div class="form-group row">'+
+            '<div class="col-md-12">'+
+              '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+                '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+data_index+'" disabled>'+
+                '<label class="custom-control-label" for="deep-switch'+data_index+'"></label>'+
+              '</div>'+
+            '</div>'+
+          '</div>'+
+        '</div>'+
         '<div class="col-md-2 col-6 text-right">'+
           '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
           '<a href="'+url+'" class="fa fa-external-link fa-2x mr-1"></a>'+
