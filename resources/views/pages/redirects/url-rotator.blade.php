@@ -384,7 +384,9 @@
                               <div class="col-md-8 col-sm-9 col-8">
                                 <select class="form-control" id="dest_url">
                                   <option value="1">Enter New</option>
-                                  @if($custom_url_num) <option value="0">Select from list of redirect links</option> @endif
+                                  @foreach ($custom_urls as $item)
+                                    <option value="{{$item->dest_url}}">{{$item->link_name}}</option>
+                                  @endforeach
                                 </select>
                               </div>
                               <div class="col-md-4 col-sm-3 col-4">

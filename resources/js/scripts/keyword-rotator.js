@@ -266,6 +266,7 @@ $(function(){
           '<p class="preview-link text-break-all d-table-cell align-middle">'+preview_link+'</p>'+
         '</div>'+
         '<div class="col-md-2 col-3 text-right">'+
+          '<a href="#" class="fa fa-arrows fa-2x mr-1 handle"></a>'+
           '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
           '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
         '</div>'+
@@ -326,6 +327,14 @@ $(function(){
         $('.weight-max-hit').addClass('hidden');
         break;
     }
+    switch($(this).val()) {
+      case '2':
+        $('#target-keywords-group').addClass('hide-move');
+        break;
+      default:
+        $('#target-keywords-group').removeClass('hide-move');
+        break;
+    }
   })
 
   $('#csv-file').change(function(){
@@ -360,6 +369,7 @@ $(function(){
             '<span class="preview-link text-break-all d-table-cell align-middle">'+item.dest_url+'</span>'+
           '</div>'+
           '<div class="col-md-2 col-3 text-right">'+
+            '<a href="#" class="fa fa-arrows fa-2x mr-1 handle"></a>'+
             '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
             '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
           '</div>'+

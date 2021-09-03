@@ -56,7 +56,7 @@ class UrlRotatorController extends Controller {
     $compactData['rotation'] = $rotation;
     $compactData['url_list'] = $url_list;
     $compactData['id'] = !$url_data ? -1 : $id;
-    $compactData['custom_url_num'] = Redirect::where('user_id', $user_id)->where('table_name','custom_urls')->count();
+    $compactData['custom_urls'] = Redirect::where('user_id', $user_id)->where('table_name','custom_urls')->get();
     return view('/pages/redirects/url-rotator',$compactData);
   }
 

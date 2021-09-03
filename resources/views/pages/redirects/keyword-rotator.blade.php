@@ -20,7 +20,13 @@
       display: none !important;
     }
     .hide-weight .target-item-group {
-      justify-content: space-evenly;
+      justify-content: space-between;
+    }
+    .hide-move .handle {
+      display: none;
+    }
+    .list-group-item  {
+      border: none;
     }
   </style>
 @endsection
@@ -532,7 +538,11 @@
   @endphp;
 
   $(function(){
-    dragula([document.getElementById('target-keywords-group')]);
+    dragula([document.getElementById('target-keywords-group')],{
+      moves: function (el, container, handle) {
+        return handle.classList.contains('handle');
+      }
+    });
     $('#tracking_url').val({{$tracking_url}});
     $('#pixel').val({{$pixel}});
     $('#campaign').val({{$campaign}});
