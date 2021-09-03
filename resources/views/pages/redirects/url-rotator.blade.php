@@ -385,12 +385,13 @@
                                 <select class="form-control" id="dest_url">
                                   <option value="1">Enter New</option>
                                   @foreach ($custom_urls as $item)
-                                    <option value="{{$item->dest_url}}">{{$item->link_name}}</option>
+                                    <option value="{{env('APP_URL')}}{{$item->uuid}}">{{$item->link_name}}</option>
                                   @endforeach
                                 </select>
                               </div>
                               <div class="col-md-4 col-sm-3 col-4">
                                 <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small" id="url-add-btn">ADD</button>
+                                <button type="button" class="btn btn-outline-primary waves-effect waves-light xx-small hidden" id="custom-url-add-btn">ADD</button>
                               </div>
                             </div>
                           </div>
