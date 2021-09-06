@@ -303,6 +303,20 @@ $(function(){
           break;
       default:
         $('.weight-max_hit-group').addClass('hidden');
+        $('.weight-hit').addClass('hidden');
+        $('.weight-text').addClass('hidden');
+        break;
+    }
+    switch($(this).val()) {
+      case '1':
+        // if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden');
+        $('.all-url-list-group').addClass('hidden-handle');
+        break;
+      case '2':
+        $('.all-url-list-group').removeClass('hidden-handle');
+        break;
+      default:
+        $('.all-url-list-group').addClass('hidden-handle');
         break;
     }
   })
@@ -364,6 +378,7 @@ $(function(){
           '<p class="preview-link text-break-all">'+preview_link+'</p>'+
         '</div>'+
         '<div class="col-md-2 col-3 text-right">'+
+          '<a class="fa fa-arrows handle fa-2x mr-1"></a>'+
           '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
           '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
         '</div>'+
@@ -433,6 +448,7 @@ $(function(){
             '<span class="preview-link text-break-all">'+item.dest_url+'</span>'+
           '</div>'+
           '<div class="col-md-2 col-3 text-right">'+
+            '<a class="fa fa-arrows handle fa-2x mr-1"></a>'+
             '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
             '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
           '</div>'+

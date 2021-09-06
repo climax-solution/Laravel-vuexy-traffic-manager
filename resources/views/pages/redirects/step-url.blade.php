@@ -5,8 +5,8 @@
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.css')) }}">
-
   <link rel="stylesheet" href="{{ asset(mix('css/plugins/forms/wizard.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/dragula.min.css')) }}">
 
   <style>
     ul {
@@ -20,6 +20,7 @@
 
 @section('page-style')
 <link rel="stylesheet" href="{{ asset(mix('css/plugins/toastr.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('css/plugins/extensions/drag-and-drop.css')) }}">
 
   <style>
     .xx-small {
@@ -45,6 +46,9 @@
     }
     .text-break-all {
       word-break: break-all;
+    }
+    .hidden-handle .handle {
+      display: none;
     }
   </style>
 @endsection
@@ -518,7 +522,7 @@
                           <div class="col-md-6 d-md-block d-none"><span>Preview Link</span></div>
                           <div class="col-md-2 d-md-block d-none"></div>
                         </div>
-                        <div class="all-url-list-group">
+                        <div class="all-url-list-group" id="all-url-list-group">
                           @foreach ($url_list as $item)
                             <div class="form-group row target-item-group">
                               <div class="col-md-2 col-6">
@@ -533,6 +537,7 @@
                                 <p class="preview-link text-break-all">{{$item->dest_url}}</p>
                               </div>
                               <div class="col-md-2 col-3 text-right">
+                                <a class="fa fa-arrows handle fa-2x mr-1"></a>
                                 <a href="{{$item->dest_url}}" target="_blank">
                                   <i class="fa fa-external-link fa-2x mr-1"></i>
                                 </a>
@@ -561,6 +566,7 @@
 <script src="{{ asset(mix('vendors/js/extensions/jquery.steps.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/extensions/dragula.min.js')) }}"></script>
 
 @endsection
 
@@ -630,6 +636,11 @@
   @endphp;
 
   $(function(){
+    dragula([document.getElementById("all-url-list-group")], {
+      moves: function (el, container, handle) {
+        return handle.classList.contains('handle');
+      }
+    });
     $('#tracking_url').val({{$tracking_url}});
     $('#pixel').val({{$pixel}});
     $('#campaign').val({{$campaign}});
@@ -646,8 +657,7 @@
     $('#device-type-list').val({{$device_type}});
     $('#blank-refer-switch').attr('checked',{{$blank}});
     $('#deep-link-switch').attr('checked', {{$deep}});
-    $('input[name="rotate_option"]').eq({{$rotation}}).attr('checked',true);
-    $('input[name="rotate_option"]').change();
+    $('input[name="rotate_option"]').eq({{$rotation}}).attr('checked',true).change();
     $('#spoof-refer-switch').attr('checked', {{$spoof}}).change();
     $('#spoof-select').val({{!$spoof_service ? 0 : $spoof_service}});
   })
