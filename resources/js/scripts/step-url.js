@@ -357,11 +357,15 @@ $(function(){
         step_text = 'HIDDEN KEYWORD 2-STEP URL';
         break;
       case '3':
-        preview_link = 'https://www.amazon.' + market + '/dp/' + $('#asin').val();
-        step_text = 'PRODUCT PAGE FROM SEARCH RESULTS';
+        let rand_1 = Math.floor(Math.random() * 14);
+        let rand_2 = Math.floor(Math.random() * 10);
+        rand_1 = !rand_1 ? 1 : rand_1;
+        rand_2 = !rand_2 ? 1 : rand_2;
+        preview_link = 'https://www.amazon.' + market + '/dp/' + $('#asin').val() + '/ref=sr_1_2?ie=UTF8&keywords=' + keyword + '&qid=' + Date.now() + '&s=gateway&sr=' + rand_1 + '-' + rand_2 + `${custom_parameter ? '&' + custom_parameter : ''}`;
+        step_text = 'PRODUCT PAGE FROM SEARCH RESULTS' ;
         break;
       case '4':
-        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_4%3A123%2Cp_78%3A' + $('#asin').val() + '&ref=nb_sb_noss_2' + `${custom_parameter ? '&' + custom_parameter : ''}`;
+        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_4%3A'+$('#brand').val()+'%2Cp_78%3A' + $('#asin').val() + '%2Cssx%3Arelevance&ref=nb_sb_noss_2' + `${custom_parameter ? '&' + custom_parameter : ''}`;
         step_text = 'BRAND 2-STEP URL';
         break;
     }
@@ -380,7 +384,7 @@ $(function(){
         '<div class="col-md-2 col-3 text-right">'+
           '<a class="fa fa-arrows handle fa-2x mr-1"></a>'+
           '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
-          '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
+          '<a class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
         '</div>'+
       '</div>' ;
     $('.all-url-list-group').html($('.all-url-list-group').html() + html);
@@ -450,7 +454,7 @@ $(function(){
           '<div class="col-md-2 col-3 text-right">'+
             '<a class="fa fa-arrows handle fa-2x mr-1"></a>'+
             '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
-            '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
+            '<a class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
           '</div>'+
         '</div>' ;
         })

@@ -253,7 +253,7 @@ $(function(){
     // const st_k = dest_url.indexOf('{'); const en_k = dest_url.indexOf('}');
     keyword = keyword.replaceAll(' ', '+');
     let preview_link = dest_url.replaceAll('{keyword}',keyword);
-    let html ='<div class="form-group row target-item-group list-group-item d-flex">'+
+    let html ='<div class="form-group row target-item-group d-flex">'+
         '<div class="col-md-2 col-6 d-table">'+
         '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+keyword+'">'+
         '</div>'+
@@ -265,9 +265,9 @@ $(function(){
         '<div class="col-md-6 col-9 d-table">'+
           '<p class="preview-link text-break-all d-table-cell align-middle">'+preview_link+'</p>'+
         '</div>'+
-        '<div class="col-md-2 col-3 text-right">'+
-          '<a href="#" class="fa fa-arrows fa-2x mr-1 handle"></a>'+
-          '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+        '<div class="col-md-2 col-3 d-flex justify-content-around">'+
+          '<a class="fa fa-arrows fa-2x handle"></a>'+
+          '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
           '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
         '</div>'+
       '</div>' ;
@@ -308,31 +308,32 @@ $(function(){
   $('input[name="rotate_option"]').change(function(){
     switch($(this).val()) {
       case '1':
-        $('.weight-label').removeClass('hidden');
-        $('.max_hit-label').addClass('hidden');
+        $('.weight-label, .weight-text').removeClass('hidden');
+        $('.max_hit-label, .max-hit-text').addClass('hidden');
         $('#target-keywords-group').removeClass('hide-weight');
         $('.weight-max-hit').removeClass('hidden');
-
+        $('.weight-hit-text').addClass('d-md-block');
         break;
       case '3':
-          $('.weight-label').addClass('hidden');
-          $('.max_hit-label').removeClass('hidden');
-          $('#target-keywords-group').removeClass('hide-weight');
-          $('.weight-max-hit').removeClass('hidden');
-          break;
+        $('.weight-label, .weight-text').addClass('hidden');
+        $('.max_hit-label, .max-hit-text').removeClass('hidden');
+        $('#target-keywords-group').removeClass('hide-weight');
+        $('.weight-max-hit').removeClass('hidden');
+        $('.weight-hit-text').addClass('d-md-block');
+        break;
       default:
-        $('.weight-label').addClass('hidden');
-        $('.max_hit-label').addClass('hidden');
+        $('.weight-label, .weight-text, .max-hit-text, .max_hit-label').addClass('hidden');
         $('#target-keywords-group').addClass('hide-weight');
         $('.weight-max-hit').addClass('hidden');
+        $('.weight-hit-text').removeClass('d-md-block');
         break;
     }
     switch($(this).val()) {
       case '2':
-        $('#target-keywords-group').addClass('hide-move');
+        $('#target-keywords-group').removeClass('hide-move');
         break;
       default:
-        $('#target-keywords-group').removeClass('hide-move');
+        $('#target-keywords-group').addClass('hide-move');
         break;
     }
   })
@@ -356,7 +357,7 @@ $(function(){
         let html = '';
         const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
         res.map((item, index) => {
-          html += '<div class="form-group row target-item-group list-group-item d-flex">'+
+          html += '<div class="form-group row target-item-group d-flex">'+
           '<div class="col-md-2 col-6 d-table">'+
             '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+item.keyword+'">'+
           '</div>'+
@@ -368,9 +369,9 @@ $(function(){
           '<div class="col-md-6 col-9 d-table">'+
             '<span class="preview-link text-break-all d-table-cell align-middle">'+item.dest_url+'</span>'+
           '</div>'+
-          '<div class="col-md-2 col-3 text-right">'+
-            '<a href="#" class="fa fa-arrows fa-2x mr-1 handle"></a>'+
-            '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+          '<div class="col-md-2 col-3 d-flex justify-content-around">'+
+            '<a class="fa fa-arrows fa-2x handle"></a>'+
+            '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
             '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
           '</div>'+
         '</div>' ;

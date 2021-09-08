@@ -365,13 +365,14 @@ $(function(){
             '</div>'+
           '</div>'+
         '</div>'+
-        '<div class="col-md-2 col-6  justify-content-end d-flex">'+
-          '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
-          '<a href="'+targetUrl+'" class="fa fa-external-link fa-2x mr-1"></a>'+
+        '<div class="col-md-2 col-6  justify-content-around d-flex">'+
+          '<a class="handle fa fa-arrows fa-2x"></a>'+
+          '<a href="'+targetUrl+'" class="fa fa-external-link fa-2x"></a>'+
           '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
         '</div>'+
       '</div>';
-    $('.all-url-list-group').html($('.all-url-list-group').html() + html);
+    // $('.all-url-list-group').html($('.all-url-list-group').html() + html);
+    $('.all-url-list-group').append(html);
     addUrlList();
     $('#target-url').val('');
     $('#weight-or-max_hit').val('');
@@ -420,13 +421,14 @@ $(function(){
             '</div>'+
           '</div>'+
         '</div>'+
-        '<div class="col-md-2 col-6  justify-content-end d-flex">'+
-          '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
-          '<a href="'+url+'" class="fa fa-external-link fa-2x mr-1"></a>'+
+        '<div class="col-md-2 col-6  justify-content-around d-flex">'+
+          '<a class="handle fa fa-arrows fa-2x"></a>'+
+          '<a href="'+url+'" class="fa fa-external-link fa-2x"></a>'+
           '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
         '</div>'+
       '</div>';
-    $('.all-url-list-group').html($('.all-url-list-group').html() + html);
+    // $('.all-url-list-group').html($('.all-url-list-group').html() + html);
+    $('.all-url-list-group').append(html);
     addUrlList();
   })
   function addUrlList () {
@@ -539,9 +541,9 @@ $(function(){
                 '</div>'+
               '</div>'+
             '</div>'+
-            '<div class="col-md-2 col-6  justify-content-end d-flex">'+
-              '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
-              '<a href="'+item.dest_url+'" class="fa fa-external-link fa-2x mr-1"></a>'+
+            '<div class="col-md-2 col-6 justify-content-around d-flex">'+
+              '<a class="handle fa fa-arrows fa-2x"></a>'+
+              '<a href="'+item.dest_url+'" class="fa fa-external-link fa-2x"></a>'+
               '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
             '</div>'+
           '</div>'
