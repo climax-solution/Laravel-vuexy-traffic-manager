@@ -12,6 +12,13 @@ return [
       "url_rotator" => "You are creating a URL Rotator redirect",
       "keyword" => "You are creating a Keyword Rotator redirect"
     ],
+    "EditNewRedirects" => [
+      "custom_url" => "You are editing a Custom URL redirect",
+      "step_url" => "You are editing a Step URL redirect",
+      "qr_code" => "You are editing a Qr Code redirect",
+      "url_rotator" => "You are editing a URL Rotator redirect",
+      "keyword" => "You are editing a Keyword Rotator redirect"
+    ],
     "Campaigns" => "Campaigns",
     "CreateNewCampaign" => "Create New Campaign",
     "Schemas" => "Schemas",
