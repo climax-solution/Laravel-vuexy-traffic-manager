@@ -22,6 +22,7 @@ class CreateStepUrlsTable extends Migration
           $table->string('active_rule')->nullable();
           $table->integer('active_position')->default(0);
           $table->enum('rotation_option',[0,1,2,3])->default(0);
+          $table->enum('link_type',[0,1,2,3,4])->default(0);
           $table->timestamps();
         });
     }
