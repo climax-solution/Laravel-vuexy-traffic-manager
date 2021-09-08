@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', trans('locale.CreateNewRedirects.url_rotator'))
+@section('title', trans($id < 0 ? 'locale.CreateNewRedirects.url_rotator' : 'locale.EditNewRedirects.url_rotator'))
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
@@ -56,8 +56,6 @@
 @section('content')
 	<div class="row">
     <div class="col-md-12">
-
-
     </div>
     <input type="hidden" name="_id" value="{{$id}}">
 	</div>
@@ -475,7 +473,7 @@
                         <ul class="all-url-list-group list-group" id="all-url-list-group">
                         @foreach ($url_list as $key => $item)
                           <div class="form-group row target-item-group" data-index="{{$key}}">
-                            <div class="col-md-4 col-8">
+                            <div class="col-md-4">
                               <span class="dest-url-link">{{$item->dest_url}}</span>
                             </div>
                             <div class="col-md-2 col-4">
@@ -525,15 +523,15 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-2 col-6 justify-content-end d-flex">
-                              <a class="handle fa fa-arrows fa-2x mr-1"></a>
-                              <a href="{{ $item->dest_url}}" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>
-                              <a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>
+                            <div class="col-md-2 col-6 justify-content-around d-flex">
+                              <a class="handle fa fa-arrows fa-2x"></a>
+                              <a href="{{ $item->dest_url}}" target="_blank" class="fa fa-external-link fa-2x"></a>
+                              <a href="#" class="target-item-remove fa fa-trash fa-2x"></a>
                             </div>
                           </div>
                         @endforeach
                         </ul>
-                        <span class="realtime-weight">Total Weight: <span class="weight-value"></span></span>
+                        <p class="realtime-weight w-50 d-flex justify-content-between">Total Weight: <span class="weight-value"></span></p>
 
                       </div>
                     </div>
@@ -603,11 +601,6 @@
   @endphp;
 </script>
 <script src="{{asset(mix('js/scripts/url-rotator.js'))}}"></script>
-<script>
-  $(function(){
-
-  })
-</script>
 <script>
   const country_list = @php
   function get_tag($value) {

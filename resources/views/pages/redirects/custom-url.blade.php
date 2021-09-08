@@ -1,6 +1,5 @@
 @extends('layouts/contentLayoutMaster')
-
-@section('title', trans('locale.CreateNewRedirects.custom_url'))
+@section('title', trans($id < 0 ? 'locale.CreateNewRedirects.custom_url' : 'locale.EditNewRedirects.custom_url'))
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">

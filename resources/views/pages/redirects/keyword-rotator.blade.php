@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', trans('locale.CreateNewRedirects.keyword'))
+@section('title', trans($id < 0 ? 'locale.CreateNewRedirects.keyword' : 'locale.EditNewRedirects.keyword'))
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
@@ -64,12 +64,7 @@
 @endsection
 
 @section('content')
-	<div class="row">
-    <div class="col-md-12">
-
-    </div>
-    <input type="hidden" name="_id" value="{{$id}}"/>
-	</div>
+  <input type="hidden" name="_id" value="{{$id}}"/>
   <section id="number-tabs">
     <div class="row">
       <div class="col-12">
@@ -428,9 +423,18 @@
                         <span class="font-bold">Target Keywords<i class="feather icon-info"></i></span>
                         <hr>
                       </div>
-                      <div class="target-keywords-group mb-4" id="target-keywords-group">
+                      <div class="row mb-2 justify-content-between">
+                        <div class="col-md-2 d-md-block d-none">Keyword</div>
+                        <div class="col-md-2 d-md-block d-none weight-hit-text">
+                          <span class="weight-hit hidden weight-text">Weight</span>
+                          <span class="weight-hit hidden max-hit-text">Max Hits</span>
+                        </div>
+                        <div class="col-md-6 d-md-block d-none"><span>Destination URL</span></div>
+                        <div class="col-md-2 d-md-block d-none text-right">Action</div>
+                      </div>
+                      <ul class="target-keywords-group mb-4 list-group" id="target-keywords-group">
                         @foreach ($url_list as $item)
-                          <div class="form-group row target-item-group list-group-item d-flex">
+                          <div class="form-group row target-item-group d-flex">
                             <div class="col-md-2 col-6 d-table">
                               <input type="text" class="keyword d-table-cell align-middle form-control" value="{{$item->keyword}}">
                             </div>
@@ -442,17 +446,15 @@
                             <div class="col-md-6 col-9 d-table">
                               <p class="preview-link text-break-all d-table-cell align-middle">{{$item->dest_url}}</p>
                             </div>
-                            <div class="col-md-2 col-3 text-right">
-                              <a href="{{$item->dest_url}}" target="_blank">
-                                <i class="fa fa-external-link fa-2x mr-1"></i>
+                            <div class="col-md-2 col-3 justify-content-around d-flex">
+                              <a class="handle fa fa-arrows fa-2x"></a>
+                              <a href="{{$item->dest_url}}" target="_blank" class="fa fa-external-link fa-2x">
                               </a>
-                              <a href="#" class="target-item-remove">
-                                <i class="fa fa-trash fa-2x"></i>
-                              </a>
+                              <a href="#" class="target-item-remove fa fa-trash fa-2x"></a>
                             </div>
                           </div>
                         @endforeach
-                      </div>
+                      </ul>
                     </div>
                   </div>
                 </fieldset>
@@ -469,8 +471,8 @@
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/jquery.steps.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/extensions/dragula.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/extensions/dragula.min.js')) }}"></script>
 
 @endsection
 
@@ -520,15 +522,21 @@
     echo json_encode($rule_key);
   @endphp;
 </script>
-<script src="{{asset(mix('js/scripts/keyword-rotator.js'))}}"></script>
 <script>
   $(function(){
+    dragula([document.getElementById('target-keywords-group')],{
+      moves: function (el, container, handle) {
+        return handle.classList.contains('handle');
+      }
+    });
     $('body').on('click','.target-item-remove',function(){
       const index = $('.target-item-remove').index($(this));
       $('.target-item-group').eq(index).remove();
     })
   })
 </script>
+<script src="{{asset(mix('js/scripts/keyword-rotator.js'))}}"></script>
+
 <script>
   const country_list = @php
   function get_tag($value) {
@@ -538,11 +546,7 @@
   @endphp;
 
   $(function(){
-    dragula([document.getElementById('target-keywords-group')],{
-      moves: function (el, container, handle) {
-        return handle.classList.contains('handle');
-      }
-    });
+
     $('#tracking_url').val({{$tracking_url}});
     $('#pixel').val({{$pixel}});
     $('#campaign').val({{$campaign}});

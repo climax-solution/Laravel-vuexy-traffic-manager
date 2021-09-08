@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', trans('locale.CreateNewRedirects.step_url'))
+@section('title', trans($id < 0 ? 'locale.CreateNewRedirects.step_url' : 'locale.EditNewRedirects.step_url'))
 
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
@@ -54,12 +54,7 @@
 @endsection
 
 @section('content')
-	<div class="row">
-    <div class="col-md-12">
-      <span>Create New Step URL Redirect Link.</span>
-    </div>
-    <input type="hidden" name="_id" value="{{$id}}">
-	</div>
+  <input type="hidden" name="_id" value="{{$id}}">
   <section id="number-tabs">
     <div class="row">
       <div class="col-12">
@@ -520,7 +515,7 @@
                             <span class="weight-hit hidden max-hit-text">Max Hits</span>
                           </div>
                           <div class="col-md-6 d-md-block d-none"><span>Preview Link</span></div>
-                          <div class="col-md-2 d-md-block d-none"></div>
+                          <div class="col-md-2 d-md-block d-none text-right">Action</div>
                         </div>
                         <div class="all-url-list-group" id="all-url-list-group">
                           @foreach ($url_list as $item)
@@ -538,11 +533,9 @@
                               </div>
                               <div class="col-md-2 col-3 text-right">
                                 <a class="fa fa-arrows handle fa-2x mr-1"></a>
-                                <a href="{{$item->dest_url}}" target="_blank">
-                                  <i class="fa fa-external-link fa-2x mr-1"></i>
+                                <a href="{{$item->dest_url}}" target="_blank" class="fa fa-external-link fa-2x mr-1">
                                 </a>
-                                <a href="#" class="target-item-remove">
-                                  <i class="fa fa-trash fa-2x"></i>
+                                <a href="#" class="target-item-remove fa fa-trash fa-2x">
                                 </a>
                               </div>
                             </div>
