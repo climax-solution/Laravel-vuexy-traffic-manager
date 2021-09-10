@@ -14,6 +14,7 @@ class StepUrl extends Model
     'active_rule',
     'active_position',
     'rotation_option',
-    'amazon_aff_id'
+    'amazon_aff_id',
+    'link_type'
   ];
 }

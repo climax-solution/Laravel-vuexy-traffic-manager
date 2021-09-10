@@ -34,7 +34,7 @@ class StepUrlController extends Controller
   public function index(Request $request) {
     $compactData = $this->compactData; $id = $request->query('id');
     $url_data = Redirect::where('id', $id)->where('table_name', 'step_url')->first();
-    $rule_data = [];  $url_list = [];   $advance_options = [];
+    $rule_data = [];  $url_list = [];   $advance_options = []; $link_type = "0";
     $rotation = 0; $amazon_aff_id = '';
     if ($url_data) {
       $step_url = StepUrl::where('id',$url_data->item_id)->first();
@@ -47,6 +47,7 @@ class StepUrlController extends Controller
       $advance_options = json_decode($step_url->advance_options, true);
       $advance_options['spoof_service'] = $step_url->spoof_service;
       $rotation = $step_url->rotation_option;
+      $link_type = $step_url->link_type;
     }
     $compactData['rule_data'] = $rule_data;
     $compactData['url_data'] = !$url_data ? [] : $url_data;
@@ -54,6 +55,7 @@ class StepUrlController extends Controller
     $compactData['rotation'] = $rotation;
     $compactData['amazon_aff_id'] = $amazon_aff_id;
     $compactData['url_list'] = $url_list;
+    $compactData['link_type'] = $link_type;
     $compactData['id'] = !$url_data ? -1 : $id;
     return view('/pages/redirects/step-url',$compactData);
   }
