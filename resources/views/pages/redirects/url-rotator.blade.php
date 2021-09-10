@@ -16,7 +16,7 @@
       color: #ea5455 !important;
     }
     .hidden-move .handle{
-      display: none;
+      visibility: hidden;
     }
   </style>
 @endsection
@@ -632,7 +632,6 @@
     $('#device-type-list').val({{$device_type}});
     $('#blank-refer-switch').attr('checked',{{$blank}});
     $('input[name="rotate_option"]').eq({{$rotation}}).attr('checked',true).change();
-    $('body').on('input','.weight-or-max_hit');
   })
 </script>
 @endsection

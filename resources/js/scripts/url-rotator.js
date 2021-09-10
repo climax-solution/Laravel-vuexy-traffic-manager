@@ -122,10 +122,7 @@ $(function(){
             weightHit.each(function(){
               sumHit += Number($(this).val());
             })
-            if ( !sumHit ) {
-              toastr.warning('Total value is wrong!','Warning');
-              return false;
-            }
+
             if ( sumHit != 100 ) {
               toastr.warning('Total value must be 100!','Warning');
               return false;
@@ -449,10 +446,10 @@ $(function(){
       switch(rotate_checked) {
         case '1':
           total_weight += Number(weightHit.eq(index).val());
-          row.weight = weightHit.eq(index).val();
+          row.weight = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
         case '3':
-          row.max_hit = weightHit.eq(index).val();
+          row.max_hit = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
       }
       url_list.push(row);
@@ -461,8 +458,8 @@ $(function(){
       $('.realtime-weight').removeClass('hidden');
       $('.weight-value').text(total_weight);
     }
-    saveData.url_list = JSON.stringify(url_list);
-  }
+    calculate_totalweight();
+    saveData.url_list = JSON.stringify(url_list);  }
   $('body').on('input','.weight-or-max_hit',function() {
     const rotate = $("input[type='radio'][name='rotate_option']:checked").val();
     switch(rotate) {
@@ -558,10 +555,7 @@ $(function(){
     })
     $('.realtime-weight').removeClass('hidden');
     $('.weight-value').text(total_weight + '%');
-    if (total_weight < 100) {
-      $('.realtime-weight').removeClass('text-success').removeClass('text-danger');
-    }
-    else if (total_weight == 100) {1
+    if (total_weight == 100) {
       $('.realtime-weight').addClass('text-success').removeClass('text-danger');
     }
     else {

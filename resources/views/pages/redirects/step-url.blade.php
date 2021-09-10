@@ -15,6 +15,9 @@
     .error {
       color: #ea5455 !important;
     }
+    .hide-weight {
+
+    }
   </style>
 @endsection
 
@@ -48,6 +51,9 @@
       word-break: break-all;
     }
     .hidden-move .handle {
+      visibility: hidden;
+    }
+    .hide-weight .target-item-group > .col-md-2:nth-child(2) {
       display: none;
     }
   </style>
@@ -505,12 +511,12 @@
                           </form>
                         </div>
                       </div>
-                      <div class="target-urls-group">
+                      <div class="target-urls-group" id="target-urls-group">
                         <h4>Target URLs <i class="feather icon-info"></i></h4>
                         <hr>
-                        <div class="row mb-2">
+                        <div class="row justify-content-between mb-2">
                           <div class="col-md-2 d-md-block d-none">Keyword</div>
-                          <div class="col-md-2 d-md-block d-none">
+                          <div class="col-md-2 d-md-block d-none weight-hit-text">
                             <span class="weight-hit hidden weight-text">Weight</span>
                             <span class="weight-hit hidden max-hit-text">Max Hits</span>
                           </div>
@@ -525,13 +531,13 @@
                               </div>
                               <div class="col-md-2 col-6">
                                 <div class="form-group">
-                                  <span class="weight-or-max_hit">{{$rotation == '1' ? $item->weight : ($rotation == '3' ? $item->max_hit_day : '0')}}</span>
+                                  <input type="number" class="form-control weight-or-max_hit" value="{{$rotation == '1' ? $item->weight : ($rotation == '3' ? $item->max_hit_day : '0')}}"/>
                                 </div>
                               </div>
                               <div class="col-md-6 col-9">
                                 <p class="preview-link text-break-all">{{$item->dest_url}}</p>
                               </div>
-                              <div class="col-md-2 col-3 text-right">
+                              <div class="col-md-2 col-3 d-flex justify-content-between">
                                 <a class="fa fa-arrows handle fa-2x mr-1"></a>
                                 <a href="{{$item->dest_url}}" target="_blank" class="fa fa-external-link fa-2x mr-1">
                                 </a>
@@ -541,6 +547,8 @@
                             </div>
                           @endforeach
                         </div>
+                        <p class="realtime-weight w-25 d-flex justify-content-between">Total Weight: <span class="weight-value"></span></p>
+                        <p class="realtime-weight w-25 d-flex justify-content-between">Total weight must be 100%.</p>
                       </div>
                     </div>
                   </div>

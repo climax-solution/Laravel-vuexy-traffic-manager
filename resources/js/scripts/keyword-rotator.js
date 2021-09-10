@@ -291,16 +291,16 @@ $(function(){
       const weightHit = $('.weight-or-max_hit');
       switch(rotate_checked) {
         case '1':
-          row.weight = weightHit.eq(index).val();
+          row.weight = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
         case '3':
-          row.max_hit = weightHit.eq(index).val();
+          row.max_hit = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
       }
       url_list.push(row);
     })
-    saveData.url_list = JSON.stringify(url_list);
-  }
+    calculate_totalweight();
+    saveData.url_list = JSON.stringify(url_list);  }
 
   $('#upload-btn').click(function(){
     $('#csv-file').click();
@@ -409,10 +409,7 @@ $(function(){
     })
     $('.realtime-weight').removeClass('hidden');
     $('.weight-value').text(total_weight + '%');
-    if (total_weight < 100) {
-      $('.realtime-weight').removeClass('text-success').removeClass('text-danger');
-    }
-    else if (total_weight == 100) {1
+    if (total_weight == 100) {
       $('.realtime-weight').addClass('text-success').removeClass('text-danger');
     }
     else {

@@ -148,12 +148,12 @@ $(function(){
         }
         let sum = 0;
         $('.weight-or-max_hit').each(function() {
-          if ($(this).text == '') {
+          if ($(this).val() == '') {
             return false;
           }
-          sum += Number($(this).text());
+          sum += Number($(this).val());
         })
-        if (sum > 100) {
+        if (sum != 100) {
           toastr.warning('Total value must be 100!','Warning');
           return false;
         }
@@ -296,28 +296,37 @@ $(function(){
         $('.weight-hit').addClass('hidden');
         $('.weight-text').removeClass('hidden');
         $('.weight-max_hit-group').removeClass('hidden');
+        $('#target-urls-group').removeClass('hide-weight');
+        $('.weight-hit-text').addClass('d-md-block');
         break;
       case '3':
-          $('.weight-hit').addClass('hidden');
-          $('.max-hit-text').removeClass('hidden');
-          $('.weight-max_hit-group').removeClass('hidden');
-          break;
+        $('.weight-hit').addClass('hidden');
+        $('.max-hit-text').removeClass('hidden');
+        $('.weight-max_hit-group').removeClass('hidden');
+        $('#target-urls-group').removeClass('hide-weight');
+        $('.weight-hit-text').addClass('d-md-block');
+        break;
       default:
         $('.weight-max_hit-group').addClass('hidden');
         $('.weight-hit').addClass('hidden');
         $('.weight-text').addClass('hidden');
+        $('#target-urls-group').addClass('hide-weight');
+        $('.weight-hit-text').removeClass('d-md-block');
         break;
     }
     switch($(this).val()) {
       case '1':
-        // if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden');
+        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden').addClass('d-flex');
         $('.all-url-list-group').addClass('hidden-move');
+        calculate_totalweight();
         break;
       case '2':
         $('.all-url-list-group').removeClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
         break;
       default:
         $('.all-url-list-group').addClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
         break;
     }
   })
@@ -376,7 +385,7 @@ $(function(){
         '</div>'+
         '<div class="col-md-2 col-6">'+
           '<div class="form-group">'+
-            '<span class="weight-or-max_hit">'+$('#weight-or-max_hit').val()+'</span>'+
+            '<input type="number" class="form-control weight-or-max_hit" value="'+$('#weight-or-max_hit').val()+'"/>'+
           '</div>'+
         '</div>'+
         '<div class="col-md-6 col-9">'+
@@ -385,7 +394,7 @@ $(function(){
         '<div class="col-md-2 col-3 d-flex justify-content-between">'+
           '<a class="fa fa-arrows handle fa-2x"></a>'+
           '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
-          '<a class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
+          '<a class="target-item-remove" href="#"><i class="fa fa-trash fa-2x"></i></a>'+
         '</div>'+
       '</div>' ;
     $('.all-url-list-group').html($('.all-url-list-group').html() + html);
@@ -407,16 +416,16 @@ $(function(){
       const weightHit = $('.weight-or-max_hit');
       switch(rotate_checked) {
         case '1':
-          row.weight = Number(weightHit.eq(index).text());
+          row.weight = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
         case '3':
-          row.max_hit = Number(weightHit.eq(index).text());
+          row.max_hit = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
       }
       url_list.push(row);
     })
-    saveData.url_list = JSON.stringify(url_list);
-  }
+    calculate_totalweight();
+    saveData.url_list = JSON.stringify(url_list);  }
 
   $('#upload-btn').click(function(){
     $('#csv-file').click();
@@ -446,7 +455,7 @@ $(function(){
           '</div>'+
           '<div class="col-md-2 col-6">'+
             '<div class="form-group">'+
-              '<span class="weight-or-max_hit">'+item.weight_hit+'</span>'+
+              '<input type="number" class="form-control weight-or-max_hit" value="'+item.weight_hit+'"/>'+
             '</div>'+
           '</div>'+
           '<div class="col-md-6 col-9">'+
@@ -455,7 +464,7 @@ $(function(){
           '<div class="col-md-2 col-3 d-flex justify-content-between">'+
             '<a class="fa fa-arrows handle fa-2x"></a>'+
             '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
-            '<a class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
+            '<a class="target-item-remove" href="#"><i class="fa fa-trash fa-2x"></i></a>'+
           '</div>'+
         '</div>' ;
         })
@@ -464,5 +473,28 @@ $(function(){
       }
     })
     $(this).prop('type','text').prop('type','file');
+  })
+  function calculate_totalweight() {
+    total_weight = 0;
+    $('.weight-or-max_hit').each(function() {
+      const value = $(this).val();
+      total_weight += Number(value);
+    })
+    $('.weight-value').text(total_weight + '%');
+    if (total_weight == 100) {
+      $('.realtime-weight').addClass('text-success').removeClass('text-danger');
+    }
+    else {
+      $('.realtime-weight').removeClass('text-success').addClass('text-danger');
+    }
+  }
+
+  $('body').on('input','.weight-or-max_hit',function() {
+    const rotate = $("input[type='radio'][name='rotate_option']:checked").val();
+    switch(rotate) {
+      case '1':
+        calculate_totalweight();
+        break;
+    }
   })
 })

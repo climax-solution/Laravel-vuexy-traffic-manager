@@ -23,7 +23,7 @@
       justify-content: space-between;
     }
     .hidden-move .handle {
-      display: none;
+      visibility: hidden;
     }
     .list-group-item  {
       border: none;
