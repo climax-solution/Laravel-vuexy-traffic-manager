@@ -47,7 +47,7 @@
     .text-break-all {
       word-break: break-all;
     }
-    .hidden-handle .handle {
+    .hidden-move .handle {
       display: none;
     }
   </style>
@@ -653,6 +653,7 @@
     $('input[name="rotate_option"]').eq({{$rotation}}).attr('checked',true).change();
     $('#spoof-refer-switch').attr('checked', {{$spoof}}).change();
     $('#spoof-select').val({{!$spoof_service ? 0 : $spoof_service}});
+    $('#link_type').val({{$link_type}});
   })
 </script>
 @endsection

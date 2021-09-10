@@ -5,9 +5,9 @@
 @section('vendor-style')
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('css/plugins/forms/wizard.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/dragula.min.css')) }}">
 
-  <link rel="stylesheet" href="{{ asset(mix('css/plugins/forms/wizard.css')) }}">
 
   <style>
     ul {
@@ -22,7 +22,7 @@
     .hide-weight .target-item-group {
       justify-content: space-between;
     }
-    .hide-move .handle {
+    .hidden-move .handle {
       display: none;
     }
     .list-group-item  {
@@ -455,6 +455,8 @@
                           </div>
                         @endforeach
                       </ul>
+                      <p class="realtime-weight w-25 d-flex justify-content-between">Total Weight: <span class="weight-value"></span></p>
+                      <p class="realtime-weight w-25 d-flex justify-content-between">Total weight must be 100%.</p>
                     </div>
                   </div>
                 </fieldset>
@@ -522,20 +524,23 @@
     echo json_encode($rule_key);
   @endphp;
 </script>
+<script src="{{asset(mix('js/scripts/keyword-rotator.js'))}}"></script>
+
 <script>
   $(function(){
-    dragula([document.getElementById('target-keywords-group')],{
-      moves: function (el, container, handle) {
-        return handle.classList.contains('handle');
-      }
-    });
+      dragula([document.getElementById('target-keywords-group')],{
+        moves: function (el, container, handle) {
+          console.log(handle.classList.contains('handle'));
+          return handle.classList.contains('handle');
+        }
+      });
+
     $('body').on('click','.target-item-remove',function(){
       const index = $('.target-item-remove').index($(this));
       $('.target-item-group').eq(index).remove();
     })
   })
 </script>
-<script src="{{asset(mix('js/scripts/keyword-rotator.js'))}}"></script>
 
 <script>
   const country_list = @php

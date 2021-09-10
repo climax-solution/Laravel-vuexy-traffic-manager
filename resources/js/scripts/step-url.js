@@ -159,6 +159,7 @@ $(function(){
         }
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
         saveData.id = $('input[name="_id"]').val();
+        saveData.link_type = $('#link_type').val();
         addUrlList();
         let flag = 0;
         async function SaveData() {
@@ -310,13 +311,13 @@ $(function(){
     switch($(this).val()) {
       case '1':
         // if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden');
-        $('.all-url-list-group').addClass('hidden-handle');
+        $('.all-url-list-group').addClass('hidden-move');
         break;
       case '2':
-        $('.all-url-list-group').removeClass('hidden-handle');
+        $('.all-url-list-group').removeClass('hidden-move');
         break;
       default:
-        $('.all-url-list-group').addClass('hidden-handle');
+        $('.all-url-list-group').addClass('hidden-move');
         break;
     }
   })
@@ -381,9 +382,9 @@ $(function(){
         '<div class="col-md-6 col-9">'+
           '<p class="preview-link text-break-all">'+preview_link+'</p>'+
         '</div>'+
-        '<div class="col-md-2 col-3 text-right">'+
-          '<a class="fa fa-arrows handle fa-2x mr-1"></a>'+
-          '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+        '<div class="col-md-2 col-3 d-flex justify-content-between">'+
+          '<a class="fa fa-arrows handle fa-2x"></a>'+
+          '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
           '<a class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
         '</div>'+
       '</div>' ;
@@ -451,9 +452,9 @@ $(function(){
           '<div class="col-md-6 col-9">'+
             '<span class="preview-link text-break-all">'+item.dest_url+'</span>'+
           '</div>'+
-          '<div class="col-md-2 col-3 text-right">'+
-            '<a class="fa fa-arrows handle fa-2x mr-1"></a>'+
-            '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+          '<div class="col-md-2 col-3 d-flex justify-content-between">'+
+            '<a class="fa fa-arrows handle fa-2x"></a>'+
+            '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
             '<a class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
           '</div>'+
         '</div>' ;

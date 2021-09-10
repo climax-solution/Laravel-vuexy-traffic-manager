@@ -264,6 +264,7 @@ $(function(){
         $('.weight-text').removeClass('hidden');
         $('#weight-or-max_hit').show();
         $('.all-url-list-group').removeClass('hide-weight');
+        calculate_totalweight();
         break;
       case '3':
         $('#weight-or-max_hit').show();
@@ -279,15 +280,16 @@ $(function(){
     }
     switch($(this).val()) {
       case '1':
-        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden');
-        $('.all-url-list-group').addClass('hidden-handle');
+        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden').addClass('d-flex');
+        $('.all-url-list-group').addClass('hidden-move');
         break;
       case '2':
-        $('.all-url-list-group').removeClass('hidden-handle');
+        $('.all-url-list-group').removeClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
         break;
       default:
-        $('.all-url-list-group').addClass('hidden-handle');
-        $('.realtime-weight').addClass('hidden');
+        $('.all-url-list-group').addClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
         total_weight = 0;
         break;
     }
@@ -465,22 +467,7 @@ $(function(){
     const rotate = $("input[type='radio'][name='rotate_option']:checked").val();
     switch(rotate) {
       case '1':
-        total_weight = 0;
-        $('.weight-or-max_hit').each(function() {
-          const value = $(this).val();
-          total_weight += Number(value);
-        })
-        $('.realtime-weight').removeClass('hidden');
-        $('.weight-value').text(total_weight);
-        if (total_weight < 100) {
-          $('.total-weight').removeClass('text-success').removeClass('text-danger');
-        }
-        else if (total_weight > 100) {
-          $('.total-weight').addClass('text-success').removeClass('text-danger');
-        }
-        else {
-          $('.total-weight').removeClass('text-success').addClass('text-danger');
-        }
+        calculate_totalweight();
         break;
     }
   })
@@ -562,4 +549,23 @@ $(function(){
       $('.realtime-weight').addClass('hidden');
     }
   })
+
+  function calculate_totalweight() {
+    total_weight = 0;
+    $('.weight-or-max_hit').each(function() {
+      const value = $(this).val();
+      total_weight += Number(value);
+    })
+    $('.realtime-weight').removeClass('hidden');
+    $('.weight-value').text(total_weight + '%');
+    if (total_weight < 100) {
+      $('.realtime-weight').removeClass('text-success').removeClass('text-danger');
+    }
+    else if (total_weight == 100) {1
+      $('.realtime-weight').addClass('text-success').removeClass('text-danger');
+    }
+    else {
+      $('.realtime-weight').removeClass('text-success').addClass('text-danger');
+    }
+  }
 })

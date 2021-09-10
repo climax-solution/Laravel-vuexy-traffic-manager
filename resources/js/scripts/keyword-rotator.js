@@ -144,6 +144,7 @@ $(function(){
 
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
         saveData.id = $('input[name="_id"]').val();
+        saveData.link_type = $('#link_type').val();
         addUrlList();
         let flag = 0;
         async function SaveData() {
@@ -253,7 +254,7 @@ $(function(){
     // const st_k = dest_url.indexOf('{'); const en_k = dest_url.indexOf('}');
     keyword = keyword.replaceAll(' ', '+');
     let preview_link = dest_url.replaceAll('{keyword}',keyword);
-    let html ='<div class="form-group row target-item-group d-flex">'+
+    let html ='<div class="form-group row target-item-group">'+
         '<div class="col-md-2 col-6 d-table">'+
         '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+keyword+'">'+
         '</div>'+
@@ -308,11 +309,12 @@ $(function(){
   $('input[name="rotate_option"]').change(function(){
     switch($(this).val()) {
       case '1':
-        $('.weight-label, .weight-text').removeClass('hidden');
+        $('.weight-hit-text').addClass('d-md-block');
         $('.max_hit-label, .max-hit-text').addClass('hidden');
+        $('.weight-label, .weight-text').removeClass('hidden');
         $('#target-keywords-group').removeClass('hide-weight');
         $('.weight-max-hit').removeClass('hidden');
-        $('.weight-hit-text').addClass('d-md-block');
+        $('.realtime-weight').removeClass('hidden');
         break;
       case '3':
         $('.weight-label, .weight-text').addClass('hidden');
@@ -328,12 +330,20 @@ $(function(){
         $('.weight-hit-text').removeClass('d-md-block');
         break;
     }
+
     switch($(this).val()) {
+      case '1':
+        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden').addClass('d-flex');
+        calculate_totalweight();
+        $('#target-keywords-group').addClass('hidden-move');
+        break;
       case '2':
-        $('#target-keywords-group').removeClass('hide-move');
+        $('#target-keywords-group').removeClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
         break;
       default:
-        $('#target-keywords-group').addClass('hide-move');
+        $('#target-keywords-group').addClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
         break;
     }
   })
@@ -357,7 +367,7 @@ $(function(){
         let html = '';
         const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
         res.map((item, index) => {
-          html += '<div class="form-group row target-item-group d-flex">'+
+          html += '<div class="form-group row target-item-group">'+
           '<div class="col-md-2 col-6 d-table">'+
             '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+item.keyword+'">'+
           '</div>'+
@@ -391,5 +401,31 @@ $(function(){
       return;
     }
   })
+  function calculate_totalweight() {
+    total_weight = 0;
+    $('.weight-or-max_hit').each(function() {
+      const value = $(this).val();
+      total_weight += Number(value);
+    })
+    $('.realtime-weight').removeClass('hidden');
+    $('.weight-value').text(total_weight + '%');
+    if (total_weight < 100) {
+      $('.realtime-weight').removeClass('text-success').removeClass('text-danger');
+    }
+    else if (total_weight == 100) {1
+      $('.realtime-weight').addClass('text-success').removeClass('text-danger');
+    }
+    else {
+      $('.realtime-weight').removeClass('text-success').addClass('text-danger');
+    }
+  }
 
+  $('body').on('input','.weight-or-max_hit',function() {
+    const rotate = $("input[type='radio'][name='rotate_option']:checked").val();
+    switch(rotate) {
+      case '1':
+        calculate_totalweight();
+        break;
+    }
+  })
 })

@@ -15,7 +15,7 @@
     .error {
       color: #ea5455 !important;
     }
-    .hidden-handle .handle{
+    .hidden-move .handle{
       display: none;
     }
   </style>
@@ -531,7 +531,8 @@
                           </div>
                         @endforeach
                         </ul>
-                        <p class="realtime-weight w-50 d-flex justify-content-between">Total Weight: <span class="weight-value"></span></p>
+                        <p class="realtime-weight w-25 d-flex justify-content-between">Total Weight: <span class="weight-value"></span></p>
+                        <p class="realtime-weight w-25 d-flex justify-content-between">Total weight must be 100%.</p>
 
                       </div>
                     </div>
@@ -631,7 +632,7 @@
     $('#device-type-list').val({{$device_type}});
     $('#blank-refer-switch').attr('checked',{{$blank}});
     $('input[name="rotate_option"]').eq({{$rotation}}).attr('checked',true).change();
-
+    $('body').on('input','.weight-or-max_hit');
   })
 </script>
 @endsection
