@@ -146,19 +146,22 @@ $(function(){
           toastr.warning('No existing rows');
           return false;
         }
-        let sum = 0;
-        $('.weight-or-max_hit').each(function() {
-          if ($(this).text == '') {
-            return false;
-          }
-          sum += Number($(this).text());
-        })
-        if (sum > 100) {
-          toastr.warning('Total value must be 100!','Warning');
-          return false;
+        const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
+        switch(rotate_checked) {
+          case '1':
+            weightHit.each(function(){
+              sumHit += Number($(this).val());
+            })
+
+            if ( sumHit != 100 ) {
+              toastr.warning('Total value must be 100!','Warning');
+              return false;
+            }
+            break;
         }
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
         saveData.id = $('input[name="_id"]').val();
+        saveData.link_type = $('#link_type').val();
         addUrlList();
         let flag = 0;
         async function SaveData() {
@@ -295,14 +298,37 @@ $(function(){
         $('.weight-hit').addClass('hidden');
         $('.weight-text').removeClass('hidden');
         $('.weight-max_hit-group').removeClass('hidden');
+        $('#target-urls-group').removeClass('hide-weight');
+        $('.weight-hit-text').addClass('d-md-block');
         break;
       case '3':
-          $('.weight-hit').addClass('hidden');
-          $('.max-hit-text').removeClass('hidden');
-          $('.weight-max_hit-group').removeClass('hidden');
-          break;
+        $('.weight-hit').addClass('hidden');
+        $('.max-hit-text').removeClass('hidden');
+        $('.weight-max_hit-group').removeClass('hidden');
+        $('#target-urls-group').removeClass('hide-weight');
+        $('.weight-hit-text').addClass('d-md-block');
+        break;
       default:
         $('.weight-max_hit-group').addClass('hidden');
+        $('.weight-hit').addClass('hidden');
+        $('.weight-text').addClass('hidden');
+        $('#target-urls-group').addClass('hide-weight');
+        $('.weight-hit-text').removeClass('d-md-block');
+        break;
+    }
+    switch($(this).val()) {
+      case '1':
+        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden').addClass('d-flex');
+        $('.all-url-list-group').addClass('hidden-move');
+        calculate_totalweight();
+        break;
+      case '2':
+        $('.all-url-list-group').removeClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
+        break;
+      default:
+        $('.all-url-list-group').addClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
         break;
     }
   })
@@ -331,22 +357,27 @@ $(function(){
     const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
     const market = $('#market-place').val();
     let keyword = $('#keyword').val(); keyword = keyword.replaceAll(' ', '+');
-    let preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_78%3A' + $('#asin').val() + '&' + $('#custom-parameter').val();
+    let custom_parameter =  $('#custom-parameter').val();
+    let preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_78%3A' + $('#asin').val() + `${custom_parameter ? '&' + custom_parameter : ''}`;
     switch($('#link_type').val()) {
       case '1':
-        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&me=' + $('#asin').val() + '&ref=nb_sb_noss&' + $('#custom-parameter').val();
+        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&me=' + $('#asin').val() + '&ref=nb_sb_noss' + `${custom_parameter ? '&' + custom_parameter : ''}`;
         step_text = 'STOREFRONT 2-STEP URL';
         break;
       case '2':
-        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&hidden-keywords=' + $('#asin').val() + '&ref=nb_sb_noss_1&' + $('#custom-parameter').val();
+        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&hidden-keywords=' + $('#asin').val() + '&ref=nb_sb_noss_1' + `${custom_parameter ? '&' + custom_parameter : ''}`;
         step_text = 'HIDDEN KEYWORD 2-STEP URL';
         break;
       case '3':
-        preview_link = 'https://www.amazon.' + market + '/dp/' + $('#asin').val();
-        step_text = 'PRODUCT PAGE FROM SEARCH RESULTS';
+        let rand_1 = Math.floor(Math.random() * 14);
+        let rand_2 = Math.floor(Math.random() * 10);
+        rand_1 = !rand_1 ? 1 : rand_1;
+        rand_2 = !rand_2 ? 1 : rand_2;
+        preview_link = 'https://www.amazon.' + market + '/dp/' + $('#asin').val() + '/ref=sr_1_2?ie=UTF8&keywords=' + keyword + '&qid=' + Date.now() + '&s=gateway&sr=' + rand_1 + '-' + rand_2 + `${custom_parameter ? '&' + custom_parameter : ''}`;
+        step_text = 'PRODUCT PAGE FROM SEARCH RESULTS' ;
         break;
       case '4':
-        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_4%3A123%2Cp_78%3A' + $('#asin').val() + '&ref=nb_sb_noss_2&' + $('#custom-parameter').val();
+        preview_link = 'https://www.amazon.' + market + '/s?k=' + keyword + '&rh=p_4%3A'+$('#brand').val()+'%2Cp_78%3A' + $('#asin').val() + '%2Cssx%3Arelevance&ref=nb_sb_noss_2' + `${custom_parameter ? '&' + custom_parameter : ''}`;
         step_text = 'BRAND 2-STEP URL';
         break;
     }
@@ -356,15 +387,16 @@ $(function(){
         '</div>'+
         '<div class="col-md-2 col-6">'+
           '<div class="form-group">'+
-            '<span class="weight-or-max_hit">'+$('#weight-or-max_hit').val()+'</span>'+
+            '<input type="number" class="form-control weight-or-max_hit" value="'+$('#weight-or-max_hit').val()+'"/>'+
           '</div>'+
         '</div>'+
         '<div class="col-md-6 col-9">'+
           '<p class="preview-link text-break-all">'+preview_link+'</p>'+
         '</div>'+
-        '<div class="col-md-2 col-3 text-right">'+
-          '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
-          '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
+        '<div class="col-md-2 col-3 d-flex justify-content-between">'+
+          '<a class="fa fa-arrows handle fa-2x"></a>'+
+          '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
+          '<a class="target-item-remove" href="#"><i class="fa fa-trash fa-2x"></i></a>'+
         '</div>'+
       '</div>' ;
     $('.all-url-list-group').html($('.all-url-list-group').html() + html);
@@ -386,14 +418,19 @@ $(function(){
       const weightHit = $('.weight-or-max_hit');
       switch(rotate_checked) {
         case '1':
-          row.weight = Number(weightHit.eq(index).text());
+          row.weight = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
         case '3':
-          row.max_hit = Number(weightHit.eq(index).text());
+          row.max_hit = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
       }
       url_list.push(row);
     })
+    if (Kewyword.length && $('input[name="rotate_option"]').val() == '1') {
+      $('.realtime-weight').removeClass('hidden');
+      $('.weight-value').text(total_weight);
+      calculate_totalweight();
+    }
     saveData.url_list = JSON.stringify(url_list);
   }
 
@@ -425,15 +462,16 @@ $(function(){
           '</div>'+
           '<div class="col-md-2 col-6">'+
             '<div class="form-group">'+
-              '<span class="weight-or-max_hit">'+item.weight_hit+'</span>'+
+              '<input type="number" class="form-control weight-or-max_hit" value="'+item.weight_hit+'"/>'+
             '</div>'+
           '</div>'+
           '<div class="col-md-6 col-9">'+
             '<span class="preview-link text-break-all">'+item.dest_url+'</span>'+
           '</div>'+
-          '<div class="col-md-2 col-3 text-right">'+
-            '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
-            '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
+          '<div class="col-md-2 col-3 d-flex justify-content-between">'+
+            '<a class="fa fa-arrows handle fa-2x"></a>'+
+            '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
+            '<a class="target-item-remove" href="#"><i class="fa fa-trash fa-2x"></i></a>'+
           '</div>'+
         '</div>' ;
         })
@@ -442,5 +480,28 @@ $(function(){
       }
     })
     $(this).prop('type','text').prop('type','file');
+  })
+  function calculate_totalweight() {
+    total_weight = 0;
+    $('.weight-or-max_hit').each(function() {
+      const value = $(this).val();
+      total_weight += Number(value);
+    })
+    $('.weight-value').text(total_weight + '%');
+    if (total_weight == 100) {
+      $('.realtime-weight').addClass('text-success').removeClass('text-danger');
+    }
+    else {
+      $('.realtime-weight').removeClass('text-success').addClass('text-danger');
+    }
+  }
+
+  $('body').on('input','.weight-or-max_hit',function() {
+    const rotate = $("input[type='radio'][name='rotate_option']:checked").val();
+    switch(rotate) {
+      case '1':
+        calculate_totalweight();
+        break;
+    }
   })
 })

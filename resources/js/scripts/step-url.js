@@ -146,16 +146,18 @@ $(function(){
           toastr.warning('No existing rows');
           return false;
         }
-        let sum = 0;
-        $('.weight-or-max_hit').each(function() {
-          if ($(this).val() == '') {
-            return false;
-          }
-          sum += Number($(this).val());
-        })
-        if (sum != 100) {
-          toastr.warning('Total value must be 100!','Warning');
-          return false;
+        const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
+        switch(rotate_checked) {
+          case '1':
+            weightHit.each(function(){
+              sumHit += Number($(this).val());
+            })
+
+            if ( sumHit != 100 ) {
+              toastr.warning('Total value must be 100!','Warning');
+              return false;
+            }
+            break;
         }
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
         saveData.id = $('input[name="_id"]').val();
@@ -424,8 +426,13 @@ $(function(){
       }
       url_list.push(row);
     })
-    calculate_totalweight();
-    saveData.url_list = JSON.stringify(url_list);  }
+    if (Kewyword.length && $('input[name="rotate_option"]').val() == '1') {
+      $('.realtime-weight').removeClass('hidden');
+      $('.weight-value').text(total_weight);
+      calculate_totalweight();
+    }
+    saveData.url_list = JSON.stringify(url_list);
+  }
 
   $('#upload-btn').click(function(){
     $('#csv-file').click();

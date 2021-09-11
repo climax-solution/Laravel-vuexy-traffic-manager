@@ -17,6 +17,8 @@ class CreateQrCodesTable extends Migration
             $table->id();
             $table->string('img_path')->nullable();
             $table->string('request_id')->nullable();
+            $table->string('fore_color')->nullable();
+            $table->string('back_color')->nullable();
             $table->timestamps();
         });
     }

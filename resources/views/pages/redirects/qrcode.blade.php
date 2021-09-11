@@ -125,7 +125,7 @@
                                         </div>
                                         <div class="col-md-10">
                                           <fieldset class="form-group">
-                                            <input type="color" class="form-control" name="fore-color">
+                                            <input type="color" class="form-control" name="fore-color" value="{{$fore_color}}">
                                           </fieldset>
                                         </div>
                                       </div>
@@ -135,7 +135,7 @@
                                         </div>
                                         <div class="col-md-10">
                                           <fieldset class="form-group">
-                                            <input type="color" class="form-control" name="back-color" value="#ffffff">
+                                            <input type="color" class="form-control" name="back-color" value="{{$back_color}}">
                                           </fieldset>
                                         </div>
                                       </div>

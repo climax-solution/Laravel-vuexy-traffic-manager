@@ -141,8 +141,8 @@ $(function(){
       toastr.warning("Foreground color mustn't be same with Background color!", "Warning");
       return ;
     }
-    saveData['fore-color'] = foreColor;
-    saveData['back-color'] = backColor;
+    saveData['fore_color'] = foreColor;
+    saveData['back_color'] = backColor;
     $.ajax({
       type: 'post',
       url: createURL,
@@ -153,7 +153,7 @@ $(function(){
         if($('input[name="_id"]').val() == -1) {
           Swal.fire({
             title: "Qr Code successfully created.",
-            html : "<img src='"+res.file+"' class='w-50'><div><a class='btn btn-success' href="+res.file+" download>Download</a><a class='btn btn-primary ml-sm-1' href='/redirects'>RETURN TO DASHBOARD</a></div>",
+            html : "<img src='"+res.file+"' class='w-50'><div class='mt-1'><a class='btn btn-success' href="+res.file+" download>Download</a><a class='btn btn-primary ml-sm-1' href='/redirects'>RETURN TO DASHBOARD</a></div>",
             type: "success",
             showCancelButton: false,
             showConfirmButton: false,
@@ -162,7 +162,7 @@ $(function(){
         else {
           Swal.fire({
             title: "Qr Code successfully updated.",
-            html : "<img src='"+res.file+"' class='w-50'><div><a class='btn btn-success' href="+res.file+" download>Download</a><a class='btn btn-primary ml-sm-1' href='/redirects'>RETURN TO DASHBOARD</a></div>",
+            html : "<img src='"+res.file+"' class='w-50'><div class='mt-1'><a class='btn btn-success' href="+res.file+" download>Download</a><a class='btn btn-primary ml-sm-1' href='/redirects'>RETURN TO DASHBOARD</a></div>",
             type: "success",
             showCancelButton: false,
             showConfirmButton: false,

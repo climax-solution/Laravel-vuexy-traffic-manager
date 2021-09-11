@@ -116,16 +116,12 @@ $(function(){
         const weightHit = $('.weight-or-max_hit');
         let sumHit = 0;
         const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
-
         switch(rotate_checked) {
           case '1':
             weightHit.each(function(){
               sumHit += Number($(this).val());
             })
-            if ( !sumHit ) {
-              toastr.warning('Total value is wrong!','Warning');
-              return false;
-            }
+
             if ( sumHit != 100 ) {
               toastr.warning('Total value must be 100!','Warning');
               return false;
@@ -264,6 +260,7 @@ $(function(){
         $('.weight-text').removeClass('hidden');
         $('#weight-or-max_hit').show();
         $('.all-url-list-group').removeClass('hide-weight');
+        calculate_totalweight();
         break;
       case '3':
         $('#weight-or-max_hit').show();
@@ -279,15 +276,16 @@ $(function(){
     }
     switch($(this).val()) {
       case '1':
-        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden');
-        $('.all-url-list-group').addClass('hidden-handle');
+        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden').addClass('d-flex');
+        $('.all-url-list-group').addClass('hidden-move');
         break;
       case '2':
-        $('.all-url-list-group').removeClass('hidden-handle');
+        $('.all-url-list-group').removeClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
         break;
       default:
-        $('.all-url-list-group').addClass('hidden-handle');
-        $('.realtime-weight').addClass('hidden');
+        $('.all-url-list-group').addClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
         total_weight = 0;
         break;
     }
@@ -365,13 +363,14 @@ $(function(){
             '</div>'+
           '</div>'+
         '</div>'+
-        '<div class="col-md-2 col-6  justify-content-end d-flex">'+
-          '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
-          '<a href="'+targetUrl+'" class="fa fa-external-link fa-2x mr-1"></a>'+
+        '<div class="col-md-2 col-6  justify-content-around d-flex">'+
+          '<a class="handle fa fa-arrows fa-2x"></a>'+
+          '<a href="'+targetUrl+'" class="fa fa-external-link fa-2x"></a>'+
           '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
         '</div>'+
       '</div>';
-    $('.all-url-list-group').html($('.all-url-list-group').html() + html);
+    // $('.all-url-list-group').html($('.all-url-list-group').html() + html);
+    $('.all-url-list-group').append(html);
     addUrlList();
     $('#target-url').val('');
     $('#weight-or-max_hit').val('');
@@ -420,13 +419,14 @@ $(function(){
             '</div>'+
           '</div>'+
         '</div>'+
-        '<div class="col-md-2 col-6  justify-content-end d-flex">'+
-          '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
-          '<a href="'+url+'" class="fa fa-external-link fa-2x mr-1"></a>'+
+        '<div class="col-md-2 col-6  justify-content-around d-flex">'+
+          '<a class="handle fa fa-arrows fa-2x"></a>'+
+          '<a href="'+url+'" class="fa fa-external-link fa-2x"></a>'+
           '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
         '</div>'+
       '</div>';
-    $('.all-url-list-group').html($('.all-url-list-group').html() + html);
+    // $('.all-url-list-group').html($('.all-url-list-group').html() + html);
+    $('.all-url-list-group').append(html);
     addUrlList();
   })
   function addUrlList () {
@@ -445,10 +445,10 @@ $(function(){
       switch(rotate_checked) {
         case '1':
           total_weight += Number(weightHit.eq(index).val());
-          row.weight = weightHit.eq(index).val();
+          row.weight = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
         case '3':
-          row.max_hit = weightHit.eq(index).val();
+          row.max_hit = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
       }
       url_list.push(row);
@@ -456,29 +456,14 @@ $(function(){
     if (DestUrls.length && $('input[name="rotate_option"]').val() == '1') {
       $('.realtime-weight').removeClass('hidden');
       $('.weight-value').text(total_weight);
+      calculate_totalweight();
     }
-    saveData.url_list = JSON.stringify(url_list);
-  }
+    saveData.url_list = JSON.stringify(url_list);  }
   $('body').on('input','.weight-or-max_hit',function() {
     const rotate = $("input[type='radio'][name='rotate_option']:checked").val();
     switch(rotate) {
       case '1':
-        total_weight = 0;
-        $('.weight-or-max_hit').each(function() {
-          const value = $(this).val();
-          total_weight += Number(value);
-        })
-        $('.realtime-weight').removeClass('hidden');
-        $('.weight-value').text(total_weight);
-        if (total_weight < 100) {
-          $('.total-weight').removeClass('text-success').removeClass('text-danger');
-        }
-        else if (total_weight > 100) {
-          $('.total-weight').addClass('text-success').removeClass('text-danger');
-        }
-        else {
-          $('.total-weight').removeClass('text-success').addClass('text-danger');
-        }
+        calculate_totalweight();
         break;
     }
   })
@@ -539,9 +524,9 @@ $(function(){
                 '</div>'+
               '</div>'+
             '</div>'+
-            '<div class="col-md-2 col-6  justify-content-end d-flex">'+
-              '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
-              '<a href="'+item.dest_url+'" class="fa fa-external-link fa-2x mr-1"></a>'+
+            '<div class="col-md-2 col-6 justify-content-around d-flex">'+
+              '<a class="handle fa fa-arrows fa-2x"></a>'+
+              '<a href="'+item.dest_url+'" class="fa fa-external-link fa-2x"></a>'+
               '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
             '</div>'+
           '</div>'
@@ -560,4 +545,20 @@ $(function(){
       $('.realtime-weight').addClass('hidden');
     }
   })
+
+  function calculate_totalweight() {
+    total_weight = 0;
+    $('.weight-or-max_hit').each(function() {
+      const value = $(this).val();
+      total_weight += Number(value);
+    })
+    $('.realtime-weight').removeClass('hidden');
+    $('.weight-value').text(total_weight + '%');
+    if (total_weight == 100) {
+      $('.realtime-weight').addClass('text-success').removeClass('text-danger');
+    }
+    else {
+      $('.realtime-weight').removeClass('text-success').addClass('text-danger');
+    }
+  }
 })

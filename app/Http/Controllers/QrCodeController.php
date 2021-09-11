@@ -25,6 +25,15 @@ class QrCodeController extends Controller
     $compactData = $this->compactData;
     $compactData['url_data'] = !$url_data ? [] : $url_data;
     $compactData['id'] = !$url_data ? -1 : $id;
+    if (isset($url_data->item_id)) {
+      $item = ModelsQrCode::where('id', $url_data->item_id)->first();
+      $compactData['fore_color'] = $item->fore_color;
+      $compactData['back_color'] = $item->back_color;
+    }
+    else {
+      $compactData['fore_color'] = '#000000';
+      $compactData['back_color'] = '#ffffff';
+    }
     return view('/pages/redirects/qrcode', $compactData);
   }
 
@@ -33,9 +42,8 @@ class QrCodeController extends Controller
     $input['uuid'] = Str::random(7);
     $redirect = Redirect::where('id', $input['id'])->first();
     unset($input['id']);
-    $fore = $this->convertRGB($input['fore-color']);
-    $back = $this->convertRGB($input['back-color']);
-    unset($input['fore-color']); unset($input['back-color']);
+    $fore = $this->convertRGB($input['fore_color']);
+    $back = $this->convertRGB($input['back_color']);
     $qrCode = new QrCode(env('APP_URL').'/r/'.$input['uuid']);
     $qrCode->setSize(400);
     $qrCode->setMargin(10);
@@ -52,7 +60,10 @@ class QrCodeController extends Controller
     $qrCode->writeFile(public_path('/'.$file_name));
     $data = [
       'img_path' => $file_name,
+      'fore_color' => $input['fore_color'],
+      'back_color' => $input['back_color']
     ];
+    unset($input['fore_color']); unset($input['back_color']);
     if (isset($redirect)) {
       $old_qr = ModelsQrCode::where('id', $redirect->item_id)->first();
       if (file_exists(public_path('/'.$old_qr->img_path))) unlink(public_path('/'.$old_qr->img_path));

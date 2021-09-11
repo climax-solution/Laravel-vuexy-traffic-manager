@@ -116,7 +116,6 @@ $(function(){
         const weightHit = $('.weight-or-max_hit');
         let sumHit = 0;
         const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
-
         switch(rotate_checked) {
           case '1':
             weightHit.each(function(){
@@ -457,8 +456,8 @@ $(function(){
     if (DestUrls.length && $('input[name="rotate_option"]').val() == '1') {
       $('.realtime-weight').removeClass('hidden');
       $('.weight-value').text(total_weight);
+      calculate_totalweight();
     }
-    calculate_totalweight();
     saveData.url_list = JSON.stringify(url_list);  }
   $('body').on('input','.weight-or-max_hit',function() {
     const rotate = $("input[type='radio'][name='rotate_option']:checked").val();

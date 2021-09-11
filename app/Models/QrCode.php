@@ -8,6 +8,8 @@ class QrCode extends Model
 {
     protected $fillable = [
       'id',
-      'img_path'
+      'img_path',
+      'fore_color',
+      'back_color'
     ];
 }

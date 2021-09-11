@@ -144,6 +144,7 @@ $(function(){
 
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
         saveData.id = $('input[name="_id"]').val();
+        saveData.link_type = $('#link_type').val();
         addUrlList();
         let flag = 0;
         async function SaveData() {
@@ -253,7 +254,7 @@ $(function(){
     // const st_k = dest_url.indexOf('{'); const en_k = dest_url.indexOf('}');
     keyword = keyword.replaceAll(' ', '+');
     let preview_link = dest_url.replaceAll('{keyword}',keyword);
-    let html ='<div class="form-group row target-item-group list-group-item d-flex">'+
+    let html ='<div class="form-group row target-item-group">'+
         '<div class="col-md-2 col-6 d-table">'+
         '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+keyword+'">'+
         '</div>'+
@@ -265,9 +266,9 @@ $(function(){
         '<div class="col-md-6 col-9 d-table">'+
           '<p class="preview-link text-break-all d-table-cell align-middle">'+preview_link+'</p>'+
         '</div>'+
-        '<div class="col-md-2 col-3 text-right">'+
-          '<a href="#" class="fa fa-arrows fa-2x mr-1 handle"></a>'+
-          '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+        '<div class="col-md-2 col-3 d-flex justify-content-around">'+
+          '<a class="fa fa-arrows fa-2x handle"></a>'+
+          '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
           '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
         '</div>'+
       '</div>' ;
@@ -290,16 +291,16 @@ $(function(){
       const weightHit = $('.weight-or-max_hit');
       switch(rotate_checked) {
         case '1':
-          row.weight = weightHit.eq(index).val();
+          row.weight = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
         case '3':
-          row.max_hit = weightHit.eq(index).val();
+          row.max_hit = !weightHit.eq(index).val() ? 0 : weightHit.eq(index).val();
           break;
       }
       url_list.push(row);
     })
-    saveData.url_list = JSON.stringify(url_list);
-  }
+    calculate_totalweight();
+    saveData.url_list = JSON.stringify(url_list);  }
 
   $('#upload-btn').click(function(){
     $('#csv-file').click();
@@ -308,31 +309,41 @@ $(function(){
   $('input[name="rotate_option"]').change(function(){
     switch($(this).val()) {
       case '1':
-        $('.weight-label').removeClass('hidden');
-        $('.max_hit-label').addClass('hidden');
+        $('.weight-hit-text').addClass('d-md-block');
+        $('.max_hit-label, .max-hit-text').addClass('hidden');
+        $('.weight-label, .weight-text').removeClass('hidden');
         $('#target-keywords-group').removeClass('hide-weight');
         $('.weight-max-hit').removeClass('hidden');
-
+        $('.realtime-weight').removeClass('hidden');
         break;
       case '3':
-          $('.weight-label').addClass('hidden');
-          $('.max_hit-label').removeClass('hidden');
-          $('#target-keywords-group').removeClass('hide-weight');
-          $('.weight-max-hit').removeClass('hidden');
-          break;
+        $('.weight-label, .weight-text').addClass('hidden');
+        $('.max_hit-label, .max-hit-text').removeClass('hidden');
+        $('#target-keywords-group').removeClass('hide-weight');
+        $('.weight-max-hit').removeClass('hidden');
+        $('.weight-hit-text').addClass('d-md-block');
+        break;
       default:
-        $('.weight-label').addClass('hidden');
-        $('.max_hit-label').addClass('hidden');
+        $('.weight-label, .weight-text, .max-hit-text, .max_hit-label').addClass('hidden');
         $('#target-keywords-group').addClass('hide-weight');
         $('.weight-max-hit').addClass('hidden');
+        $('.weight-hit-text').removeClass('d-md-block');
         break;
     }
+
     switch($(this).val()) {
+      case '1':
+        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden').addClass('d-flex');
+        calculate_totalweight();
+        $('#target-keywords-group').addClass('hidden-move');
+        break;
       case '2':
-        $('#target-keywords-group').addClass('hide-move');
+        $('#target-keywords-group').removeClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
         break;
       default:
-        $('#target-keywords-group').removeClass('hide-move');
+        $('#target-keywords-group').addClass('hidden-move');
+        $('.realtime-weight').addClass('hidden').removeClass('d-flex');
         break;
     }
   })
@@ -356,7 +367,7 @@ $(function(){
         let html = '';
         const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
         res.map((item, index) => {
-          html += '<div class="form-group row target-item-group list-group-item d-flex">'+
+          html += '<div class="form-group row target-item-group">'+
           '<div class="col-md-2 col-6 d-table">'+
             '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+item.keyword+'">'+
           '</div>'+
@@ -368,9 +379,9 @@ $(function(){
           '<div class="col-md-6 col-9 d-table">'+
             '<span class="preview-link text-break-all d-table-cell align-middle">'+item.dest_url+'</span>'+
           '</div>'+
-          '<div class="col-md-2 col-3 text-right">'+
-            '<a href="#" class="fa fa-arrows fa-2x mr-1 handle"></a>'+
-            '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x mr-1"></i></a>'+
+          '<div class="col-md-2 col-3 d-flex justify-content-around">'+
+            '<a class="fa fa-arrows fa-2x handle"></a>'+
+            '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
             '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
           '</div>'+
         '</div>' ;
@@ -390,5 +401,28 @@ $(function(){
       return;
     }
   })
+  function calculate_totalweight() {
+    total_weight = 0;
+    $('.weight-or-max_hit').each(function() {
+      const value = $(this).val();
+      total_weight += Number(value);
+    })
+    $('.realtime-weight').removeClass('hidden');
+    $('.weight-value').text(total_weight + '%');
+    if (total_weight == 100) {
+      $('.realtime-weight').addClass('text-success').removeClass('text-danger');
+    }
+    else {
+      $('.realtime-weight').removeClass('text-success').addClass('text-danger');
+    }
+  }
 
+  $('body').on('input','.weight-or-max_hit',function() {
+    const rotate = $("input[type='radio'][name='rotate_option']:checked").val();
+    switch(rotate) {
+      case '1':
+        calculate_totalweight();
+        break;
+    }
+  })
 })
