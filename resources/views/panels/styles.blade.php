@@ -54,4 +54,7 @@ $configData = Helper::applClasses();
   .target-item-group {
     justify-content: space-between;
   }
+  .mt-2px {
+    margin-top: 2px;
+  }
 </style>

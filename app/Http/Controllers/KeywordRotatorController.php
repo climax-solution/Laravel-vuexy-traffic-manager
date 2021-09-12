@@ -53,6 +53,7 @@ class KeywordRotatorController extends Controller
     $compactData['rotation'] = $rotation;
     $compactData['url_list'] = $url_list;
     $compactData['id'] = !$url_data ? -1 : $id;
+    $compactData['dest_url'] = !$url_data ? '' : $url_data->dest_url;
     return view('/pages/redirects/keyword-rotator', $compactData);
   }
 
@@ -63,7 +64,7 @@ class KeywordRotatorController extends Controller
     if(isset($redirect->item_id)) Helper::removeRules($redirect->item_id);
     unset($input['id']);
     unset($input['url_list']);
-    $block_item = ['link_name','tracking_url','fallback_url', 'max_hit_day', 'campaign','pixel'];
+    $block_item = ['link_name','tracking_url','fallback_url', 'max_hit_day', 'campaign','pixel', 'dest_url'];
     $redirectData = [];
     foreach($block_item as $item) {
       if (isset($input[$item])) {

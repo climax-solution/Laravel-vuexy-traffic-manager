@@ -393,10 +393,10 @@ $(function(){
         '<div class="col-md-6 col-9">'+
           '<p class="preview-link text-break-all">'+preview_link+'</p>'+
         '</div>'+
-        '<div class="col-md-2 col-3 d-flex justify-content-between">'+
-          '<a class="fa fa-arrows handle fa-2x"></a>'+
-          '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
-          '<a class="target-item-remove" href="#"><i class="fa fa-trash fa-2x"></i></a>'+
+        '<div class="col-md-2 col-3 d-flex justify-content-end">'+
+          '<a class="fa fa-arrows handle fa-2x mr-1"></a>'+
+          '<a href="'+preview_link+'" target="_blank" class="fa fa-external-link fa-2x mr-1 mt-2px"></a>'+
+          '<a class="target-item-remove fa fa-trash fa-2x" href="#"></a>'+
         '</div>'+
       '</div>' ;
     $('.all-url-list-group').html($('.all-url-list-group').html() + html);
@@ -468,10 +468,10 @@ $(function(){
           '<div class="col-md-6 col-9">'+
             '<span class="preview-link text-break-all">'+item.dest_url+'</span>'+
           '</div>'+
-          '<div class="col-md-2 col-3 d-flex justify-content-between">'+
-            '<a class="fa fa-arrows handle fa-2x"></a>'+
-            '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
-            '<a class="target-item-remove" href="#"><i class="fa fa-trash fa-2x"></i></a>'+
+          '<div class="col-md-2 col-3 d-flex justify-content-end">'+
+            '<a class="fa fa-arrows handle fa-2x mr-1"></a>'+
+            '<a href="'+item.dest_url+'" target="_blank" class="fa fa-external-link fa-2x mr-1 mt-2px"></a>'+
+            '<a class="target-item-remove fa fa-trash fa-2x" href="#"></a>'+
           '</div>'+
         '</div>' ;
         })

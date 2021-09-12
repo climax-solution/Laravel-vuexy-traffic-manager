@@ -260,7 +260,6 @@ $(function(){
         $('.weight-text').removeClass('hidden');
         $('#weight-or-max_hit').show();
         $('.all-url-list-group').removeClass('hide-weight');
-        calculate_totalweight();
         break;
       case '3':
         $('#weight-or-max_hit').show();
@@ -276,7 +275,10 @@ $(function(){
     }
     switch($(this).val()) {
       case '1':
-        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden').addClass('d-flex');
+        if ($('.target-item-group').length) {
+          $('.realtime-weight').removeClass('hidden').addClass('d-flex');
+          calculate_totalweight();
+        }
         $('.all-url-list-group').addClass('hidden-move');
         break;
       case '2':
@@ -335,37 +337,29 @@ $(function(){
           '</div>'+
         '</div>'+
         '<div class="col-md-2">'+
-            '<div class="form-group row">'+
-              '<div class="col-md-12">'+
-                '<div class="row">'+
-                  '<div class="col-md-4 col-6">'+
-                    '<div class="custom-control custom-switch custom-switch-success mr-2">'+
-                      '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+$('.target-item-group').length+'" '+(spoof_checked ? 'checked' : '')+'>'+
-                      '<label class="custom-control-label" for="spoof-switch'+$('.target-item-group').length+'"></label>'+
-                    '</div>'+
-                  '</div>'+
-                  '<div class="col-md-8 col-6">'+
-                    '<select class="form-control form-control-sm add-spoof-select '+(spoof_checked ? '' : 'hidden')+'">'+
-                      '<option value="0"'+(spoof_service == '0' ? ' selected' : '')+'>Google</option>'+
-                    '</select>'+
-                  '</div>'+
-                '</div>'+
+          '<div class="row">'+
+            '<div class="col-md-4 col-6">'+
+              '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+                '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+$('.target-item-group').length+'" '+(spoof_checked ? 'checked' : '')+'>'+
+                '<label class="custom-control-label" for="spoof-switch'+$('.target-item-group').length+'"></label>'+
               '</div>'+
             '</div>'+
-        '</div>'+
-        '<div class="col-md-2 col-6">'+
-          '<div class="form-group row">'+
-            '<div class="col-md-12">'+
-              '<div class="custom-control custom-switch custom-switch-success mr-2">'+
-                '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+$('.target-item-group').length+'" '+(deep_checked ? 'checked' : '')+'>'+
-                '<label class="custom-control-label" for="deep-switch'+$('.target-item-group').length+'"></label>'+
-              '</div>'+
+            '<div class="col-md-8 col-6">'+
+              '<select class="form-control form-control-sm add-spoof-select '+(spoof_checked ? '' : 'hidden')+'">'+
+                '<option value="0"'+(spoof_service == '0' ? ' selected' : '')+'>Google</option>'+
+              '</select>'+
             '</div>'+
           '</div>'+
         '</div>'+
-        '<div class="col-md-2 col-6  justify-content-around d-flex">'+
-          '<a class="handle fa fa-arrows fa-2x"></a>'+
-          '<a href="'+targetUrl+'" class="fa fa-external-link fa-2x"></a>'+
+        '<div class="col-md-2 col-6">'+
+          '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+            '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+$('.target-item-group').length+'" '+(deep_checked ? 'checked' : '')+'>'+
+            '<label class="custom-control-label" for="deep-switch'+$('.target-item-group').length+'"></label>'+
+          '</div>'+
+        '</div>'+
+        '<div class="col-md-2 col-6 justify-content-end d-flex">'+
+          '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
+          '<a href="'+targetUrl+'" class="fa fa-external-link fa-2x mr-1 mt-2px"></a>'+
           '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
         '</div>'+
       '</div>';
@@ -391,37 +385,29 @@ $(function(){
           '</div>'+
         '</div>'+
         '<div class="col-md-2">'+
-          '<div class="form-group row">'+
-            '<div class="col-md-12">'+
-              '<div class="row">'+
-                '<div class="col-md-4 col-6">'+
-                  '<div class="custom-control custom-switch custom-switch-success mr-2">'+
-                    '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+data_index+'" disabled>'+
-                    '<label class="custom-control-label" for="spoof-switch'+data_index+'"></label>'+
-                  '</div>'+
-                '</div>'+
-                '<div class="col-md-8 col-6">'+
-                  '<select class="form-control form-control-sm add-spoof-select hidden">'+
-                    '<option value="0">Google</option>'+
-                  '</select>'+
-                '</div>'+
+          '<div class="row">'+
+            '<div class="col-md-4 col-6">'+
+              '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+                '<input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch'+data_index+'" disabled>'+
+                '<label class="custom-control-label" for="spoof-switch'+data_index+'"></label>'+
               '</div>'+
+            '</div>'+
+            '<div class="col-md-8 col-6">'+
+              '<select class="form-control form-control-sm add-spoof-select hidden">'+
+                '<option value="0">Google</option>'+
+              '</select>'+
             '</div>'+
           '</div>'+
         '</div>'+
         '<div class="col-md-2 col-6">'+
-          '<div class="form-group row">'+
-            '<div class="col-md-12">'+
-              '<div class="custom-control custom-switch custom-switch-success mr-2">'+
-                '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+data_index+'" disabled>'+
-                '<label class="custom-control-label" for="deep-switch'+data_index+'"></label>'+
-              '</div>'+
-            '</div>'+
+          '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+            '<input type="checkbox" class="custom-control-input custom-control-input-sm deep-switch" id="deep-switch'+data_index+'" disabled>'+
+            '<label class="custom-control-label" for="deep-switch'+data_index+'"></label>'+
           '</div>'+
         '</div>'+
-        '<div class="col-md-2 col-6  justify-content-around d-flex">'+
-          '<a class="handle fa fa-arrows fa-2x"></a>'+
-          '<a href="'+url+'" class="fa fa-external-link fa-2x"></a>'+
+        '<div class="col-md-2 col-6 justify-content-end d-flex">'+
+          '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
+          '<a href="'+url+'" class="fa fa-external-link fa-2x mr-1 mt-2px"></a>'+
           '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
         '</div>'+
       '</div>';
@@ -524,9 +510,9 @@ $(function(){
                 '</div>'+
               '</div>'+
             '</div>'+
-            '<div class="col-md-2 col-6 justify-content-around d-flex">'+
-              '<a class="handle fa fa-arrows fa-2x"></a>'+
-              '<a href="'+item.dest_url+'" class="fa fa-external-link fa-2x"></a>'+
+            '<div class="col-md-2 col-6 justify-content-end d-flex">'+
+              '<a class="handle fa fa-arrows fa-2x mr-1"></a>'+
+              '<a href="'+item.dest_url+'" class="fa fa-external-link fa-2x mr-1 mt-2px"></a>'+
               '<a href="#" class="target-item-remove fa fa-trash fa-2x"></a>'+
             '</div>'+
           '</div>'

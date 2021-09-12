@@ -91,7 +91,7 @@
                             <span>Destination URL: </span>
                           </div>
                           <div class="col-md-10">
-                              <input type="text" id="dest_url" class="form-control" name="dest_url" value="{{ isset($url_data->dest_url) ? $url_data->dest_url : '' }}">
+                              <input type="text" id="dest_url" class="form-control" name="dest_url" value="{{ $dest_url }}">
                               <span class="text-mute xx-small">(eg. https://www.amazon.com/s?k={keyword}&ref=nb_sb_noss_2)</span>
                           </div>
                       </div>
@@ -446,8 +446,8 @@
                             <div class="col-md-6 col-9 d-table">
                               <p class="preview-link text-break-all d-table-cell align-middle">{{$item->dest_url}}</p>
                             </div>
-                            <div class="col-md-2 col-3 justify-content-around d-flex">
-                              <a class="handle fa fa-arrows fa-2x"></a>
+                            <div class="col-md-2 col-3 justify-content-end d-flex">
+                              <a class="handle fa fa-arrows fa-2x mr-1"></a>
                               <a href="{{$item->dest_url}}" target="_blank" class="fa fa-external-link fa-2x">
                               </a>
                               <a href="#" class="target-item-remove fa fa-trash fa-2x"></a>

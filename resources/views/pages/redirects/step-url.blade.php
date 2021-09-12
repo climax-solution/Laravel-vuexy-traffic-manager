@@ -537,7 +537,7 @@
                               <div class="col-md-6 col-9">
                                 <p class="preview-link text-break-all">{{$item->dest_url}}</p>
                               </div>
-                              <div class="col-md-2 col-3 d-flex justify-content-between">
+                              <div class="col-md-2 col-3 d-flex justify-content-end">
                                 <a class="fa fa-arrows handle fa-2x mr-1"></a>
                                 <a href="{{$item->dest_url}}" target="_blank" class="fa fa-external-link fa-2x mr-1">
                                 </a>

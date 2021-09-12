@@ -495,23 +495,19 @@
                               </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group row">
-                                  <div class="col-md-12">
-                                    <div class="row">
-                                      <div class="col-md-4 col-sm-6 col-6">
-                                        <div class="custom-control custom-switch custom-switch-success mr-2">
-                                          <input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch{{$key}}" @if(isset($item->spoof_referrer) && $item->spoof_referrer) checked @endif>
-                                          <label class="custom-control-label" for="spoof-switch{{$key}}"></label>
-                                        </div>
-                                      </div>
-                                      <div class="col-md-8 col-sm-6 col-6">
-                                        <select class="form-control form-control-sm add-spoof-select @if(!isset($item->spoof_referrer) || isset($item->spoof_referrer) && !$item->spoof_referrer)hidden @endif">
-                                          <option value="0">Google</option>
-                                        </select>
-                                      </div>
-                                    </div>
+                              <div class="row">
+                                <div class="col-md-4 col-sm-6 col-6">
+                                  <div class="custom-control custom-switch custom-switch-success mr-2">
+                                    <input type="checkbox" class="custom-control-input custom-control-input-sm spoof-switch" id="spoof-switch{{$key}}" @if(isset($item->spoof_referrer) && $item->spoof_referrer) checked @endif>
+                                    <label class="custom-control-label" for="spoof-switch{{$key}}"></label>
                                   </div>
                                 </div>
+                                <div class="col-md-8 col-sm-6 col-6">
+                                  <select class="form-control form-control-sm add-spoof-select @if(!isset($item->spoof_referrer) || isset($item->spoof_referrer) && !$item->spoof_referrer)hidden @endif">
+                                    <option value="0">Google</option>
+                                  </select>
+                                </div>
+                              </div>
                             </div>
                             <div class="col-md-2 col-6">
                               <div class="form-group row">
@@ -523,16 +519,16 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-2 col-6 justify-content-around d-flex">
-                              <a class="handle fa fa-arrows fa-2x"></a>
-                              <a href="{{ $item->dest_url}}" target="_blank" class="fa fa-external-link fa-2x"></a>
+                            <div class="col-md-2 col-6 justify-content-end d-flex">
+                              <a class="handle fa fa-arrows fa-2x mr-1"></a>
+                              <a href="{{ $item->dest_url}}" target="_blank" class="fa fa-external-link fa-2x mr-1 mt-2px"></a>
                               <a href="#" class="target-item-remove fa fa-trash fa-2x"></a>
                             </div>
                           </div>
                         @endforeach
                         </ul>
-                        <p class="realtime-weight w-25 d-flex justify-content-between">Total Weight: <span class="weight-value"></span></p>
-                        <p class="realtime-weight w-25 d-flex justify-content-between">Total weight must be 100%.</p>
+                        <p class="realtime-weight w-25 justify-content-between">Total Weight: <span class="weight-value"></span></p>
+                        <p class="realtime-weight w-25 justify-content-between">Total weight must be 100%.</p>
 
                       </div>
                     </div>

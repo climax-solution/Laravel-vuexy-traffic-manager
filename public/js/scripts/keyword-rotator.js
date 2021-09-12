@@ -144,7 +144,7 @@ $(function(){
 
         saveData.rotation_option = $("input[type='radio'][name='rotate_option']:checked").val();
         saveData.id = $('input[name="_id"]').val();
-        saveData.link_type = $('#link_type').val();
+        saveData.dest_url = $('#dest_url').val();
         addUrlList();
         let flag = 0;
         async function SaveData() {
@@ -266,9 +266,9 @@ $(function(){
         '<div class="col-md-6 col-9 d-table">'+
           '<p class="preview-link text-break-all d-table-cell align-middle">'+preview_link+'</p>'+
         '</div>'+
-        '<div class="col-md-2 col-3 d-flex justify-content-around">'+
-          '<a class="fa fa-arrows fa-2x handle"></a>'+
-          '<a href="'+preview_link+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
+        '<div class="col-md-2 col-3 d-flex justify-content-end">'+
+          '<a class="fa fa-arrows fa-2x handle mr-1"></a>'+
+          '<a href="'+preview_link+'" target="_blank" class="fa fa-external-link fa-2x mr-1 mt-2px"></a>'+
           '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
         '</div>'+
       '</div>' ;
@@ -299,7 +299,7 @@ $(function(){
       }
       url_list.push(row);
     })
-    calculate_totalweight();
+    if(Kewyword.length && $('input[name="rotate_option"]').val() == '1') calculate_totalweight();
     saveData.url_list = JSON.stringify(url_list);  }
 
   $('#upload-btn').click(function(){
@@ -333,8 +333,10 @@ $(function(){
 
     switch($(this).val()) {
       case '1':
-        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden').addClass('d-flex');
-        calculate_totalweight();
+        if ($('.target-item-group').length) {
+          $('.realtime-weight').removeClass('hidden').addClass('d-flex');
+          calculate_totalweight();
+        }
         $('#target-keywords-group').addClass('hidden-move');
         break;
       case '2':
@@ -379,9 +381,9 @@ $(function(){
           '<div class="col-md-6 col-9 d-table">'+
             '<span class="preview-link text-break-all d-table-cell align-middle">'+item.dest_url+'</span>'+
           '</div>'+
-          '<div class="col-md-2 col-3 d-flex justify-content-around">'+
-            '<a class="fa fa-arrows fa-2x handle"></a>'+
-            '<a href="'+item.dest_url+'" target="_blank"><i class="fa fa-external-link fa-2x"></i></a>'+
+          '<div class="col-md-2 col-3 d-flex justify-content-end">'+
+            '<a class="fa fa-arrows fa-2x handle mr-1"></a>'+
+            '<a href="'+item.dest_url+'" target="_blank" class="fa fa-external-link fa-2x mr-1 mt-2px"></a>'+
             '<a href="#" class="target-item-remove"><i class="fa fa-trash fa-2x"></i></a>'+
           '</div>'+
         '</div>' ;
