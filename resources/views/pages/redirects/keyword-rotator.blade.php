@@ -448,7 +448,7 @@
                             </div>
                             <div class="col-md-2 col-3 justify-content-end d-flex">
                               <a class="handle fa fa-arrows fa-2x mr-1"></a>
-                              <a href="{{$item->dest_url}}" target="_blank" class="fa fa-external-link fa-2x">
+                              <a href="{{$item->dest_url}}" target="_blank" class="fa fa-external-link fa-2x mt-2px">
                               </a>
                               <a href="#" class="target-item-remove fa fa-trash fa-2x"></a>
                             </div>
