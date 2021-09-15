@@ -300,6 +300,7 @@ $(function(){
         $('.weight-max_hit-group').removeClass('hidden');
         $('#target-urls-group').removeClass('hide-weight');
         $('.weight-hit-text').addClass('d-md-block');
+        $('.weight-or-max_hit, #weight-or-max_hit').val('');
         break;
       case '3':
         $('.weight-hit').addClass('hidden');
@@ -307,6 +308,7 @@ $(function(){
         $('.weight-max_hit-group').removeClass('hidden');
         $('#target-urls-group').removeClass('hide-weight');
         $('.weight-hit-text').addClass('d-md-block');
+        $('.weight-or-max_hit, #weight-or-max_hit').val('');
         break;
       default:
         $('.weight-max_hit-group').addClass('hidden');
@@ -318,9 +320,12 @@ $(function(){
     }
     switch($(this).val()) {
       case '1':
-        if ($('.target-item-group').length) $('.realtime-weight').removeClass('hidden').addClass('d-flex');
+        if ($('.target-item-group').length) {
+          $('.realtime-weight').removeClass('hidden').addClass('d-flex');
+          calculate_totalweight();
+        }
         $('.all-url-list-group').addClass('hidden-move');
-        calculate_totalweight();
+        
         break;
       case '2':
         $('.all-url-list-group').removeClass('hidden-move');

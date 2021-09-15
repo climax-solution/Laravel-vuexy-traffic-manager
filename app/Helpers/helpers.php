@@ -150,7 +150,7 @@ class Helper
       curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
       $headers = array(
-        "key: c3VuYXJhbQ==",
+        "key: ".env('SPOOF_LINK_API'),
         "Content-Type: application/x-www-form-urlencoded",
       );
       curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -178,7 +178,7 @@ class Helper
       curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
       $headers = array(
-        "key: c3VuYXJhbQ==",
+        "key: ".env('SPOOF_LINK_API'),
       );
       curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
       //for debug only!
@@ -188,7 +188,6 @@ class Helper
       $resp = curl_exec($curl);
       curl_close($curl);
       $res = json_decode($resp, true);
-      dd($res);
       return $res['google_url'];
     }
 }

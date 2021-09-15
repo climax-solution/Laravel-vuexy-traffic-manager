@@ -258,14 +258,16 @@ $(function(){
       case '1':
         $('.weight-hit').addClass('hidden');
         $('.weight-text').removeClass('hidden');
-        $('#weight-or-max_hit').show();
+        $('#weight-or-max_hit').show().attr({'placeholder': 'Weight'});
         $('.all-url-list-group').removeClass('hide-weight');
+        $('.weight-or-max_hit, #weight-or-max_hit').val('');
         break;
       case '3':
-        $('#weight-or-max_hit').show();
+        $('#weight-or-max_hit').show().attr({'placeholder': 'Max hits'});
         $('.weight-hit').addClass('hidden');
         $('.max-hit-text').removeClass('hidden');
         $('.all-url-list-group').removeClass('hide-weight');
+        $('.weight-or-max_hit, #weight-or-max_hit').val('');
         break;
       default:
         $('.weight-hit').addClass('hidden');
