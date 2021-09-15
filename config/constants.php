@@ -1,6 +1,7 @@
 <?php
 
 return [
+  'SPOOF_LINK_API' => env('SPOOF_LINK_API', ''),
     'track' => ['Convomat Default', 'convomat List'],
     'pixel' => ['Select Pixel', 'Pixel item'],
     'campaign' => ['Campaign 1', 'Campaign 2'],

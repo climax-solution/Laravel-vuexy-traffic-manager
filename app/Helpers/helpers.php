@@ -150,7 +150,7 @@ class Helper
       curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
       $headers = array(
-        "key: ".env('SPOOF_LINK_API'),
+        "key: ".config('constants.SPOOF_LINK_API'),
         "Content-Type: application/x-www-form-urlencoded",
       );
       curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -178,7 +178,7 @@ class Helper
       curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
       $headers = array(
-        "key: ".env('SPOOF_LINK_API'),
+        "key: ".config('constants.SPOOF_LINK_API'),
       );
       curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
       //for debug only!
