@@ -23,8 +23,6 @@ class CreateStepUrlListsTable extends Migration
             $table->integer('max_hit_day')->default(0);
             $table->integer('take_count')->default(0);
             $table->string('request_id')->nullable();
-            $table->boolean('spoof_referrer')->default(0);
-            $table->boolean('spoof_confirm')->default(0);
             $table->timestamps();
         });
     }
