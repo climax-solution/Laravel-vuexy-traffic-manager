@@ -25,6 +25,7 @@ class CreateUrlRotatorListsTable extends Migration
           $table->boolean('spoof_type')->default(0);
           $table->boolean('deep_link')->default(0);
           $table->string('request_id')->nullable();
+          $table->boolean('spoof_confirm')->default(0);
           $table->timestamps();
         });
     }

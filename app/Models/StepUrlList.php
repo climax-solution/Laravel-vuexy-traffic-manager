@@ -14,6 +14,8 @@ class StepUrlList extends Model
       'weight',
       'max_hit_day',
       'take_count',
-      'request_id'
+      'request_id',
+      'spoof_referrer',
+      'spoof_confirm'
     ];
 }
