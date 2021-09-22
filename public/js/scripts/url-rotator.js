@@ -240,6 +240,13 @@ $(function(){
     const checked = $(this).prop('checked');
     $('.add-spoof-select').eq(index).toggleClass('hidden');
     $('.deep-switch').eq(index).attr('disabled', checked);
+    if (checked) {
+      Swal.fire({
+        html : "<p>The spoofed URL will be generated in the background. Please wait at least one minute before sending traffic to your redirect URL.</p>",
+        type: "info",
+        confirmButtonClass: 'btn btn-primary'
+      })
+    }
   })
   $('body').on('change', '.deep-switch', function() {
     const index = $('.deep-switch').index($(this));
@@ -298,6 +305,13 @@ $(function(){
     $('#add-spoof-select').toggleClass('hidden');
     const checked = $(this).prop('checked');
     $('#add-deep-switch').attr('disabled', checked);
+    if (checked) {
+      Swal.fire({
+        html : "<p>The spoofed URL will be generated in the background. Please wait at least one minute before sending traffic to your redirect URL.</p>",
+        type: "info",
+        confirmButtonClass: 'btn btn-primary'
+      })
+    }
   })
   $('#add-deep-switch').change(function(){
     const checked = $(this).prop('checked');

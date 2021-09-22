@@ -854,7 +854,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\NOW\Laravel-vuexy-traffic-manager\Laravel-vuexy-traffic-manager\resources\js\core\app.js */"./resources/js/core/app.js");
+module.exports = __webpack_require__(/*! E:\Sandokan-climax\HMB\Laravel-vuexy-traffic-manager\resources\js\core\app.js */"./resources/js/core/app.js");
 
 
 /***/ })

@@ -264,16 +264,21 @@ $(function(){
   $('#addgroup-hide-btn').click(function(){
     $('.new-url-group').addClass('hidden');
   })
-  $('.spoof-switch').on('change', function() {
-    const index = $('.spoof-switch').index($(this));
-    $('.add-spoof-select').eq(index).toggleClass('hidden');
-  })
+  // $('.spoof-switch').on('change', function() {
+  //   const index = $('.spoof-switch').index($(this));
+  //   $('.add-spoof-select').eq(index).toggleClass('hidden');
+  // })
 
   $('#spoof-refer-switch').change(function() {
     const SpoofSelect = $('#spoof-select');
     const checked = $(this).prop('checked');
     if ($(this).prop('checked')) {
       SpoofSelect.removeClass('hidden');
+      Swal.fire({
+        html : "<p>The spoofed URL will be generated in the background. Please wait at least one minute before sending traffic to your redirect URL.</p>",
+        type: "info",
+        confirmButtonClass: 'btn btn-primary'
+      })
     }
     else {
       SpoofSelect.addClass('hidden');
