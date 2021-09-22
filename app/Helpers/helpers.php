@@ -141,53 +141,38 @@ class Helper
     }
 
     public static function createGoogleSpoof($url) {
-      $real = $url;
-      $url = urlencode($url);
       $request_id = Str::random(15);
-      $curl = curl_init('https://spoof.link/submit_url');
-      curl_setopt($curl, CURLOPT_URL, 'https://spoof.link/submit_url');
-      curl_setopt($curl, CURLOPT_POST, true);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-      $headers = array(
-        "key: ".config('constants.SPOOF_LINK_API'),
-        "Content-Type: application/x-www-form-urlencoded",
-      );
-      curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-
-      $data = "url=".$url."&service=google&request_id=".$request_id;
-
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-
-      //for debug only!
-      curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-      curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-
-      $resp = curl_exec($curl);
-      curl_close($curl);
-      $result = json_decode($resp, true);
-      if ($result['status'] == 'failure') Helper::createGoogleSpoof($real);
+      $headers = [
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'key' => config('constants.SPOOF_LINK_API')
+      ];
+      
+      $httpClient = new \GuzzleHttp\Client([
+        'headers' => $headers
+      ]);
+      $request = $httpClient->post("https://spoof.link/submit_url", [
+        "form_params" => [
+          'url' => $url,
+          'service' => 'google',
+          'request_id' => $request_id
+        ]
+      ]);
+      $result = json_decode($request->getBody()->getContents(), true);
+      if ($result['status'] == 'failure') return Helper::createGoogleSpoof($url);
       else return $request_id;
     }
 
     public static function getGooglUrl($request_id) {
       $url = "https://spoof.link/get_converted_url?request_id=".$request_id;
 
-      $curl = curl_init($url);
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-      $headers = array(
-        "key: ".config('constants.SPOOF_LINK_API'),
-      );
-      curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-      //for debug only!
-      curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-      curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-
-      $resp = curl_exec($curl);
-      curl_close($curl);
-      $res = json_decode($resp, true);
+      $headers = [
+        'key' => config('constants.SPOOF_LINK_API')
+      ];
+      $httpClient = new \GuzzleHttp\Client([
+        'headers' => $headers
+      ]);
+      $request = $httpClient->get($url);
+      $res = json_decode($request->getBody()->getContents(), true);
       return $res['google_url'];
     }
 }
