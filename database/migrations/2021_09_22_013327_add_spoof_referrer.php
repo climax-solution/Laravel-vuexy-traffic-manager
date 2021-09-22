@@ -14,8 +14,8 @@ class AddSpoofReferrer extends Migration
     public function up()
     {
         Schema::table('step_url_lists', function (Blueprint $table) {
-            $table->boolean('spoof_referrer')->default(0);
-            $table->boolean('spoof_confirm')->default(0);
+            $table->boolean('spoof_referrer')->after('request_id')->default(0);
+            $table->boolean('spoof_confirm')->after('request_id')->default(0);
         });
     }
 
@@ -27,7 +27,8 @@ class AddSpoofReferrer extends Migration
     public function down()
     {
         Schema::table('step_url_lists', function (Blueprint $table) {
-            //
+            $table->dropColumn('spoof_referrer');
+            $table->dropColumn('spoof_confirm');
         });
     }
 }

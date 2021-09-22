@@ -14,7 +14,7 @@ class AddSpoofConfirm extends Migration
     public function up()
     {
         Schema::table('url_rotator_lists', function (Blueprint $table) {
-          $table->boolean('spoof_confirm')->default(0);
+          $table->boolean('spoof_confirm')->after('request_id')->default(0);
         });
     }
 
@@ -26,7 +26,7 @@ class AddSpoofConfirm extends Migration
     public function down()
     {
         Schema::table('url_rotator_lists', function (Blueprint $table) {
-            //
+            $table->dropColumn('spoof_confirm');
         });
     }
 }
