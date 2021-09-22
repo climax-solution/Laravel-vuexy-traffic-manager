@@ -167,6 +167,7 @@ class StepUrlController extends Controller
       if ($advance_options['spoof'] == 1 && $res->spoof_service == '0') {
         $url['request_id'] = Helper::createGoogleSpoof($dest_url);
       }
+      $url['spoof_referrer'] = $advance_options['spoof'];
       StepUrlList::create($url);
     }
     $url = env('APP_URL').'/r/'.$uuid;
