@@ -408,7 +408,7 @@ class RedirectController extends Controller
     }
 
     public function pare_count($data,$index) {
-      if ($data[$index]->take_count < $data[$index]->max_hit_day) {
+      if ($data[$index]->take_count < $data[$index]->max_hit_day || !$data[$index]->max_hit_day) {
         return $index;
       }
       else {
