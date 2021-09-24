@@ -254,17 +254,33 @@ $(function(){
     // const st_k = dest_url.indexOf('{'); const en_k = dest_url.indexOf('}');
     keyword = keyword.replaceAll(' ', '+');
     let preview_link = dest_url.replaceAll('{keyword}',keyword);
-    let html ='<div class="form-group row target-item-group">'+
+    const data_index = !$('.target-item-group:last-child').length ? 0 : Number($('.target-item-group:last-child').attr('data-index')) + 1;
+    let html ='<div class="form-group row target-item-group" data-index="'+data_index+'">'+
         '<div class="col-md-2 col-6 d-table">'+
-        '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+keyword+'">'+
+          '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+keyword+'">'+
         '</div>'+
         '<div class="col-md-2 col-6 d-table">'+
           '<div class="form-group d-table-cell align-middle">'+
             '<input type="number" class="form-control weight-or-max_hit" value="'+$('#weight-or-max_hit').val()+'">'+
           '</div>'+
         '</div>'+
-        '<div class="col-md-6 col-9 d-table">'+
+        '<div class="col-md-4 d-table">'+
           '<p class="preview-link text-break-all d-table-cell align-middle">'+preview_link+'</p>'+
+        '</div>'+
+        '<div class="col-md-2">'+
+          '<div class="row align-items-center">'+
+            '<div class="col-md-4 col-sm-6 col-6">'+
+              '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+                '<input type="checkbox" class="custom-control-input custom-control-input spoof-switch" id="spoof-switch'+data_index+'" >'+
+                '<label class="custom-control-label" for="spoof-switch'+data_index+'"></label>'+
+              '</div>'+
+            '</div>'+
+            '<div class="col-md-8 col-sm-6 col-6">'+
+              '<select class="form-control form-control add-spoof-select hidden">'+
+                '<option value="0">Google</option>'+
+              '</select>'+
+            '</div>'+
+          '</div>'+
         '</div>'+
         '<div class="col-md-2 col-3 d-flex justify-content-end">'+
           '<a class="fa fa-arrows fa-2x handle mr-1"></a>'+
@@ -286,6 +302,8 @@ $(function(){
       let row = {};
       row.keyword = $(this).val();
       row.uuid = index;
+      row.spoof_referrer = $('.spoof-switch').eq(index).prop('checked');
+      row.spoof_service = $('.add-spoof-select').eq(index).val();
       row.dest_url = $('.preview-link').eq(index).text();
       const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
       const weightHit = $('.weight-or-max_hit');
@@ -369,7 +387,7 @@ $(function(){
         let html = '';
         const rotate_checked = $("input[type='radio'][name='rotate_option']:checked").val();
         res.map((item, index) => {
-          html += '<div class="form-group row target-item-group">'+
+          html += '<div class="form-group row target-item-group" data-index="'+index+'">'+
           '<div class="col-md-2 col-6 d-table">'+
             '<input type="text" class="keyword d-table-cell align-middle form-control" value="'+item.keyword+'">'+
           '</div>'+
@@ -378,9 +396,24 @@ $(function(){
             '<input type="number" class="form-control weight-or-max_hit" value="'+item.weight_hit+'">'+
             '</div>'+
           '</div>'+
-          '<div class="col-md-6 col-9 d-table">'+
+          '<div class="col-md-4 col-9 d-table">'+
             '<span class="preview-link text-break-all d-table-cell align-middle">'+item.dest_url+'</span>'+
           '</div>'+
+          '<div class="col-md-2">'+
+            '<div class="row align-items-center">'+
+              '<div class="col-md-4 col-sm-6 col-6">'+
+                '<div class="custom-control custom-switch custom-switch-success mr-2">'+
+                  '<input type="checkbox" class="custom-control-input custom-control-input spoof-switch" id="spoof-switch'+index+'" @if(isset($item->spoof_referrer) && $item->spoof_referrer) checked @endif>'+
+                  '<label class="custom-control-label" for="spoof-switch'+index+'"></label>'+
+                '</div>'+
+              '</div>'+
+              '<div class="col-md-8 col-sm-6 col-6">'+
+                '<select class="form-control form-control add-spoof-select @if(!isset($item->spoof_referrer) || isset($item->spoof_referrer) && !$item->spoof_referrer)hidden @endif">'+
+                  '<option value="0">Google</option>'+
+                '</select>'+
+              '</div>'+
+            '</div>'+
+          '</div>'
           '<div class="col-md-2 col-3 d-flex justify-content-end">'+
             '<a class="fa fa-arrows fa-2x handle mr-1"></a>'+
             '<a href="'+item.dest_url+'" target="_blank" class="fa fa-external-link fa-2x mr-1 mt-2px"></a>'+
@@ -427,4 +460,19 @@ $(function(){
         break;
     }
   })
+
+  $('body').on('change', '.spoof-switch', function() {
+    const index = $('.spoof-switch').index($(this));
+    const checked = $(this).prop('checked');
+    $('.add-spoof-select').eq(index).toggleClass('hidden');
+    $('.deep-switch').eq(index).attr('disabled', checked);
+    if (checked) {
+      Swal.fire({
+        html : "<p>The spoofed URL will be generated in the background. Please wait at least one minute before sending traffic to your redirect URL.</p>",
+        type: "info",
+        confirmButtonClass: 'btn btn-primary'
+      })
+    }
+  })
+
 })

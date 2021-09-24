@@ -14,6 +14,9 @@ class KeywordRotatorList extends Model
       'dest_url',
       'weight',
       'max_hit_day',
-      'take_count'
+      'take_count',
+      'spoof_referrer',
+      'spoof_service',
+      'spoof_confirm'
     ];
 }

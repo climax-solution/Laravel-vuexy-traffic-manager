@@ -387,6 +387,11 @@ class RedirectController extends Controller
             if (isset($advanced_option['spoof']) && $advanced_option['spoof']) {
               $redirect_src->dest_url = Helper::getGooglUrl($src->request_id);
             }
+            if($redirect_src->table_name == 'url_rotator' || $redirect_src->table_name == 'keyword_rotator') {
+                if ($url_lists[$index]->spoof_referrer && $url_lists[$index]->spoof_confirm) {
+                  $redirect_src->dest_url = Helper::getGooglUrl($url_lists[$index]->request_id);
+                } 
+            }
             $ReList::where(['parent_id' => $src->id, 'uuid' => $index])->update(['take_count' => $url_lists[$index]->take_count ]);
             break;
         }

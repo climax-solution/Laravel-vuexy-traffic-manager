@@ -40,10 +40,11 @@ class SpoofLink extends Command
     {
         $this->url_rotator();
         $this->step_url();
+        $this->keyword_roator();
     }
 
     public function url_rotator() {
-        $url_rotator = UrlRotatorList::where('spoof_referrer','0')->where('spoof_confirm','0')->get();
+        $url_rotator = UrlRotatorList::where('spoof_referrer','1')->where('spoof_confirm','0')->get();
         if(count($url_rotator)) {
             $item = $url_rotator[0];
             $request_id = $item->request_id;
@@ -60,9 +61,9 @@ class SpoofLink extends Command
     }
 
     public function step_url() {
-        $url_rotator = StepUrlList::where('spoof_referrer','0')->where('spoof_confirm','0')->get();
-        if(count($url_rotator)) {
-            $item = $url_rotator[0];
+        $step_url = StepUrlList::where('spoof_referrer','1')->where('spoof_confirm','0')->get();
+        if(count($step_url)) {
+            $item = $step_url[0];
             $request_id = $item->request_id;
             $result = Helper::getGooglUrl($request_id);
             if (!$result['google_url']) {
@@ -73,6 +74,23 @@ class SpoofLink extends Command
                 StepUrlList::where('id', $item->id)->update('spoof_confirm', '1');
             }
             $this->step_url();
+        }
+    }
+
+    public function keyword_roator() {
+        $kwd_rotator = KeywordRotatorList::where('spoof_referrer','1')->where('spoof_confirm','0')->get();
+        if(count($kwd_rotator)) {
+            $item = $kwd_rotator[0];
+            $request_id = $item->request_id;
+            $result = Helper::getGooglUrl($request_id);
+            if (!$result['google_url']) {
+                $created_req_id = createGoogleSpoof($item->dest_url);
+                KeywordRotatoList::where('id', $item->id)->update('request_id', $created_req_id);
+            }
+            else {
+                KeywordRotatoList::where('id', $item->id)->update('spoof_confirm', '1');
+            }
+            $this->keyword_roator();
         }
     }
 }

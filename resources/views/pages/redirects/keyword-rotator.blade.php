@@ -433,8 +433,8 @@
                         <div class="col-md-2 d-md-block d-none text-right">Action</div>
                       </div>
                       <ul class="target-keywords-group mb-4 list-group" id="target-keywords-group">
-                        @foreach ($url_list as $item)
-                          <div class="form-group row target-item-group d-flex">
+                        @foreach ($url_list as $key => $item)
+                          <div class="form-group row target-item-group d-flex" data-index="{{$key}}">
                             <div class="col-md-2 col-6 d-table">
                               <input type="text" class="keyword d-table-cell align-middle form-control" value="{{$item->keyword}}">
                             </div>
@@ -443,8 +443,23 @@
                                 <input type="number" class="form-control weight-or-max_hit" value="{{ $rotation == '1' ? $item->weight : ($rotation == '3' ? $item->max_hit_day : '')}}">
                               </div>
                             </div>
-                            <div class="col-md-6 col-9 d-table">
+                            <div class="col-md-4 col-12 d-table">
                               <p class="preview-link text-break-all d-table-cell align-middle">{{$item->dest_url}}</p>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="row">
+                                <div class="col-md-4 col-sm-6 col-6">
+                                  <div class="custom-control custom-switch custom-switch-success mr-2">
+                                    <input type="checkbox" class="custom-control-input custom-control-input spoof-switch" id="spoof-switch{{$key}}" @if(isset($item->spoof_referrer) && $item->spoof_referrer) checked @endif>
+                                    <label class="custom-control-label" for="spoof-switch{{$key}}"></label>
+                                  </div>
+                                </div>
+                                <div class="col-md-8 col-sm-6 col-6">
+                                  <select class="form-control form-control add-spoof-select @if(!isset($item->spoof_referrer) || isset($item->spoof_referrer) && !$item->spoof_referrer)hidden @endif">
+                                    <option value="0">Google</option>
+                                  </select>
+                                </div>
+                              </div>
                             </div>
                             <div class="col-md-2 col-3 justify-content-end d-flex">
                               <a class="handle fa fa-arrows fa-2x mr-1"></a>
